@@ -23,6 +23,7 @@ flutter:
   assets:
     - assets/icons/app-icon.png
     - assets/icons/splash-logo.png
+    - assets/images/
 flutter_icons:
   android: true
   ios: true
