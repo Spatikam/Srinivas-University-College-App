@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rip_college_app/screens/views/auth_screen/login_page.dart';  // Ensure MainPage is correctly imported
+import 'package:rip_college_app/screens/views/home_screen/home_page.dart';  // Ensure MainPage is correctly imported
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginPage()),
+        MaterialPageRoute(builder: (context) => MyHomePage()),
       );
     });
   }
