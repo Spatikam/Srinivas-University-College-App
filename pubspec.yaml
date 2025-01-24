@@ -4,12 +4,13 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.6.1
+  sdk: ^3.6.0
 
 dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  supabase_flutter: ^2.6.0
 
 dev_dependencies:
   flutter_test:
@@ -37,3 +38,4 @@ flutter_native_splash:
   android: true  # Enable splash on Android
   ios: true  # Enable splash on iOS
   web: false  # Optional: Disable splash on the web
+

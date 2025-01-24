@@ -6,11 +6,11 @@ class PostCard extends StatelessWidget {
   final String description;
 
   const PostCard({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.title,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

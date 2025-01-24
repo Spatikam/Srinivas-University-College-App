@@ -16,7 +16,7 @@ class PostCardData {
 class PostCardList extends StatelessWidget {
   final List<PostCardData> postCardData;
 
-  const PostCardList({Key? key, required this.postCardData}) : super(key: key);
+  const PostCardList({super.key, required this.postCardData});
 
   @override
   Widget build(BuildContext context) {
