@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rip_college_app/screens/widget_common/appbar.dart';
 import 'package:rip_college_app/screens/widget_common/navbar.dart';
+import 'package:rip_college_app/screens/widget_common/side_panel.dart';
 class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -22,9 +24,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Hello World"),
+      appBar: CustomAppBar(
+        appTitle: 'SU Connect',
       ),
+      endDrawer: const CustomEndDrawer(),
+      // Rest of your Scaffold content
       body:AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: _screens[_currentIndex],
