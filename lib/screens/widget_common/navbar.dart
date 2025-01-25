@@ -1,7 +1,12 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class DynamicNavigationBar extends StatefulWidget {
+  final Function(int) onValueChanged;
+  const DynamicNavigationBar({Key? key, required this.onValueChanged})
+      : super(key: key);
+
   @override
   State<DynamicNavigationBar> createState() => _DynamicNavigationBarState();
 }
@@ -9,31 +14,41 @@ class DynamicNavigationBar extends StatefulWidget {
 class _DynamicNavigationBarState extends State<DynamicNavigationBar> {
   int _currentIndex = 0;
 
+  void _changeCurrentIndex(int x) {
+    setState(() {
+      _currentIndex = x;
+    });
+    widget.onValueChanged(_currentIndex);
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = 56;
 
     final primaryColor = const Color.fromARGB(255, 14, 37, 137);
-    const secondaryColor = Colors.black;
-    final backgroundColor = Colors.white;
+
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+    final themeColor = isDarkMode ? Colors.black : Colors.white;
 
     return CurvedNavigationBar(
       index: _currentIndex,
-      height: height + 10,
+      height: height,
       backgroundColor: Colors.transparent,
       color: primaryColor,
-      buttonBackgroundColor: backgroundColor,
+      buttonBackgroundColor: themeColor,
       animationDuration: const Duration(milliseconds: 300),
       animationCurve: Curves.easeInOut,
-      items: const [
-        Icon(Icons.home_outlined, size: 30, color: secondaryColor),
-        Icon(Icons.search_outlined, size: 30, color: secondaryColor),
-        Icon(Icons.local_grocery_store_outlined, size: 30, color: secondaryColor),
-        Icon(Icons.date_range_outlined, size: 30, color: secondaryColor),
+      items: [
+        PhosphorIcon(PhosphorIcons.house(), size: 30, color: iconColor),
+        PhosphorIcon(PhosphorIcons.notification(), size: 30, color: iconColor),
+        PhosphorIcon(PhosphorIcons.googlePhotosLogo(),
+            size: 30, color: iconColor),
+        PhosphorIcon(PhosphorIcons.calendar(), size: 30, color: iconColor),
       ],
       onTap: (index) {
         setState(() {
-          _currentIndex = index;
+          _changeCurrentIndex(index);
         });
       },
     );

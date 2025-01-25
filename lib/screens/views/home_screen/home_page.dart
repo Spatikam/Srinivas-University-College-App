@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
 import 'package:rip_college_app/screens/widget_common/navbar.dart';
 import 'package:rip_college_app/screens/widget_common/side_panel.dart';
+
 class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-  //MyHomePage({Key? key, required this.title}) : super(key: key);
-class _MyHomePageState extends State<MyHomePage> {
-  
+//MyHomePage({Key? key, required this.title}) : super(key: key);
+class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   int _currentIndex = 0;
+
+  void _handleCurrentIndex(int value) {
+    setState(() {
+      _currentIndex = value;
+      print("home: $_currentIndex");
+    });
+  }
 
   //Navigation Bar Categories
   final List<Widget> _screens = [
@@ -24,19 +31,18 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        appTitle: 'SU Connect',
-      ),
+      appBar: CustomAppBar(),
       endDrawer: const CustomEndDrawer(),
       // Rest of your Scaffold content
-      body:AnimatedSwitcher(
+      body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: _screens[_currentIndex],
         switchInCurve: Curves.easeInOut,
         switchOutCurve: Curves.easeInOut,
       ),
       extendBody: true,
-      bottomNavigationBar: DynamicNavigationBar(), //BottomNavBarRaisedInsetFb1()
+      bottomNavigationBar: DynamicNavigationBar(
+          onValueChanged: _handleCurrentIndex), //BottomNavBarRaisedInsetFb1()
     );
   }
 }
