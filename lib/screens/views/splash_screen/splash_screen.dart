@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rip_college_app/screens/views/home_screen/home_page.dart';  // Ensure MainPage is correctly imported
+import 'package:rip_college_app/screens/views/base_screen/base_page.dart';  // Ensure MainPage is correctly imported
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

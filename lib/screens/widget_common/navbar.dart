@@ -4,8 +4,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class DynamicNavigationBar extends StatefulWidget {
   final Function(int) onValueChanged;
-  const DynamicNavigationBar({Key? key, required this.onValueChanged})
-      : super(key: key);
+  const DynamicNavigationBar({super.key, required this.onValueChanged});
 
   @override
   State<DynamicNavigationBar> createState() => _DynamicNavigationBarState();
@@ -25,23 +24,23 @@ class _DynamicNavigationBarState extends State<DynamicNavigationBar> {
   Widget build(BuildContext context) {
     double height = 56;
 
-    final primaryColor = const Color.fromARGB(255, 14, 37, 137);
+    final primaryColor = Color(0xFF658CC2);
 
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final iconColor = isDarkMode ? Colors.white : Colors.black;
-    final themeColor = isDarkMode ? Colors.black : Colors.white;
+    //final themeColor = isDarkMode ? Colors.black : Colors.white;
 
     return CurvedNavigationBar(
       index: _currentIndex,
       height: height,
       backgroundColor: Colors.transparent,
       color: primaryColor,
-      buttonBackgroundColor: themeColor,
+      buttonBackgroundColor: primaryColor,
       animationDuration: const Duration(milliseconds: 300),
       animationCurve: Curves.easeInOut,
       items: [
         PhosphorIcon(PhosphorIcons.house(), size: 30, color: iconColor),
-        PhosphorIcon(PhosphorIcons.notification(), size: 30, color: iconColor),
+        PhosphorIcon(PhosphorIcons.magnifyingGlass(), size: 30, color: iconColor),
         PhosphorIcon(PhosphorIcons.googlePhotosLogo(),
             size: 30, color: iconColor),
         PhosphorIcon(PhosphorIcons.calendar(), size: 30, color: iconColor),

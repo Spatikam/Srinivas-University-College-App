@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:rip_college_app/screens/views/base_screen/home_screen.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
 import 'package:rip_college_app/screens/widget_common/navbar.dart';
 import 'package:rip_college_app/screens/widget_common/side_panel.dart';
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-//MyHomePage({Key? key, required this.title}) : super(key: key);
 class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   int _currentIndex = 0;
 
   void _handleCurrentIndex(int value) {
     setState(() {
       _currentIndex = value;
-      print("home: $_currentIndex");
     });
   }
 
   //Navigation Bar Categories
   final List<Widget> _screens = [
-    Center(child: Text("Home Screen", style: TextStyle(fontSize: 20))),
+    const HomeScreen(),
     Center(child: Text("Search Screen", style: TextStyle(fontSize: 20))),
     Center(child: Text("Cart Screen", style: TextStyle(fontSize: 20))),
     Center(child: Text("Calendar Screen", style: TextStyle(fontSize: 20))),
@@ -36,9 +37,9 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
       // Rest of your Scaffold content
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        child: _screens[_currentIndex],
         switchInCurve: Curves.easeInOut,
         switchOutCurve: Curves.easeInOut,
+        child: _screens[_currentIndex],
       ),
       extendBody: true,
       bottomNavigationBar: DynamicNavigationBar(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomEndDrawer extends StatelessWidget {
-  const CustomEndDrawer({Key? key}) : super(key: key);
+  const CustomEndDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +58,8 @@ class CustomEndDrawer extends StatelessWidget {
 
 // Placeholder screens for Settings and About
 class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,6 +74,8 @@ class SettingsScreen extends StatelessWidget {
 }
 
 class AboutScreen extends StatelessWidget {
+  const AboutScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
