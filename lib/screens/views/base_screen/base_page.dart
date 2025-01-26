@@ -35,9 +35,9 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
     PhotoGallery(imagePaths: [
     'assets/images/image.png',
     'assets/images/image1.jpg',
-    'assets/images/image.png',
-    'assets/images/image1.jpg',
-    'assets/images/image.png',
+    'assets/images/image2.jpg',
+    'assets/images/image3.jpg',
+    'assets/images/image4.jpg',
     'assets/images/image.png',
     'assets/images/image.png',
     'assets/images/image.png'
