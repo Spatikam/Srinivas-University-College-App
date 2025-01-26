@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
     'assets/images/image2.jpg',
     'assets/images/image3.jpg',
     'assets/images/image4.jpg',
-    'assets/images/image.png',
+    'assets/images/image5.jpg',
     'assets/images/image.png',
     'assets/images/image.png'
     // ... more image URLs

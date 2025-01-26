@@ -1,25 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomEndDrawer extends StatelessWidget {
   const CustomEndDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
+    const primaryColor = const Color(0xFF658CC2);
+    const secondaryColor = Colors.black;
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          const DrawerHeader(
+          DrawerHeader(
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 14, 37, 137),
+              color: Color(0xFF658CC2),
             ),
-            child: Text(
-              'SU Connect',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
+            child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 36, // Smaller height for the circle
+                width: 36, // Smaller width for the circle
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [],
+                ),
+                child: ClipOval(
+                  child: Image.asset(
+                    'assets/icons/app-icon.png', // Add your logo here
+                    fit: BoxFit
+                        .cover, // Ensures the image fits perfectly in the circle
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(width: 10),
+              Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Srinivas University',
+                        style: GoogleFonts.kanit(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: secondaryColor,
+                        ),
+                      ),
+                      Text(
+                        'Engineering',
+                        style: GoogleFonts.kanit(
+                          fontSize: 16, // Slightly smaller font for "Engineering"
+                          fontWeight: FontWeight.w500,
+                          color: secondaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+            ],
+          ),
+        ],
+      ),
           ),
           ListTile(
             title: const Text('Light/Dark Mode'),

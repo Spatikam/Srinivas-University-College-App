@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -11,15 +13,8 @@ class PhotoGallery extends StatefulWidget {
 }
 
 class _PhotoGalleryState extends State<PhotoGallery> {
-  PageController _pageController = PageController();
   int _currentIndex = 0;
   bool _isFullScreen = false;
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +22,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
       body: Stack(
         children: [
           _buildGallery(),
-          if (_isFullScreen) _buildFullScreenViewer(),
+          if (_isFullScreen) _buildFullScreenViewer(_currentIndex),
         ],
       ),
     );
@@ -67,7 +62,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
     );
   }
 
-  Widget _buildFullScreenViewer() {
+  Widget _buildFullScreenViewer(int x) {
+    final PageController _pageController = PageController(initialPage: x);
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -77,31 +73,33 @@ class _PhotoGalleryState extends State<PhotoGallery> {
       child: Stack(
         children: [
           Positioned.fill(
-            child: Opacity(
-              opacity: 0.5,
-              child: ColoredBox(color: Colors.black),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+              child: Container(
+                color: Colors.black.withOpacity(0.5),
+              ),
             ),
           ),
           Center(
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: widget.imagePaths.length,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-              itemBuilder: (context, index) {
-                return InteractiveViewer(
-                  panEnabled: true,
-                  minScale: 1.0,
-                  maxScale: 5.0,
-                  child: Image.asset(
-                    widget.imagePaths[index],
+            child: InteractiveViewer(
+              panEnabled: true,
+              minScale: 0.5,
+              maxScale: 3.0,
+              child: PageView.builder(
+                itemCount: widget.imagePaths.length,
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return Image.asset(
+                    widget.imagePaths[_currentIndex],
                     fit: BoxFit.contain,
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ],
