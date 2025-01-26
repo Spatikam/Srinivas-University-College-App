@@ -14,7 +14,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
-  int _currentIndex = 0;
+  //int _currentIndex = 0;
   final _controller = PageController(initialPage: 0);
 
   List<String> imageUrls = [
@@ -29,26 +29,6 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     });
   }
-
-  //Navigation Bar Categories
-  final List<Widget> _screens = [
-    const HomeScreen(),
-    Center(child: Text("Search Screen", style: TextStyle(fontSize: 20))),
-    PhotoGallery(
-      imagePaths: [
-        'assets/images/image.png',
-        'assets/images/image1.jpg',
-        'assets/images/image2.jpg',
-        'assets/images/image3.jpg',
-        'assets/images/image4.jpg',
-        'assets/images/image5.jpg',
-        'assets/images/image.png',
-        'assets/images/image.png'
-        // ... more image URLs
-      ],
-    ),
-    CalendarScreen(),
-  ];
 
   @override
   Widget build(BuildContext context) {
