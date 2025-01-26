@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rip_college_app/screens/views/base_screen/calendar_screen.dart';
 import 'package:rip_college_app/screens/views/base_screen/home_screen.dart';
 import 'package:rip_college_app/screens/views/base_screen/photo_gallery.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
@@ -14,17 +15,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   int _currentIndex = 0;
+  final _controller = PageController(initialPage: 0);
 
   List<String> imageUrls = [
     'assets/images/image.png',
     'assets/images/image.png'
-  // ... more image URLs
+    // ... more image URLs
   ];
-
 
   void _handleCurrentIndex(int value) {
     setState(() {
-      _currentIndex = value;
+      _controller.animateToPage(value,
+          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     });
   }
 
@@ -32,20 +34,21 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   final List<Widget> _screens = [
     const HomeScreen(),
     Center(child: Text("Search Screen", style: TextStyle(fontSize: 20))),
-    PhotoGallery(imagePaths: [
-    'assets/images/image.png',
-    'assets/images/image1.jpg',
-    'assets/images/image2.jpg',
-    'assets/images/image3.jpg',
-    'assets/images/image4.jpg',
-    'assets/images/image5.jpg',
-    'assets/images/image.png',
-    'assets/images/image.png'
-    // ... more image URLs
-    ],),
-    Center(child: Text("Calendar Screen", style: TextStyle(fontSize: 20))),
+    PhotoGallery(
+      imagePaths: [
+        'assets/images/image.png',
+        'assets/images/image1.jpg',
+        'assets/images/image2.jpg',
+        'assets/images/image3.jpg',
+        'assets/images/image4.jpg',
+        'assets/images/image5.jpg',
+        'assets/images/image.png',
+        'assets/images/image.png'
+        // ... more image URLs
+      ],
+    ),
+    CalendarScreen(),
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,29 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
         duration: const Duration(milliseconds: 300),
         switchInCurve: Curves.easeInOut,
         switchOutCurve: Curves.easeInOut,
-        child: _screens[_currentIndex],
+        //child: _screens[_currentIndex],
+        child: PageView(
+          controller: _controller,
+          children: [
+            const HomeScreen(),
+            Center(
+                child: Text("Search Screen", style: TextStyle(fontSize: 20))),
+            PhotoGallery(
+              imagePaths: [
+                'assets/images/image.png',
+                'assets/images/image1.jpg',
+                'assets/images/image2.jpg',
+                'assets/images/image3.jpg',
+                'assets/images/image4.jpg',
+                'assets/images/image5.jpg',
+                'assets/images/image.png',
+                'assets/images/image.png'
+                // ... more image URLs
+              ],
+            ),
+            CalendarScreen(),
+          ],
+        ),
       ),
       extendBody: true,
       bottomNavigationBar: DynamicNavigationBar(

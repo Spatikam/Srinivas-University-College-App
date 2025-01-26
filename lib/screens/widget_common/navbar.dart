@@ -40,7 +40,8 @@ class _DynamicNavigationBarState extends State<DynamicNavigationBar> {
       animationCurve: Curves.easeInOut,
       items: [
         PhosphorIcon(PhosphorIcons.house(), size: 30, color: iconColor),
-        PhosphorIcon(PhosphorIcons.magnifyingGlass(), size: 30, color: iconColor),
+        PhosphorIcon(PhosphorIcons.magnifyingGlass(),
+            size: 30, color: iconColor),
         PhosphorIcon(PhosphorIcons.googlePhotosLogo(),
             size: 30, color: iconColor),
         PhosphorIcon(PhosphorIcons.calendar(), size: 30, color: iconColor),

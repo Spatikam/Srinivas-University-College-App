@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Stack(
                           children: [
                             Image.asset(
-                              'assets/images/image.png', // Replace with your images
+                              'assets/images/image1.jpg', // Replace with your images
                               fit: BoxFit.cover,
                               width: double.infinity,
                             ),
@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               left: 0,
                               right: 0,
                               child: Container(
-                                height: 80,
+                                height: 150,
                                 decoration: const BoxDecoration(
                                   gradient: LinearGradient(
                                     begin: Alignment.bottomCenter,
