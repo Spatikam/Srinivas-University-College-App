@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:rip_college_app/screens/widget_common/appbar.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -10,279 +9,239 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _scaleAnimation;
-  late Animation<Offset> _offsetAnimation;
-
-  bool _isAdmin = true; 
-
-  String? _selectedCollege;
-  String? _selectedBranch;
-
-  final List<String> _colleges = ['College A', 'College B', 'College C'];
-  final List<String> _branches = ['CSE', 'ECE', 'ME', 'CE'];
-
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
-
-    _scaleAnimation = Tween<double>(begin: 0.0, end: 1.0)
-        .animate(CurvedAnimation(
-            parent: _animationController, curve: Curves.easeInOut));
-
-    _offsetAnimation = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
-        .animate(CurvedAnimation(
-            parent: _animationController, curve: Curves.easeInOut));
-
-    _animationController.forward();
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    _usernameController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+  bool isStudentLogin = true;
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = Color(0xFF658CC2);
-    final iconColor = isDarkMode ? Colors.white : Colors.black;
-    final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
-      appBar: CustomAppBar(),
-      body: Center(
-        child: 
-          ScaleTransition(
-          scale: _scaleAnimation,
-          child: SlideTransition(
-            position: _offsetAnimation,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isAdmin = true;
-                            });
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: _isAdmin
-                                  ? primaryColor
-                                  : themeColor,
-                            ),
-                            child: Text(
-                              'Admin',
-                              style: TextStyle(
-                                color: iconColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _isAdmin = false;
-                            });
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: !_isAdmin
-                                  ? primaryColor
-                                  : themeColor,
-                            ),
-                            child: Text(
-                              'Student',
-                              style: TextStyle(
-                                color: iconColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 40),
-                    if (_isAdmin)
-                      Column(
-                        children: [
-                          TextField(
-                            controller: _usernameController,
-                            decoration: const InputDecoration(
-                              labelText: 'Username',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          TextField(
-                            controller: _passwordController,
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                              labelText: 'Password',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          ElevatedButton(
-                            onPressed: () {
-                              // Admin login logic here
-                              if (_usernameController.text.isNotEmpty &&
-                                  _passwordController.text.isNotEmpty) {
-                                // Navigate to admin dashboard
-                                Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: const AdminDashboard(),
-                                    duration: const Duration(milliseconds: 500),
-                                  ),
-                                );
-                              } else {
-                                // Show error message
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Please enter username and password'),
-                                  ),
-                                );
-                              }
-                            },
-                            child: const Text('Login'),
-                          ),
-                        ],
-                      )
-                    else
-                      Column(
-                        children: [
-                          DropdownButtonFormField<String>(
-                            value: _selectedCollege,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedCollege = value;
-                              });
-                            },
-                            items: _colleges.map((college) {
-                              return DropdownMenuItem<String>(
-                                value: college,
-                                child: Text(college),
-                              );
-                            }).toList(),
-                            decoration: const InputDecoration(
-                              labelText: 'Select College',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          DropdownButtonFormField<String>(
-                            value: _selectedBranch,
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedBranch = value;
-                              });
-                            },
-                            items: _branches.map((branch) {
-                              return DropdownMenuItem<String>(
-                                value: branch,
-                                child: Text(branch),
-                              );
-                            }).toList(),
-                            decoration: const InputDecoration(
-                              labelText: 'Select Branch',
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                          const SizedBox(height: 30),
-                          ElevatedButton(
-                            onPressed: () {
-                              // Student login logic here
-                              if (_selectedCollege != null &&
-                                  _selectedBranch != null) {
-                                // Navigate to student dashboard
-                                Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: const StudentDashboard(),
-                                    duration: const Duration(milliseconds: 500),
-                                  ),
-                                );
-                              } else {
-                                // Show error message
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('Please select college and branch'),
-                                  ),
-                                );
-                              }
-                            },
-                            child: const Text('Login'),
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
+      body: Stack(
+        children: [
+          // Background Gradient
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFFFF6F61), Color(0xFFFFA726)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
             ),
           ),
-          
-        ),
-      ),
-    );
-  }
-}
-
-class AdminDashboard extends StatelessWidget {
-  const AdminDashboard({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Dashboard'),
-      ),
-      body: const Center(
-        child: Text('Welcome, Admin!'),
-      ),
-    );
-  }
-}
-
-class StudentDashboard extends StatelessWidget {
-  const StudentDashboard({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Student Dashboard'),
-      ),
-      body: const Center(
-        child: Text('Welcome, Student!'),
+          // Abstract shapes
+          Positioned(
+            top: -50,
+            left: -50,
+            child: AnimatedContainer(
+              duration: const Duration(seconds: 1),
+              curve: Curves.easeInOut,
+              width: isStudentLogin ? 150 : 200,
+              height: isStudentLogin ? 150 : 200,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 100,
+            right: -30,
+            child: AnimatedContainer(
+              duration: const Duration(seconds: 1),
+              curve: Curves.easeInOut,
+              width: isStudentLogin ? 100 : 130,
+              height: isStudentLogin ? 100 : 130,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            bottom: -50,
+            left: -30,
+            child: AnimatedContainer(
+              duration: const Duration(seconds: 1),
+              curve: Curves.easeInOut,
+              width: isStudentLogin ? 200 : 250,
+              height: isStudentLogin ? 200 : 250,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.15),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          // Login content
+          Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // App Logo with AnimatedSwitcher
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    transitionBuilder: (child, animation) {
+                      return ScaleTransition(scale: animation, child: child);
+                    },
+                    child: Icon(
+                      isStudentLogin
+                          ? PhosphorIcons.student()
+                          : PhosphorIcons.userCircle(),
+                      key: ValueKey<bool>(isStudentLogin),
+                      size: 80,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    transitionBuilder: (child, animation) {
+                      return FadeTransition(opacity: animation, child: child);
+                    },
+                    child: Text(
+                      isStudentLogin ? "Student Login" : "Admin Login",
+                      key: ValueKey<bool>(isStudentLogin),
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Login Card
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                    margin: const EdgeInsets.symmetric(horizontal: 24),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        // Email Field
+                        TextField(
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              PhosphorIcons.envelopeSimple(),
+                              color: Colors.grey[600],
+                            ),
+                            labelText: "Email",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        // Password Field
+                        TextField(
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              PhosphorIcons.lockSimple(),
+                              color: Colors.grey[600],
+                            ),
+                            labelText: "Password",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(color: Colors.grey),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: const Text("Forgot Password?"),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        // Login Button
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFFF6F61),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 12, horizontal: 60),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            "Log In",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        // Social Login
+                        const Text(
+                          "or log in with",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                PhosphorIcons.facebookLogo(),
+                                size: 32,
+                                color: Colors.blue[700],
+                              ),
+                              onPressed: () {},
+                            ),
+                            const SizedBox(width: 16),
+                            IconButton(
+                              icon: Icon(
+                                PhosphorIcons.googleLogo(),
+                                size: 32,
+                                color: Colors.red[700],
+                              ),
+                              onPressed: () {},
+                            ),
+                            const SizedBox(width: 16),
+                            IconButton(
+                              icon: Icon(
+                                PhosphorIcons.twitterLogo(),
+                                size: 32,
+                                color: Colors.blue,
+                              ),
+                              onPressed: () {},
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Switch between Student and Admin Login
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        isStudentLogin = !isStudentLogin;
+                      });
+                    },
+                    child: Text(
+                      isStudentLogin
+                          ? "Switch to Admin Login"
+                          : "Switch to Student Login",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

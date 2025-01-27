@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rip_college_app/main.dart';
+import 'package:rip_college_app/screens/views/login_screen/login_page.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -72,7 +73,10 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
                         context,
                         icon: PhosphorIcons.user(),
                         text: 'Account',
-                        onTap: () => print('Account tapped'),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                        ),
                       ),
                       _buildDrawerItem(
                         context,
