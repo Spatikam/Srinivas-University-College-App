@@ -1,12 +1,131 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:rip_college_app/main.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
   });
+  @override
+  _CustomAppBar createState() => _CustomAppBar();
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
+
+class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
+  bool _isMenuOpen = false;
+
+  void _openSlidingMenu() {
+    setState(() {
+      _isMenuOpen = !_isMenuOpen;
+    });
+
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
+    void _toggleTheme() {
+      setState(() {
+        isDarkMode = !isDarkMode;
+        themeProvider.toggleTheme(isDarkMode);
+        print("toggled $isDarkMode");
+      });
+    }
+
+    if (_isMenuOpen) {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          return DraggableScrollableSheet(
+            initialChildSize: 0.5,
+            minChildSize: 0.3,
+            maxChildSize: 0.8,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return Container(
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF2A5298), Color(0xFF1E3C72)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildDrawerItem(context,
+                          icon: isDarkMode
+                              ? PhosphorIcons.toggleLeft()
+                              : PhosphorIcons.toggleRight(),
+                          text: isDarkMode
+                              ? 'Switch to Light Mode'
+                              : 'Switch to Dark Mode',
+                          onTap: _toggleTheme),
+                      _buildDrawerItem(
+                        context,
+                        icon: PhosphorIcons.user(),
+                        text: 'Account',
+                        onTap: () => print('Account tapped'),
+                      ),
+                      _buildDrawerItem(
+                        context,
+                        icon: PhosphorIcons.lock(),
+                        text: 'Privacy',
+                        onTap: () => print('Privacy tapped'),
+                      ),
+                      _buildDrawerItem(
+                        context,
+                        icon: PhosphorIcons.shieldCheck(),
+                        text: 'Privacy Policy',
+                        onTap: () => print('Privacy Policy tapped'),
+                      ),
+                      _buildDrawerItem(
+                        context,
+                        icon: PhosphorIcons.question(),
+                        text: 'Help',
+                        onTap: () => print('Help tapped'),
+                      ),
+                      _buildDrawerItem(
+                        context,
+                        icon: PhosphorIcons.signOut(),
+                        text: 'Logout',
+                        onTap: () => print('Logout tapped'),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      );
+    }
+  }
+
+  Widget _buildDrawerItem(BuildContext context,
+      {required IconData icon,
+      required String text,
+      required VoidCallback onTap}) {
+    return ListTile(
+      leading: Icon(icon, size: 28, color: Colors.white),
+      title: Text(
+        text,
+        style: GoogleFonts.poppins(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
+      ),
+      onTap: onTap,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +139,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Row(
             children: [
+              /*
               Container(
                 height: 36, // Smaller height for the circle
                 width: 36, // Smaller width for the circle
@@ -35,42 +155,40 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 10),*/
               Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Srinivas University',
-                        style: GoogleFonts.kanit(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: primaryColor,
-                        ),
-                      ),
-                      Text(
-                        'Engineering',
-                        style: GoogleFonts.kanit(
-                          fontSize: 16, // Slightly smaller font for "Engineering"
-                          fontWeight: FontWeight.w500,
-                          color: primaryColor,
-                        ),
-                      ),
-                    ],
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Srinivas University',
+                    style: GoogleFonts.kanit(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: primaryColor,
+                    ),
                   ),
+                  Text(
+                    'Engineering',
+                    style: GoogleFonts.kanit(
+                      fontSize: 16, // Slightly smaller font for "Engineering"
+                      fontWeight: FontWeight.w500,
+                      color: primaryColor,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ],
       ),
       actions: [
         IconButton(
-          icon:  PhosphorIcon(
-                    PhosphorIcons.dotsThreeOutline(), // Phosphor menu icon
-                    color: iconColor,
-                    size: 28, // Adjust size if needed
-                  ),
-          onPressed: () {
-            Scaffold.of(context).openEndDrawer();
-          },
+          icon: PhosphorIcon(
+            PhosphorIcons.dotsThreeOutline(), // Phosphor menu icon
+            color: iconColor,
+            size: 28, // Adjust size if needed
+          ),
+          onPressed: _openSlidingMenu,
         ),
       ],
     );

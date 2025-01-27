@@ -34,7 +34,6 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      endDrawer: const CustomEndDrawer(),
       // Rest of your Scaffold content
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
@@ -49,14 +48,11 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                 child: Text("Search Screen", style: TextStyle(fontSize: 20))),
             PhotoGallery(
               imagePaths: [
-                'assets/images/image.png',
                 'assets/images/image1.jpg',
                 'assets/images/image2.jpg',
                 'assets/images/image3.jpg',
                 'assets/images/image4.jpg',
                 'assets/images/image5.jpg',
-                'assets/images/image.png',
-                'assets/images/image.png'
                 // ... more image URLs
               ],
             ),
