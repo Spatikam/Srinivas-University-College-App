@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+Map<DateTime, List<String>> predefinedEvents = {
+  DateTime.utc(2025, 1, 1): ['New Year, January 1, happy holiday!'],
+  DateTime.utc(2025, 1, 15): ['Founding day of Srinivas University'],
+  DateTime.utc(2025, 1, 26): ['Republic day, January 26, happy holiday!'],
+  DateTime.utc(2025, 2, 1): ['Inter college Sports day of Srinivas University'],
+  DateTime.utc(2025, 2, 5): ['Workshop on Flutter and Dart'],
+  DateTime.utc(2025, 3, 18): ['Sem end exams begin'],
+};
+
 class CalendarScreen extends StatefulWidget {
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
@@ -13,30 +22,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime focusedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
-
-
   @override
   void initState() {
     super.initState();
     selectedDay = DateTime.now();
     focusedDay = selectedDay;
-    events = _initializeEvents();
+    events = {...predefinedEvents};
   }
 
-  Map<DateTime, List<String>> _initializeEvents() {
-    return {
-      DateTime.utc(2025, 1, 1): ['New Year, January 1, happy holiday!'],
-      DateTime.utc(2025, 1, 15): ['Founding day of Srinivas University'],
-      DateTime.utc(2025, 1, 26): ['Republic day, January 26, happy holiday!'],
-      DateTime.utc(2025, 2, 1): [
-        'Inter college Sports day of Srinivas University'
-      ],
-      DateTime.utc(2025, 2, 5): ['Workshop on Flutter and Dart'],
-      DateTime.utc(2025, 3, 18): ['Sem end exams begin'],
-    };
+  List<String> _getEventsForDay(DateTime day) {
+    final normalizedDay = DateTime.utc(day.year, day.month, day.day);
+    return events[normalizedDay] ?? [];
   }
-
-  List<String> _getEventsForDay(DateTime day) => events[day] ?? [];
 
   List<Map<String, dynamic>> _getEventsForMonth() => events.entries
       .where((entry) => entry.key.month == focusedDay.month)
@@ -73,7 +70,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   Widget _buildCalendar(bool isDarkMode) {
-    //final primaryColor = Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Container(
@@ -87,22 +83,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
         onPageChanged: (day) => setState(() => focusedDay = day),
         eventLoader: _getEventsForDay,
         calendarFormat: _calendarFormat,
-        onFormatChanged: (format) {
-          setState(() {
-            _calendarFormat = format;
-          });
-        },
+        onFormatChanged: (format) => setState(() => _calendarFormat = format),
         calendarStyle: CalendarStyle(
           markerDecoration: const BoxDecoration(
             color: Colors.blueAccent,
             shape: BoxShape.circle,
           ),
-          todayTextStyle: GoogleFonts.kanit(
-            color: iconColor,
-          ),
-          selectedTextStyle: GoogleFonts.kanit(
-            color: themeColor,
-          ),
+          todayTextStyle: GoogleFonts.kanit(color: iconColor),
+          selectedTextStyle: GoogleFonts.kanit(color: themeColor),
           defaultTextStyle: GoogleFonts.kanit(
             color: iconColor,
             fontWeight: FontWeight.w600,
@@ -113,9 +101,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   Widget _buildEventsHeader(bool isDarkMode) {
-    //final primaryColor = Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
-    //final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Text(
       'Special Events for the Month',
       style: GoogleFonts.kanit(
@@ -129,11 +115,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   Widget _buildEventList(bool isDarkMode) {
     final eventsForMonth = _getEventsForMonth();
-    //final primaryColor = Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
-    //final themeColor = isDarkMode ? Colors.black : Colors.white;
-    return ListView.builder(
+    return ListView.separated(
       itemCount: eventsForMonth.length,
+      separatorBuilder: (_, __) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
         final event = eventsForMonth[index];
         return GestureDetector(
@@ -142,14 +127,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
             decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color.fromARGB(255, 243, 58, 123)
-                  : const Color.fromARGB(255, 219, 90, 135),
+              gradient: LinearGradient(
+                colors: [
+                  Colors.pink.shade300,
+                  Colors.orange.shade300,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color:
-                      isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300,
+                  color: isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300,
                   blurRadius: 5,
                   spreadRadius: 2,
                 ),

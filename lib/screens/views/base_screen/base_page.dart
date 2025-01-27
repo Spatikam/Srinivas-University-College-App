@@ -4,7 +4,7 @@ import 'package:rip_college_app/screens/views/base_screen/home_screen.dart';
 import 'package:rip_college_app/screens/views/base_screen/photo_gallery.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
 import 'package:rip_college_app/screens/widget_common/navbar.dart';
-import 'package:rip_college_app/screens/widget_common/side_panel.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -13,10 +13,9 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
+class _MyHomePageState extends State<MyHomePage> with ChangeNotifier{
   //int _currentIndex = 0;
   final _controller = PageController(initialPage: 0);
-
   List<String> imageUrls = [
     'assets/images/image.png',
     'assets/images/image.png'
@@ -32,6 +31,8 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
+    DynamicNavigationBar nav_bar = DynamicNavigationBar(
+          onValueChanged: _handleCurrentIndex);
     return Scaffold(
       appBar: CustomAppBar(),
       // Rest of your Scaffold content
@@ -61,8 +62,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
         ),
       ),
       extendBody: true,
-      bottomNavigationBar: DynamicNavigationBar(
-          onValueChanged: _handleCurrentIndex), //BottomNavBarRaisedInsetFb1()
+      bottomNavigationBar: nav_bar, //BottomNavBarRaisedInsetFb1()
     );
   }
 }
