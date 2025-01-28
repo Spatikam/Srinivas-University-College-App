@@ -1,10 +1,10 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:rip_college_app/screens/views/base_screen/calendar_screen.dart';
 import 'package:rip_college_app/screens/views/base_screen/home_screen.dart';
 import 'package:rip_college_app/screens/views/base_screen/photo_gallery.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
-import 'package:rip_college_app/screens/widget_common/navbar.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -14,7 +14,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with ChangeNotifier{
-  //int _currentIndex = 0;
+  int _currentIndex = 0;
   final _controller = PageController(initialPage: 0);
   List<String> imageUrls = [
     'assets/images/image.png',
@@ -22,17 +22,14 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier{
     // ... more image URLs
   ];
 
-  void _handleCurrentIndex(int value) {
-    setState(() {
-      _controller.animateToPage(value,
-          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    DynamicNavigationBar nav_bar = DynamicNavigationBar(
-          onValueChanged: _handleCurrentIndex);
+    
+    double height = 56;
+    final primaryColor = Color(0xFF658CC2);
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+
     return Scaffold(
       appBar: CustomAppBar(),
       // Rest of your Scaffold content
@@ -43,6 +40,11 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier{
         //child: _screens[_currentIndex],
         child: PageView(
           controller: _controller,
+          onPageChanged: (value) {
+              setState(() {
+                _currentIndex = value;
+              });
+            },
           children: [
             const HomeScreen(),
             Center(
@@ -62,7 +64,28 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier{
         ),
       ),
       extendBody: true,
-      bottomNavigationBar: nav_bar, //BottomNavBarRaisedInsetFb1()
+      bottomNavigationBar: CurvedNavigationBar(
+        index: _currentIndex,
+        height: height,
+        backgroundColor: Colors.transparent,
+        color: primaryColor,
+        buttonBackgroundColor: primaryColor,
+        animationDuration: const Duration(milliseconds: 300),
+        animationCurve: Curves.easeInOut,
+        items: [
+          PhosphorIcon(PhosphorIcons.house(), size: 30, color: iconColor),
+          PhosphorIcon(PhosphorIcons.magnifyingGlass(), size: 30, color: iconColor),
+          PhosphorIcon(PhosphorIcons.googlePhotosLogo(),
+              size: 30, color: iconColor),
+          PhosphorIcon(PhosphorIcons.calendar(), size: 30, color: iconColor),
+        ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+          _controller.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+        },
+      ), //BottomNavBarRaisedInsetFb1()
     );
   }
 }
