@@ -72,10 +72,10 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
                       _buildDrawerItem(
                         context,
                         icon: PhosphorIcons.user(),
-                        text: 'Account',
+                        text: 'Settings',
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const LoginPage()),
+                          _createPageRoute(LoginPage()),
                         ),
                       ),
                       _buildDrawerItem(
@@ -113,6 +113,21 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
     }
   }
 
+  PageRouteBuilder _createPageRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(1.0, 0.0); // Slide from the right
+        const end = Offset.zero;
+        const curve = Curves.easeInOut;
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+        return SlideTransition(position: offsetAnimation, child: child);
+      },
+    );
+  }
+
   Widget _buildDrawerItem(BuildContext context,
       {required IconData icon,
       required String text,
@@ -134,7 +149,6 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     final primaryColor = const Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     return AppBar(

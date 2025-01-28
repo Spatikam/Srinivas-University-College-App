@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rip_college_app/screens/views/splash_screen/splash_screen.dart';
 import 'package:provider/provider.dart';
-
+ 
 void main() {
   runApp(const MyApp());
 }

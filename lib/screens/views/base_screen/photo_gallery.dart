@@ -19,6 +19,10 @@ class _PhotoGalleryState extends State<PhotoGallery> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    //final primaryColor = Color(0xFF658CC2);
+    //final iconColor = isDarkMode ? Colors.white : Colors.black;
+    final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -29,7 +33,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: const Color(0xFF2A5298),
+        backgroundColor: themeColor,
         elevation: 4,
       ),
       body: Stack(
@@ -42,13 +46,13 @@ class _PhotoGalleryState extends State<PhotoGallery> {
   }
 
   Widget _buildGallery() {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    //final primaryColor = Color(0xFF658CC2);
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+    final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF2A5298), Color(0xFF6B73FF)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+        decoration: BoxDecoration(
+          color: themeColor,
         ),
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -60,7 +64,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
               style: GoogleFonts.poppins(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: iconColor,
               ),
             ),
             const SizedBox(height: 8),
@@ -68,7 +72,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
               'Relive the moments from our events!',
               style: GoogleFonts.poppins(
                 fontSize: 16,
-                color: Colors.white70,
+                color: iconColor,
               ),
             ),
             const SizedBox(height: 16),
@@ -100,7 +104,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
+                              color: iconColor.withOpacity(0.3),
                               blurRadius: 8,
                               offset: const Offset(0, 4),
                             ),

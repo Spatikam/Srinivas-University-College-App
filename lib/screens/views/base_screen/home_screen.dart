@@ -46,88 +46,87 @@ class _HomeScreenState extends State<HomeScreen> {
     final primaryColor = Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     final themeColor = isDarkMode ? Colors.black : Colors.white;
-    return SingleChildScrollView(
-      controller: _scrollController,
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: SizedBox(
-                  height: 200,
-                  child: PageView.builder(
-                    controller: _pageController,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                              themeColor.withOpacity(0.3), BlendMode.darken),
-                          child: Stack(
-                          children: [
-                            Image.asset(
-                              'assets/images/image1.jpg', // Replace with your images
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                height: 150,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                    colors: [
-                                      primaryColor,
-                                      Colors.transparent,
-                                    ],
+    return SafeArea(
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SizedBox(
+                    height: 200,
+                    child: PageView.builder(
+                      controller: _pageController,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: 3,
+                      itemBuilder: (context, index) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                                themeColor.withOpacity(0.3), BlendMode.darken),
+                            child: Stack(
+                              children: [
+                                Image.asset(
+                                  'assets/images/image1.jpg', // Replace with your images
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Container(
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topCenter,
+                                        colors: [
+                                          primaryColor,
+                                          Colors.transparent,
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                        ),
-                      );
-                    },
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                bottom: 20,
-                left: 36,
-                child: Text(
-                  'Explore Academics, Notices, Feeds\nall in one app',
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: iconColor,
+                Container(
+                  height: 180,
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    'Explore Academics, Notices, Feeds\nall in one app',
+                    style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: iconColor,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _buildSectionTitle('Explore '),
-          const SizedBox(height: 16),
-          _buildGridView(),
-          const SizedBox(height: 16),
-          _buildSectionTitle('Build'),
-          const SizedBox(height: 16),
-          _buildBuildSection(),
-          const SizedBox(height: 16),
-          _buildSectionTitle('Announcements'),
-          const SizedBox(height: 16),
-          _buildAnnouncements(),
-        ],
+              ],
+            ),
+            const SizedBox(height: 30),
+            _buildSectionTitle('Explore '),
+            const SizedBox(height: 15),
+            _buildGridView(),
+            _buildSectionTitle('Build'),
+            const SizedBox(height: 15),
+            _buildBuildSection(),
+            _buildSectionTitle('Announcements'),
+            _buildAnnouncements(),
+          ],
+        ),
       ),
     );
   }
@@ -138,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //final primaryColor = const Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     //final themeColor = isDarkMode ? Colors.black : Colors.white;
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Text(
@@ -160,16 +159,17 @@ class _HomeScreenState extends State<HomeScreen> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
         children: [
           _buildSection(
-            gradient: LinearGradient(colors: [Colors.orange.shade300, Colors.orange.shade100]),
+            gradient: LinearGradient(
+                colors: [Colors.orange.shade300, Colors.orange.shade100]),
             icon: PhosphorIcons.clock(),
             title: 'Events',
             description: 'All your course syllabus & guide at your fingertips.',
           ),
           _buildSection(
-            gradient: LinearGradient(colors: [Colors.purple.shade300, Colors.purple.shade100]),
+            gradient: LinearGradient(
+                colors: [Colors.purple.shade300, Colors.purple.shade100]),
             icon: PhosphorIcons.googlePhotosLogo(),
             title: 'Photo Gallery',
             description: 'Find unit-wise solved question & answers.',
@@ -187,16 +187,17 @@ class _HomeScreenState extends State<HomeScreen> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
         children: [
           _buildSection(
-            gradient: LinearGradient(colors: [Colors.blue.shade300, Colors.blue.shade100]),
+            gradient: LinearGradient(
+                colors: [Colors.blue.shade300, Colors.blue.shade100]),
             icon: PhosphorIcons.buildings(),
             title: 'Infrastructure',
             description: 'Explore labs, libraries, and other facilities.',
           ),
           _buildSection(
-            gradient: LinearGradient(colors: [Colors.green.shade300, Colors.green.shade100]),
+            gradient: LinearGradient(
+                colors: [Colors.green.shade300, Colors.green.shade100]),
             icon: PhosphorIcons.book(),
             title: 'Curriculum',
             description: 'Detailed curriculum for each course.',
@@ -249,8 +250,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
- void _showPopup(String title, String description) {
-  bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+  void _showPopup(String title, String description) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     //final primaryColor = const Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     //final themeColor = isDarkMode ? Colors.black : Colors.white;
@@ -306,7 +307,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
- Widget _buildAnnouncements() {
+  Widget _buildAnnouncements() {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     //final primaryColor = const Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
@@ -317,7 +318,8 @@ class _HomeScreenState extends State<HomeScreen> {
         children: List.generate(3, (index) {
           return Card(
             elevation: 4,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             margin: const EdgeInsets.only(bottom: 12),
             child: ListTile(
               contentPadding: const EdgeInsets.all(16),
