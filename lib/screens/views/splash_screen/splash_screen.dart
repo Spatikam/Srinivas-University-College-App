@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rip_college_app/screens/views/base_screen/base_page.dart';  // Ensure MainPage is correctly imported
+import 'package:rip_college_app/screens/views/base_screen/base_page.dart'; // Ensure MainPage is correctly imported
+import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // Navigate to MainPage after a 5-second delay
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 6), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MyHomePage()),
@@ -24,36 +25,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,  // Adapts to light/dark theme
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Display the logo image at the top
-            Image.asset(
-              'assets/icons/splash-logo.png',  // Path to your image file
-              width: 200,  // Set the desired width
-              height: 200,  // Set the desired height
-            ),
-            SizedBox(height: 20),  // Space between logo and app name
-            // App Name
-            Text(
-              'UniVerse Srinivas',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),  // Space between app name and version
-            // Version Number
-            Text(
-              'Version 1.0.0',
-              style: TextStyle(fontSize: 14),
-            ),
-            SizedBox(height: 40),  // Space before university name
-            // University Name
-            Text(
-              'SRINIVAS UNIVERSITY',
-              style: TextStyle(fontSize: 12),
-            ),
-          ],
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: Color.fromARGB(255, 100, 141, 197),
+        child: Center(
+          child: Lottie.asset(
+            'assets/animation/splash_screen.json', // Replace with the path to your Lottie JSON file
+            fit: BoxFit.cover, // Set to true if you want the animation to loop
+          ),
         ),
       ),
     );

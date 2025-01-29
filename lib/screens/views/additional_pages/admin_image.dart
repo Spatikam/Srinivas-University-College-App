@@ -1,16 +1,17 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:image_picker/image_picker.dart';
 
-class GoogleFormPage extends StatefulWidget {
+class ImagePostPage extends StatefulWidget {
   @override
-  _GoogleFormPageState createState() => _GoogleFormPageState();
+  _ImagePostPageState createState() => _ImagePostPageState();
 }
 
-class _GoogleFormPageState extends State<GoogleFormPage> {
+class _ImagePostPageState extends State<ImagePostPage> {
   final _formKey = GlobalKey<FormState>();
-  XFile? _selectedImage;
+  List<XFile>? _selectedImages = [];
   String? _selectedBranch;
   String? _selectedEventType;
 
@@ -30,12 +31,12 @@ class _GoogleFormPageState extends State<GoogleFormPage> {
     'Seminar'
   ];
 
-  Future<void> _pickImage() async {
+  Future<void> _pickImages() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
+    final List<XFile>? images = await picker.pickMultiImage();
+    if (images != null) {
       setState(() {
-        _selectedImage = image;
+        _selectedImages = images;
       });
     }
   }
@@ -61,7 +62,7 @@ class _GoogleFormPageState extends State<GoogleFormPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Upload Event Image',
+                  'Upload Event Images',
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -69,7 +70,7 @@ class _GoogleFormPageState extends State<GoogleFormPage> {
                 ),
                 const SizedBox(height: 10),
                 GestureDetector(
-                  onTap: _pickImage,
+                  onTap: _pickImages,
                   child: Container(
                     height: 200,
                     width: double.infinity,
@@ -81,7 +82,7 @@ class _GoogleFormPageState extends State<GoogleFormPage> {
                         width: 2,
                       ),
                     ),
-                    child: _selectedImage == null
+                    child: _selectedImages == null || _selectedImages!.isEmpty
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -92,7 +93,7 @@ class _GoogleFormPageState extends State<GoogleFormPage> {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                'Tap to upload image',
+                                'Tap to upload images',
                                 style: GoogleFonts.poppins(
                                   color: Colors.deepPurple,
                                   fontSize: 16,
@@ -100,15 +101,7 @@ class _GoogleFormPageState extends State<GoogleFormPage> {
                               ),
                             ],
                           )
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.file(
-                              File(_selectedImage!.path),
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              height: 200,
-                            ),
-                          ),
+                        : _buildImagePreview(),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -226,6 +219,30 @@ class _GoogleFormPageState extends State<GoogleFormPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildImagePreview() {
+    return SizedBox(
+      height: 180,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: _selectedImages!.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.file(
+                File(_selectedImages![index].path),
+                width: 150,
+                height: 180,
+                fit: BoxFit.cover,
+              ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -21,6 +21,8 @@ dependencies:
   carousel_slider: ^5.0.0
   animate_do: ^3.3.4
   font_awesome_flutter: ^10.8.0
+  lottie: ^3.3.1
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -32,9 +34,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/icons/app-icon.png
-    - assets/icons/splash-logo.png
+    - assets/icons/
     - assets/images/
+    - assets/animation/splash_screen.json
 flutter_icons:
   android: true
   ios: true
