@@ -12,6 +12,8 @@ Map<DateTime, List<String>> predefinedEvents = {
 };
 
 class CalendarScreen extends StatefulWidget {
+  const CalendarScreen({super.key});
+
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:rip_college_app/screens/views/additional_pages/admin_image.dart';
+import 'package:rip_college_app/screens/views/admin_screen/admin_dashboard.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,6 +13,73 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
   bool isStudentLogin = true;
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLoggedIn = false;
+
+  //LOGIN
+  Future<void> signInWithEmail(String email, String password) async {
+    try {
+      final AuthResponse res = await Supabase.instance.client.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+
+      if (res.session != null) {
+        setState(() {
+          _isLoggedIn = true; // Set user as logged in
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login successful!')),
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AdminDashboard()
+            ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login failed. Please check your credentials.')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+  }
+
+  
+  Future<void> logIn() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    if (email.isNotEmpty && password.isNotEmpty) {
+      signInWithEmail(email, password);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in both fields.')),
+      );
+    }
+  }
+
+  // Function to handle logout
+  Future<void> logOut() async {
+    try {
+      await Supabase.instance.client.auth.signOut();
+      setState(() {
+        _isLoggedIn = false; // Reset login state
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Logged out successfully!')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error logging out: $e')),
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +198,7 @@ class _LoginPageState extends State<LoginPage>
                       children: [
                         // Email Field
                         TextField(
+                          controller: _emailController,
                           decoration: InputDecoration(
                             prefixIcon: Icon(
                               PhosphorIcons.envelopeSimple(),
@@ -145,6 +214,7 @@ class _LoginPageState extends State<LoginPage>
                         const SizedBox(height: 16),
                         // Password Field
                         TextField(
+                          controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
                             prefixIcon: Icon(
@@ -170,11 +240,12 @@ class _LoginPageState extends State<LoginPage>
                         // Login Button
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
+                            _isLoggedIn?{logOut()}:{logIn()};
+                            /*Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ImagePostPage()),
-                            );
+                            );*/
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFFF6F61),
@@ -184,9 +255,9 @@ class _LoginPageState extends State<LoginPage>
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: const Text(
-                            "Log In",
-                            style: TextStyle(fontSize: 16),
+                          child: Text(
+                            _isLoggedIn? "Log Out":" Log In",
+                            style: const TextStyle(fontSize: 16),
                           ),
                         ),
                         const SizedBox(height: 16),

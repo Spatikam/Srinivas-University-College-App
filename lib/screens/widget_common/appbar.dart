@@ -27,7 +27,7 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
 
-    void _toggleTheme() {
+    void toggleTheme() {
       setState(() {
         isDarkMode = !isDarkMode;
         themeProvider.toggleTheme(isDarkMode);
@@ -68,11 +68,11 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
                           text: isDarkMode
                               ? 'Switch to Light Mode'
                               : 'Switch to Dark Mode',
-                          onTap: _toggleTheme),
+                          onTap: toggleTheme),
                       _buildDrawerItem(
                         context,
                         icon: PhosphorIcons.user(),
-                        text: 'Settings',
+                        text: 'Account',
                         onTap: () => Navigator.push(
                           context,
                           _createPageRoute(LoginPage()),
@@ -95,12 +95,6 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
                         icon: PhosphorIcons.question(),
                         text: 'Help',
                         onTap: () => print('Help tapped'),
-                      ),
-                      _buildDrawerItem(
-                        context,
-                        icon: PhosphorIcons.signOut(),
-                        text: 'Logout',
-                        onTap: () => print('Logout tapped'),
                       ),
                     ],
                   ),
@@ -157,23 +151,6 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
         children: [
           Row(
             children: [
-              /*
-              Container(
-                height: 36, // Smaller height for the circle
-                width: 36, // Smaller width for the circle
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [],
-                ),
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/icons/app-icon.png', // Add your logo here
-                    fit: BoxFit
-                        .cover, // Ensures the image fits perfectly in the circle
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),*/
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -212,6 +189,5 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
     );
   }
 
-  @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

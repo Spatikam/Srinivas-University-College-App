@@ -32,6 +32,8 @@ class ExplorePage extends StatelessWidget {
     {'title': 'Placements', 'icon': Icons.work},
   ];
 
+  ExplorePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;

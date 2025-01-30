@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 class PhotoGallery extends StatefulWidget {
   final List<String> imagePaths;
 
-  const PhotoGallery({Key? key, required this.imagePaths}) : super(key: key);
+  const PhotoGallery({super.key, required this.imagePaths});
 
   @override
   State<PhotoGallery> createState() => _PhotoGalleryState();
@@ -128,7 +128,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
   }
 
   Widget _buildFullScreenViewer(int x) {
-    final PageController _pageController = PageController(initialPage: x);
+    final PageController pageController = PageController(initialPage: x);
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -152,7 +152,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
               maxScale: 3.0,
               child: PageView.builder(
                 itemCount: widget.imagePaths.length,
-                controller: _pageController,
+                controller: pageController,
                 onPageChanged: (index) {
                   setState(() {
                     _currentIndex = index;
@@ -176,7 +176,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
 class Tile extends StatelessWidget {
   final String imagePath;
 
-  const Tile({Key? key, required this.imagePath}) : super(key: key);
+  const Tile({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {

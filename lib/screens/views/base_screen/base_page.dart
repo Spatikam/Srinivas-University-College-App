@@ -57,9 +57,9 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
             controller: _controller,
             onPageChanged: (value) {
               setState(() {
-                if (change_page)
+                if (change_page) {
                   _currentIndex = value;
-                else if (_currentIndex == value) change_page = true;
+                } else if (_currentIndex == value) change_page = true;
               });
             },
             children: [
