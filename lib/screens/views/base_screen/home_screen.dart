@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final primaryColor = Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     final themeColor = isDarkMode ? Colors.black : Colors.white;
-    return SafeArea(
+    return Container(
       child: SingleChildScrollView(
         controller: _scrollController,
         physics: const BouncingScrollPhysics(),
@@ -125,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _buildBuildSection(),
             _buildSectionTitle('Announcements'),
             _buildAnnouncements(),
+            const SizedBox(height: 56),
           ],
         ),
       ),

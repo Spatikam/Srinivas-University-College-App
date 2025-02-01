@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  supabase_flutter: ^2.6.0
+  supabase_flutter: ^2.8.3
   curved_navigation_bar: ^1.0.6
   google_fonts: ^6.2.1
   phosphor_flutter: ^2.1.0
@@ -24,6 +24,8 @@ dependencies:
   lottie: ^3.3.1
   image_picker: ^1.1.2
   permission_handler: ^11.3.1
+  shimmer: ^3.0.0
+  webview_flutter: ^4.10.0
 
 dev_dependencies:
   flutter_test:
@@ -37,7 +39,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
-    - assets/animation/splash_screen.json
+
 flutter_icons:
   android: true
   ios: true

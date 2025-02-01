@@ -4,7 +4,7 @@ import 'package:rip_college_app/screens/views/admin_screen/admin_dashboard.dart'
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();

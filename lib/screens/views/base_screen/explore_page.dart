@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rip_college_app/screens/widget_common/web_view.dart';
 
 class ExplorePage extends StatelessWidget {
   final List<Map<String, String>> alumniData = [
@@ -41,29 +42,30 @@ class ExplorePage extends StatelessWidget {
     //final iconColor = isDarkMode ? Colors.white : Colors.black;
     final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Explore',
-          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: themeColor,
-        elevation: 0,
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildAlumniCarousel(context),
-              const SizedBox(height: 20),
-              _buildExploreCategories(context),
-              const SizedBox(height: 20),
-              _buildMoreExploreOptions(context),
-            ],
+        appBar: AppBar(
+          title: Text(
+            'Explore',
+            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
           ),
+          backgroundColor: themeColor,
+          elevation: 0,
         ),
-      ),
+        body: Container(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildAlumniCarousel(context),
+                const SizedBox(height: 20),
+                _buildExploreCategories(context),
+                const SizedBox(height: 20),
+                _buildMoreExploreOptions(context),
+                const SizedBox(height: 56),
+              ],
+            ),
+          ),
+        )
     );
   }
 
@@ -247,7 +249,15 @@ class ExplorePage extends StatelessWidget {
                       color: Colors.blueAccent),
                   title: Text('About College',
                       style: GoogleFonts.poppins(fontSize: 14)),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => WebViewPage(
+                                url: "https://www.suiet.in/",
+                              )),
+                    );
+                  },
                 ),
               ],
             ),

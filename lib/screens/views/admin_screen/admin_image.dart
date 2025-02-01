@@ -5,7 +5,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePostPage extends StatefulWidget {
-  ImagePostPage({super.key});
+  const ImagePostPage({super.key});
 
   @override
   _ImagePostPageState createState() => _ImagePostPageState();
@@ -36,12 +36,10 @@ class _ImagePostPageState extends State<ImagePostPage> {
   Future<void> _pickImages() async {
     final ImagePicker picker = ImagePicker();
     final List<XFile> images = await picker.pickMultiImage();
-    if (images != null) {
-      setState(() {
-        _selectedImages = images;
-      });
+    setState(() {
+      _selectedImages = images;
+    });
     }
-  }
 
   @override
   Widget build(BuildContext context) {

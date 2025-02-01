@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rip_college_app/screens/views/base_screen/base_page.dart'; // Ensure MainPage is correctly imported
-import 'package:lottie/lottie.dart';
+import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
+import 'package:shimmer/shimmer.dart';
+//import 'navigation.dart'; // Import your navigation screen
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,8 +14,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Navigate to MainPage after a 5-second delay
-    Future.delayed(Duration(seconds: 6), () {
+    // Navigate to Navigation screen after 3 seconds
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => MyHomePage()),
@@ -25,15 +26,35 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: Color.fromARGB(255, 100, 141, 197),
-        child: Center(
-          child: Lottie.asset(
-            'assets/animation/splash_screen.json', // Replace with the path to your Lottie JSON file
-            fit: BoxFit.cover, // Set to true if you want the animation to loop
-          ),
+      backgroundColor: Colors.black,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Shimmer effect for the logo
+            Shimmer.fromColors(
+              baseColor: Colors.yellow.shade600,
+              highlightColor: Colors.white,
+              child: Image.asset(
+                'assets/icons/splash-logo.png', // Replace with your image path
+                width: 200,
+                height: 200,
+              ),
+            ),
+            const SizedBox(height: 20),
+            // Text below the logo
+            Shimmer.fromColors(
+              baseColor: Colors.white,
+              highlightColor: Colors.yellow.shade600,
+              child: const Text(
+                "Srinivas University",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

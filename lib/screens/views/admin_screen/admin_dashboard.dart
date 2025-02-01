@@ -20,6 +20,8 @@ class AdminDashboard extends StatelessWidget {
     {'title': 'Announcement', 'icon': Icons.delete, 'gotopage': () => ImagePostPage()},
   ];
 
+  AdminDashboard({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
