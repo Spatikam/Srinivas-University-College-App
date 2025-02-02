@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
@@ -117,6 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             const SizedBox(height: 30),
+            FadeInUp(
+        duration: const Duration(milliseconds: 800),
+        child: Column(
+          children: [
             _buildSectionTitle('Explore '),
             const SizedBox(height: 15),
             _buildGridView(),
@@ -126,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _buildSectionTitle('Announcements'),
             _buildAnnouncements(),
             const SizedBox(height: 56),
+            ],),),
           ],
         ),
       ),

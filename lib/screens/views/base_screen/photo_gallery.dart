@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -77,47 +77,50 @@ class _PhotoGalleryState extends State<PhotoGallery> {
             ),
             const SizedBox(height: 16),
             Expanded(
+              child: FadeInUp(
+              duration: const Duration(milliseconds: 800),
               child: GridView.custom(
-                gridDelegate: SliverQuiltedGridDelegate(
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 12,
-                  repeatPattern: QuiltedGridRepeatPattern.inverted,
-                  pattern: [
-                    QuiltedGridTile(2, 2),
-                    QuiltedGridTile(1, 1),
-                    QuiltedGridTile(1, 1),
-                    QuiltedGridTile(1, 2),
-                  ],
-                ),
-                childrenDelegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _currentIndex = index;
-                          _isFullScreen = true;
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: iconColor.withOpacity(0.3),
-                              blurRadius: 8,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
+                  gridDelegate: SliverQuiltedGridDelegate(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 12,
+                    repeatPattern: QuiltedGridRepeatPattern.inverted,
+                    pattern: [
+                      QuiltedGridTile(2, 2),
+                      QuiltedGridTile(1, 1),
+                      QuiltedGridTile(1, 1),
+                      QuiltedGridTile(1, 2),
+                    ],
+                  ),
+                  childrenDelegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _currentIndex = index;
+                            _isFullScreen = true;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: iconColor.withOpacity(0.3),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16.0),
+                          child: Tile(imagePath: widget.imagePaths[index]),
+                          ),
                         ),
-                        child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16.0),
-                        child: Tile(imagePath: widget.imagePaths[index]),
-                        ),
-                      ),
-                    );
-                  },
-                  childCount: widget.imagePaths.length,
+                      );
+                    },
+                    childCount: widget.imagePaths.length,
+                  ),
                 ),
               ),
             ),

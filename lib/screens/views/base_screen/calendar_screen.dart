@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -55,9 +56,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    //final primaryColor = Color(0xFF658CC2);
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+    //final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calendar with Events'),
+        title: Text('Calendar with Events',style: TextStyle(color: iconColor),),
       ),
       body: Column(
         children: [
@@ -118,7 +122,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget _buildEventList(bool isDarkMode) {
     final eventsForMonth = _getEventsForMonth();
     final iconColor = isDarkMode ? Colors.white : Colors.black;
-    return ListView.separated(
+    return FadeInUp(
+        duration: const Duration(milliseconds: 800),
+        child: ListView.separated(
       itemCount: eventsForMonth.length,
       separatorBuilder: (_, __) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
@@ -129,14 +135,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.pink.shade300,
-                  Colors.orange.shade300,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              color: isDarkMode
+                  ?  Colors.lightBlue.shade900
+                  :  Colors.blueAccent,
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
@@ -169,7 +170,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             ),
           ),
         );
-      },
+      },),
     );
   }
 }
