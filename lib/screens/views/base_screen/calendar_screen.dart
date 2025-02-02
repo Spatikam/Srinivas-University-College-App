@@ -1,7 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 Map<DateTime, List<String>> predefinedEvents = {
   DateTime.utc(2025, 1, 1): ['New Year, January 1, happy holiday!'],
@@ -24,6 +27,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime selectedDay;
   late DateTime focusedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
+  final List<Map<String, dynamic>> notif_events = [
+    {
+      "title": "Science Fair",
+      "date": DateTime(2025, 2, 2, 18, 15)
+    }, // Feb 5, 9 AM
+    {
+      "title": "Sports Day",
+      "date": DateTime(2025, 2, 2, 18, 20)
+    }, // Feb 10, 8:30 AM
+    {
+      "title": "Cultural Fest",
+      "date": DateTime(2025, 2, 20, 10, 0)
+    }, // Feb 20, 10 AM
+  ];
 
   @override
   void initState() {
@@ -31,10 +48,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
     selectedDay = DateTime.now();
     focusedDay = selectedDay;
     events = {...predefinedEvents};
+    _scheduleEventNotifications();
   }
 
   List<String> _getEventsForDay(DateTime day) {
-    final normalizedDay = DateTime.utc(day.year, day.month, day.day);
+    final normalizedDay = DateTime(day.year, day.month, day.day); 
     return events[normalizedDay] ?? [];
   }
 
@@ -53,6 +71,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
     });
   }
 
+  void _scheduleEventNotifications() {
+    for (var event in notif_events) {
+      NotificationService().scheduleNotification(
+        event["title"],
+        "Don't forget: ${event["title"]} is happening today!",
+        event["date"],
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -61,7 +89,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
     //final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calendar with Events',style: TextStyle(color: iconColor),),
+        title: Text(
+          'Calendar with Events',
+          style: TextStyle(color: iconColor),
+        ),
       ),
       body: Column(
         children: [
@@ -123,54 +154,104 @@ class _CalendarScreenState extends State<CalendarScreen> {
     final eventsForMonth = _getEventsForMonth();
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     return FadeInUp(
-        duration: const Duration(milliseconds: 800),
-        child: ListView.separated(
-      itemCount: eventsForMonth.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 8),
-      itemBuilder: (context, index) {
-        final event = eventsForMonth[index];
-        return GestureDetector(
-          onTap: () => _onDateSelected(event['date'], event['date']),
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
-            decoration: BoxDecoration(
-              color: isDarkMode
-                  ?  Colors.lightBlue.shade900
-                  :  Colors.blueAccent,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300,
-                  blurRadius: 5,
-                  spreadRadius: 2,
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '${event['date'].day}-${event['date'].month}-${event['date'].year}',
-                  style: GoogleFonts.kanit(
-                    color: iconColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+      duration: const Duration(milliseconds: 800),
+      child: ListView.separated(
+        itemCount: eventsForMonth.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 8),
+        itemBuilder: (context, index) {
+          final event = eventsForMonth[index];
+          return GestureDetector(
+            onTap: () => _onDateSelected(event['date'], event['date']),
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+              decoration: BoxDecoration(
+                color:
+                    isDarkMode ? Colors.lightBlue.shade900 : Colors.blueAccent,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: isDarkMode
+                        ? Colors.grey.shade700
+                        : Colors.grey.shade300,
+                    blurRadius: 5,
+                    spreadRadius: 2,
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  event['description'],
-                  style: GoogleFonts.kanit(
-                    color: iconColor,
-                    fontSize: 14,
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${event['date'].day}-${event['date'].month}-${event['date'].year}',
+                    style: GoogleFonts.kanit(
+                      color: iconColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Text(
+                    event['description'],
+                    style: GoogleFonts.kanit(
+                      color: iconColor,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class NotificationService {
+  static final FlutterLocalNotificationsPlugin _notificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  Future<void> initNotifications() async {
+    const AndroidInitializationSettings androidSettings =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    const InitializationSettings settings =
+        InitializationSettings(android: androidSettings);
+
+    await _notificationsPlugin.initialize(settings);
+
+    tz.initializeTimeZones(); // Required for scheduling
+  }
+
+  Future<void> scheduleNotification(
+      String title, String body, DateTime eventTime) async {
+    final tz.TZDateTime scheduledDate = tz.TZDateTime.from(eventTime, tz.local);
+
+    if (scheduledDate.isBefore(tz.TZDateTime.now(tz.local))) {
+      return; // Prevent scheduling past events
+    }
+
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
+      "event_channel",
+      "Event Reminders",
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    const NotificationDetails details =
+        NotificationDetails(android: androidDetails);
+
+    await _notificationsPlugin.zonedSchedule(
+      title.hashCode,
+      title,
+      body,
+      scheduledDate,
+      details,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle, // ✅ Fixed
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:rip_college_app/screens/views/admin_screen/admin_dashboard.dart';
+import 'package:rip_college_app/screens/views/admin_screen/admin_profile.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginPage extends StatefulWidget {

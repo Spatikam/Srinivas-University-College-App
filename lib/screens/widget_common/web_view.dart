@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:rip_college_app/screens/widget_common/appbar.dart';
 
 class WebViewPage extends StatefulWidget {
   final String url;
-  const WebViewPage({super.key, required this.url});
+  const WebViewPage({Key? key, required this.url}) : super(key: key);
 
   @override
   _WebViewPageState createState() => _WebViewPageState();
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-  late final WebViewController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    controller = WebViewController()..loadRequest(Uri.parse(widget.url));
-  }
+  InAppWebViewController? webViewController;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("WebView")),
-      body: WebViewWidget(controller: controller),
+      appBar: CustomAppBar(),
+      body: InAppWebView(
+        initialUrlRequest: URLRequest(url: WebUri(widget.url)), // ✅ Fixed
+        onWebViewCreated: (controller) {
+          webViewController = controller;
+        },
+      ),
     );
   }
 }

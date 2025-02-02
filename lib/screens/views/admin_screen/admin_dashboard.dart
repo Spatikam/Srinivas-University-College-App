@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:rip_college_app/screens/views/admin_screen/admin_image.dart';
+import 'package:rip_college_app/screens/views/admin_screen/admin_profile.dart';
 
 class AdminDashboard extends StatelessWidget {
   final List<Map<String, dynamic>> categories = [
     {'title': 'Image', 'icon': Icons.image, 'gotopage': () => ImagePostPage()},
-    {'title': 'Event', 'icon': Icons.event, 'gotopage': () => ImagePostPage()},
+    {'title': 'Event', 'icon': Icons.event, 'gotopage': () => ProfilePage()},
     {'title': 'Article', 'icon': Icons.article_rounded, 'gotopage': () => ImagePostPage()},
     {'title': 'Placement', 'icon': Icons.work, 'gotopage': () => ImagePostPage()},
     {'title': 'Announcement Upload', 'icon': Icons.announcement, 'gotopage': () => ImagePostPage()},

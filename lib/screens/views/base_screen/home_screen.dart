@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,12 +15,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  bool _isLoading = false; // Define _isLoading
 
   final ScrollController _scrollController = ScrollController();
-
+  List<Map<String, dynamic>> _events = [];
+  
   @override
   void initState() {
     super.initState();
+    fetchEvents();
     Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_pageController.hasClients) {
         setState(() {
@@ -33,6 +37,32 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
   }
+  
+   Future<void> fetchEvents() async {
+  setState(() {
+    _isLoading = true;
+  });
+
+  try {
+    final response = await Supabase.instance.client
+        .from('Events')
+        .select()
+        .order('Start_date', ascending: true)
+        .limit(10);
+
+    _events = List<Map<String, dynamic>>.from(response); // Direct cast
+
+  } catch (e) {
+    print("Supabase error: $e");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error fetching events: $e')),
+    );
+  } finally {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+}
 
   @override
   void dispose() {
@@ -318,45 +348,75 @@ class _HomeScreenState extends State<HomeScreen> {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     //final primaryColor = const Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
-    //final themeColor = isDarkMode ? Colors.black : Colors.white;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        children: List.generate(3, (index) {
-          return Card(
-            elevation: 4,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            margin: const EdgeInsets.only(bottom: 12),
-            child: ListTile(
-              contentPadding: const EdgeInsets.all(16),
-              leading: Icon(
-                Icons.announcement,
-                size: 32,
-                color: Colors.orange.shade300,
+    final themeColor = isDarkMode ? Colors.black : Colors.white;
+    
+    int? expandedIndex;
+
+    return StatefulBuilder(
+    builder: (context, setState) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          children: List.generate(_events.length, (index) {
+            final event = _events[index];
+            final isExpanded = expandedIndex == index; // Correct comparison for null-safe value
+
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: isExpanded ? const EdgeInsets.all(16.0) : EdgeInsets.zero,
+              decoration: BoxDecoration(
+                color: isExpanded ? Colors.blue.shade50 : themeColor,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: isExpanded ? 12 : 4,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              title: Text(
-                'Announcement ${index + 1}',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+              child: GestureDetector(
+                onTap: () {
+                  // Wrap the setState call to ensure safety during the rebuild
+                  setState(() {
+                    expandedIndex = isExpanded ? null : index; // Toggle between expanded/collapsed
+                  });
+                },
+                child: ListTile(
+                  contentPadding: const EdgeInsets.all(16),
+                  leading: Icon(
+                    Icons.message_rounded,
+                    size: 32,
+                    color: Colors.orange.shade300,
+                  ),
+                  title: Text(
+                    event['Name'] ?? 'Event ${index + 1}', // Safe fallback for event name
+                    style: GoogleFonts.poppins(
+                      fontSize: isExpanded ? 18 : 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  subtitle: Text(
+                    event['Description'] ?? 'No description available.', // Safe fallback for description
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: iconColor.withOpacity(0.6),
+                    ),
+                  ),
+                  trailing: Icon(
+                    isExpanded ? Icons.expand_less : Icons.chevron_right,
+                    color: Colors.black54,
+                  ),
                 ),
               ),
-              subtitle: Text(
-                'This is the description for announcement ${index + 1}.',
-                style: GoogleFonts.poppins(
-                  fontSize: 14,
-                  color: iconColor,
-                ),
-              ),
-              trailing: Icon(Icons.chevron_right, color: Colors.black54),
-              onTap: () {
-                print('Announcement ${index + 1} tapped');
-              },
-            ),
-          );
-        }),
-      ),
-    );
-  }
+            );
+          }),
+        ),
+      );
+    },
+  );
+}
+
 }
