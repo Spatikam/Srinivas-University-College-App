@@ -3,8 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
 import 'package:rip_college_app/screens/widget_common/web_view.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'dart:ui'; // Import dart:ui for ImageFilter
 
 class NavigationScreen extends StatefulWidget {
   @override
@@ -125,18 +123,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
     });
   }
 
-  Future<void> _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(collegeName: " ",),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -269,7 +259,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => WebViewPage(url: url,)),
+                              builder: (context) => WebViewPage(url: url,collegeName: institution,)),
                         );
                       }
                     },

@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
         }
       },
       child: Scaffold(
-        appBar: CustomAppBar(),
+        appBar: CustomAppBar(collegeName: "Engineering",),
         // Rest of your Scaffold content
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),

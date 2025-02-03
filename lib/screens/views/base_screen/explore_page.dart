@@ -24,13 +24,15 @@ class ExplorePage extends StatelessWidget {
     },
   ];
 
+ String collegeName = "Engineering";
+
   final List exploreCategories = [
-    {'title': 'Courses', 'icon': Icons.school, 'gotoPage': WebViewPage(url: "https://www.suiet.in/courses")},
-    {'title': 'Sports', 'icon': Icons.sports_soccer, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",)},
-    {'title': 'News', 'icon': Icons.newspaper, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",)},
-    {'title': 'Events', 'icon': Icons.event, 'gotoPage': WebViewPage(url: "https://www.suiet.in/event#",)},
-    {'title': 'Clubs', 'icon': Icons.group, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",)},
-    {'title': 'Placements', 'icon': Icons.work, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",)},
+    {'title': 'Courses', 'icon': Icons.school, 'gotoPage': WebViewPage(url: "https://www.suiet.in/courses",collegeName: "Engineering",)},
+    {'title': 'Sports', 'icon': Icons.sports_soccer, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",collegeName: "Engineering",)},
+    {'title': 'News', 'icon': Icons.newspaper, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",collegeName: "Engineering",)},
+    {'title': 'Events', 'icon': Icons.event, 'gotoPage': WebViewPage(url: "https://www.suiet.in/event#",collegeName: "Engineering",)},
+    {'title': 'Clubs', 'icon': Icons.group, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",collegeName: "Engineering",)},
+    {'title': 'Placements', 'icon': Icons.work, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",collegeName: "Engineering",)},
   ];
 
   ExplorePage({super.key});
@@ -259,6 +261,7 @@ class ExplorePage extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => WebViewPage(
                                 url: "https://www.suiet.in/about-us/Institute-Engineering%20&%20Technology",
+                                collegeName: "Engineering",
                               )),
                     );
                   },
