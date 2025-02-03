@@ -89,6 +89,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     //final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Calendar with Events',
           style: TextStyle(color: iconColor),

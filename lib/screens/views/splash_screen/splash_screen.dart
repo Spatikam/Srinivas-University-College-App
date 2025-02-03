@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
+import 'package:rip_college_app/screens/views/main_screen/homepage.dart';
 import 'package:shimmer/shimmer.dart';
 //import 'navigation.dart'; // Import your navigation screen
 
@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MyHomePage()),
+        MaterialPageRoute(builder: (context) => NavigationScreen()),
       );
     });
   }

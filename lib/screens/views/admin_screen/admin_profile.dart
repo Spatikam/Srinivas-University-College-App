@@ -1,9 +1,9 @@
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
-import 'package:rip_college_app/screens/views/login_screen/login_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart'; // For animations
 
@@ -25,6 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool _isLoggedIn = false;
   List<Map<String, dynamic>> _events = [];
   bool _isLoading = false;
+  bool _isUploading = false;
 
   @override
   void initState() {
@@ -128,32 +129,71 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  // Inside the _ProfilePageState class
-  Future<void> _pickImage() async {
-    // Request permission to access the gallery
-    final permissionStatus = await Permission.photos.request();
-    if (permissionStatus.isDenied) {
+// Pick an image from the gallery
+  Future<void> pickImage() async {
+    try {
+      if (Platform.isAndroid) {
+        await requestPermission();
+      }
+
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        setState(() {
+          _imageFile = File(image.path);
+        });
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Permission to access photos is required.')),
+        SnackBar(content: Text('Error picking image: $e')),
+      );
+    }
+  }
+
+  // Upload the selected image to Supabase storage
+  Future<void> uploadImage() async {
+    if (_imageFile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select an image first.')),
       );
       return;
     }
 
-    // Use the ImagePicker to pick an image
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _isUploading = true;
+    });
 
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = File(pickedFile.path); // Save the picked image file
-      });
-    } else {
+    try {
+      final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      final path = '2f2bf73d-2d57-4080-bd1f-2d7a7b915f09/$fileName';
+
+      await Supabase.instance.client.storage
+          .from('Proper') // Replace 'Proper' with your bucket name
+          .upload(path, _imageFile!);
+
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No image selected.')),
+        SnackBar(content: Text('Profile updated successfully! File: $path')),
       );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error uploading image: ${e.toString()}')),
+      );
+    } finally {
+      setState(() {
+        _isUploading = false;
+      });
     }
   }
+
+  Future<void> requestPermission() async {
+    if (Platform.isAndroid) {
+      if (await Permission.photos.isDenied ||
+          await Permission.photos.isPermanentlyDenied) {
+        await Permission.photos.request();
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -196,6 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   // Profile Image with Animation
+
                   Container(
                     width: 120,
                     height: 160,
@@ -220,14 +261,19 @@ class _ProfilePageState extends State<ProfilePage> {
                       .fadeIn(duration: 500.ms),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: 
                       // Implement pick image logic here
-                      _pickImage();
-                    },
+                      pickImage,
+                    
                     child: const Text('Pick Profile'),
                   ).animate().fadeIn(duration: 600.ms),
                   const SizedBox(height: 20),
-
+ElevatedButton(
+                    onPressed: _isUploading ? null : uploadImage,
+                    child: _isUploading
+                        ? const CircularProgressIndicator()
+                        : const Text('Update Profile'),
+                  ),
                   // Event Form with Animation
                   Padding(
                     padding: const EdgeInsets.all(8.0),

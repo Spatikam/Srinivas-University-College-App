@@ -146,6 +146,7 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
     final primaryColor = const Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     return AppBar(
+      automaticallyImplyLeading: false,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

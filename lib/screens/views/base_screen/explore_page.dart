@@ -25,12 +25,12 @@ class ExplorePage extends StatelessWidget {
   ];
 
   final List exploreCategories = [
-    {'title': 'Courses', 'icon': Icons.school},
-    {'title': 'Sports', 'icon': Icons.sports_soccer},
-    {'title': 'News', 'icon': Icons.newspaper},
-    {'title': 'Events', 'icon': Icons.event},
-    {'title': 'Clubs', 'icon': Icons.group},
-    {'title': 'Placements', 'icon': Icons.work},
+    {'title': 'Courses', 'icon': Icons.school, 'gotoPage': WebViewPage(url: "https://www.suiet.in/courses")},
+    {'title': 'Sports', 'icon': Icons.sports_soccer, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",)},
+    {'title': 'News', 'icon': Icons.newspaper, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",)},
+    {'title': 'Events', 'icon': Icons.event, 'gotoPage': WebViewPage(url: "https://www.suiet.in/event#",)},
+    {'title': 'Clubs', 'icon': Icons.group, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",)},
+    {'title': 'Placements', 'icon': Icons.work, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",)},
   ];
 
   ExplorePage({super.key});
@@ -43,6 +43,7 @@ class ExplorePage extends StatelessWidget {
     final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             'Explore',
             style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
@@ -169,8 +170,11 @@ class ExplorePage extends StatelessWidget {
               itemCount: exploreCategories.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {
-                    // Handle navigation or action
+                  onTap: () {   
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => exploreCategories[index]['gotoPage']),
+                    );
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -254,7 +258,7 @@ class ExplorePage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => WebViewPage(
-                                url: "https://www.suiet.in/",
+                                url: "https://www.suiet.in/about-us/Institute-Engineering%20&%20Technology",
                               )),
                     );
                   },

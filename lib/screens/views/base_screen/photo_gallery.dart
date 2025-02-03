@@ -25,6 +25,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
     final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Event Gallery',
           style: GoogleFonts.poppins(
