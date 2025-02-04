@@ -17,7 +17,7 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(collegeName: " "),
+      appBar: CustomAppBar(collegeName: widget.collegeName),
       body: InAppWebView(
         initialUrlRequest: URLRequest(url: WebUri(widget.url)), // ✅ Fixed
         onWebViewCreated: (controller) {

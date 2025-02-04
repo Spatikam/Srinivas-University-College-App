@@ -52,12 +52,12 @@ class _PhotoGalleryState extends State<PhotoGallery> {
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Container(
-        decoration: BoxDecoration(
-          color: themeColor,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
+      decoration: BoxDecoration(
+        color: themeColor,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -79,8 +79,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
             const SizedBox(height: 16),
             Expanded(
               child: FadeInUp(
-              duration: const Duration(milliseconds: 800),
-              child: GridView.custom(
+                duration: const Duration(milliseconds: 800),
+                child: GridView.custom(
                   gridDelegate: SliverQuiltedGridDelegate(
                     crossAxisCount: 4,
                     mainAxisSpacing: 12,
@@ -114,8 +114,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                             ],
                           ),
                           child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: Tile(imagePath: widget.imagePaths[index]),
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Tile(imagePath: widget.imagePaths[index]),
                           ),
                         ),
                       );
@@ -126,8 +126,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
               ),
             ),
           ],
-          ),
         ),
+      ),
     );
   }
 

@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
+//import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
+//import 'package:rip_college_app/screens/widget_common/appbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart'; // For animations
 
@@ -15,8 +16,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  //final TextEditingController _emailController = TextEditingController();
+  //final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _eventDescController = TextEditingController();
   final TextEditingController _eventVenueController = TextEditingController();
@@ -198,39 +199,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Profile").animate().fadeIn(duration: 500.ms),
-        elevation: 0,
-        actions: _isLoggedIn
-            ? [
-                IconButton(
-                  icon: const Icon(Icons.logout),
-                  onPressed: () async {
-                    try {
-                      await Supabase.instance.client.auth.signOut();
-                      setState(() {
-                        _isLoggedIn = false;
-                        _events.clear();
-                        _imageFile = null;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Logged out successfully!')),
-                      );
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => MyHomePage()),
-                      );
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Error logging out: $e')),
-                      );
-                    }
-                  },
-                ).animate().fadeIn(duration: 500.ms),
-              ]
-            : null,
-      ),
       body: _isLoggedIn
           ? SingleChildScrollView(
               child: Column(

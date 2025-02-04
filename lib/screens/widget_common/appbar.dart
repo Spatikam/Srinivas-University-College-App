@@ -63,6 +63,20 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.close, color: Colors.white),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              setState(() {
+                                _isMenuOpen = false;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                       _buildDrawerItem(context,
                           icon: isDarkMode
                               ? PhosphorIcons.toggleLeft()
