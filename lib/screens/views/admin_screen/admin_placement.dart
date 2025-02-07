@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:rip_college_app/screens/widget_common/image_upload.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Placement_Update extends StatefulWidget {
@@ -10,21 +15,26 @@ class Placement_Update extends StatefulWidget {
 }
 
 class _Placement_UpdateState extends State<Placement_Update> {
-  final TextEditingController _PlacementNameController = TextEditingController();
+  final TextEditingController _PlacementNameController =
+      TextEditingController();
   final TextEditingController _PlacementLPAController = TextEditingController();
-  final TextEditingController _PlacementCompanyController = TextEditingController();
+  final TextEditingController _PlacementCompanyController =
+      TextEditingController();
+
   bool _isLoggedIn = false;
   bool _isLoading = false;
   List<Map<String, dynamic>> _placements = [];
+  XFile? _selectedImage;
+  File? _imageFile;
+  bool _isUploading = false;
+  final CloudflareService _cloudflareService = CloudflareService();
 
-  
   @override
   void initState() {
     super.initState();
     _checkAuthStatus();
   }
 
-  
   Future<void> _checkAuthStatus() async {
     final user = Supabase.instance.client.auth.currentUser;
     setState(() {
@@ -34,15 +44,16 @@ class _Placement_UpdateState extends State<Placement_Update> {
       fetchPlacements();
     }
   }
-  
-  Future<void> deleteEvent(String placementId) async {
+
+  Future<void> deletePlacement(String placementId) async {
     try {
       await Supabase.instance.client
-          .from('Placement')
+          .from('SUIET_Placement')
           .delete()
           .eq('Placement_Id', placementId);
       setState(() {
-        _placements.removeWhere((placement) => placement['Placement_Id'] == placementId);
+        _placements.removeWhere(
+            (placement) => placement['Placement_Id'] == placementId);
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Placement Detail deleted successfully!')),
@@ -54,16 +65,14 @@ class _Placement_UpdateState extends State<Placement_Update> {
     }
   }
 
-  
   Future<void> fetchPlacements() async {
     setState(() {
       _isLoading = true;
     });
 
     try {
-      final data = await Supabase.instance.client
-          .from('Placement')
-          .select('*');
+      final data =
+          await Supabase.instance.client.from('SUIET_Placement').select('*');
 
       setState(() {
         _placements = List<Map<String, dynamic>>.from(data);
@@ -79,7 +88,6 @@ class _Placement_UpdateState extends State<Placement_Update> {
     }
   }
 
-  
   Future<void> addPlacement() async {
     if (_PlacementNameController.text.isEmpty ||
         _PlacementLPAController.text.isEmpty) {
@@ -90,16 +98,18 @@ class _Placement_UpdateState extends State<Placement_Update> {
     }
 
     try {
+      String? link_path = await uploadImage();
+      print(link_path);
       final PlacementData = {
         'Name': _PlacementNameController.text,
         'LPA': _PlacementLPAController.text,
         'Company_Name': _PlacementCompanyController.text,
-        //'Start_date': DateTime.now().toIso8601String(),
         'Uploaded_by': Supabase.instance.client.auth.currentUser!.id,
+        'Link': link_path,
       };
 
       final response = await Supabase.instance.client
-          .from('Placement')
+          .from('SUIET_Placement')
           .insert(PlacementData)
           .select();
 
@@ -121,7 +131,49 @@ class _Placement_UpdateState extends State<Placement_Update> {
     }
   }
 
-  
+  Future<void> _pickimage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _selectedImage = image;
+    });
+  }
+
+  Future<String?> uploadImage() async {
+    if (_selectedImage == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select an image first.')),
+      );
+      return null;
+    }
+
+    setState(() {
+      _isUploading = true;
+    });
+
+    var path_url;
+
+    try {
+      _imageFile = File(_selectedImage!.path);
+
+      path_url = await _cloudflareService.uploadImage(_imageFile!);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('image updated successfully! File: ${path_url}')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error uploading image: ${e.toString()}')),
+      );
+    } finally {
+      setState(() {
+        _isUploading = false;
+      });
+    }
+    return path_url;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,6 +185,58 @@ class _Placement_UpdateState extends State<Placement_Update> {
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
+                        Text(
+                          'Upload Event image',
+                          style: GoogleFonts.kanit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        GestureDetector(
+                          onTap: _pickimage,
+                          child: Container(
+                            height: 200,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.deepPurple.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.deepPurple,
+                                width: 2,
+                              ),
+                            ),
+                            child: _selectedImage == null
+                                ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.cloud_upload,
+                                        size: 50,
+                                        color: Colors.deepPurple,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        'Tap to upload image',
+                                        style: GoogleFonts.kanit(
+                                          color: Colors.deepPurple,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.file(
+                                      File(_selectedImage!.path),
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 200,
+                                    ),
+                                  ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
                         TextField(
                           controller: _PlacementNameController,
                           decoration: const InputDecoration(
@@ -191,7 +295,8 @@ class _Placement_UpdateState extends State<Placement_Update> {
                                       color: Colors.red),
                                   onPressed: () {
                                     if (placement['Placement_Id'] != null) {
-                                      deleteEvent(placement['Placement_Id']);
+                                      deletePlacement(
+                                          placement['Placement_Id']);
                                     } else {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
@@ -214,6 +319,4 @@ class _Placement_UpdateState extends State<Placement_Update> {
           : const Center(child: Text("Please log in to view your profile.")),
     );
   }
-
-
 }

@@ -6,6 +6,8 @@ import 'package:rip_college_app/screens/views/admin_screen/admin_profile.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
 
 class AdminPage extends StatefulWidget {
+  const AdminPage({super.key});
+
   @override
   _AdminPageState createState() => _AdminPageState();
 }

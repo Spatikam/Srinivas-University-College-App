@@ -19,7 +19,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
   //String? _selectedEventType;
   bool _isUploading = false;
 
-  final List<String> branches = [
+  /*final List<String> branches = [
     'Computer Science',
     'Mechanical Engineering',
     'Electronics',
@@ -33,7 +33,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
     'Sports',
     'Workshop',
     'Seminar'
-  ];
+  ];*/
 
   Future<void> _pickImages() async {
     final ImagePicker picker = ImagePicker();
@@ -87,7 +87,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
       appBar: AppBar(
         title: Text(
           'Event Registration',
-          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+          style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.deepPurple,
         elevation: 0,
@@ -101,7 +101,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
             children: [
               Text(
                 'Upload Event Images',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.kanit(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -132,7 +132,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
                             const SizedBox(height: 10),
                             Text(
                               'Tap to upload images',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.kanit(
                                 color: Colors.deepPurple,
                                 fontSize: 16,
                               ),
@@ -182,7 +182,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
                   onPressed: _isUploading ? null : uploadImage,
                   child: Text(
                     'Submit',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.kanit(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -211,7 +211,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
         children: [
           Text(
             title,
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.kanit(
               fontSize: 18,
               fontWeight: FontWeight.w600,
             ),
@@ -225,7 +225,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
                     value: item,
                     child: Text(
                       item,
-                      style: GoogleFonts.poppins(fontSize: 14),
+                      style: GoogleFonts.kanit(fontSize: 14),
                     ),
                   ),
                 )

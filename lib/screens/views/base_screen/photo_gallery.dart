@@ -16,6 +16,7 @@ class PhotoGallery extends StatefulWidget {
 class _PhotoGalleryState extends State<PhotoGallery> {
   int _currentIndex = 0;
   bool _isFullScreen = false;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
         automaticallyImplyLeading: false,
         title: Text(
           'Event Gallery',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.kanit(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -62,7 +63,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
           children: [
             Text(
               'Memorable Moments',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.kanit(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: iconColor,
@@ -71,7 +72,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
             const SizedBox(height: 8),
             Text(
               'Relive the moments from our events!',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.kanit(
                 fontSize: 16,
                 color: iconColor,
               ),

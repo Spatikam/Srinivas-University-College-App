@@ -8,17 +8,17 @@ import 'package:rip_college_app/screens/widget_common/web_view.dart';
 class ExplorePage extends StatelessWidget {
   final List<Map<String, String>> alumniData = [
     {
-      'image': 'assets/images/alumni1.png',
+      'image': 'assets/images/placed1.png',
       'name': 'John Doe',
       'package': '12 LPA'
     },
     {
-      'image': 'assets/images/alumni2.png',
+      'image': 'assets/images/placed2.png',
       'name': 'Jane Smith',
       'package': '15 LPA'
     },
     {
-      'image': 'assets/images/alumni3.png',
+      'image': 'assets/images/placed3.png',
       'name': 'Sam Wilson',
       'package': '10 LPA'
     },
@@ -48,7 +48,7 @@ class ExplorePage extends StatelessWidget {
           automaticallyImplyLeading: false,
           title: Text(
             'Explore',
-            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+            style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
           ),
           backgroundColor: themeColor,
           elevation: 0,
@@ -119,7 +119,7 @@ class ExplorePage extends StatelessWidget {
                       children: [
                         Text(
                           alumnus['name']!,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.kanit(
                             color: iconColor,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -127,7 +127,7 @@ class ExplorePage extends StatelessWidget {
                         ),
                         Text(
                           'Package: ${alumnus['package']!}',
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.kanit(
                             color: iconColor,
                             fontSize: 14,
                           ),
@@ -154,7 +154,7 @@ class ExplorePage extends StatelessWidget {
           children: [
             Text(
               'Explore Categories',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.kanit(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
@@ -200,7 +200,7 @@ class ExplorePage extends StatelessWidget {
                         const SizedBox(height: 8),
                         Text(
                           exploreCategories[index]['title']!,
-                          style: GoogleFonts.poppins(
+                          style: GoogleFonts.kanit(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -228,7 +228,7 @@ class ExplorePage extends StatelessWidget {
           children: [
             Text(
               'More to Explore',
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.kanit(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
@@ -240,21 +240,21 @@ class ExplorePage extends StatelessWidget {
                   leading: Icon(FontAwesomeIcons.university,
                       color: Colors.blueAccent),
                   title: Text('Campus Tour',
-                      style: GoogleFonts.poppins(fontSize: 14)),
+                      style: GoogleFonts.kanit(fontSize: 14)),
                   onTap: () {},
                 ),
                 ListTile(
                   leading: Icon(FontAwesomeIcons.calendarDays,
                       color: Colors.blueAccent),
                   title: Text('Academic Calendar',
-                      style: GoogleFonts.poppins(fontSize: 14)),
+                      style: GoogleFonts.kanit(fontSize: 14)),
                   onTap: () {},
                 ),
                 ListTile(
                   leading: Icon(FontAwesomeIcons.infoCircle,
                       color: Colors.blueAccent),
                   title: Text('About College',
-                      style: GoogleFonts.poppins(fontSize: 14)),
+                      style: GoogleFonts.kanit(fontSize: 14)),
                   onTap: () {
                     Navigator.push(
                       context,

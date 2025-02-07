@@ -1,8 +1,8 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:rip_college_app/screens/widget_common/image_upload.dart';
 //import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
 //import 'package:rip_college_app/screens/widget_common/appbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -21,6 +21,8 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _eventDescController = TextEditingController();
   final TextEditingController _eventVenueController = TextEditingController();
+
+  final CloudflareService _cloudflareService = CloudflareService();
 
   File? _imageFile;
   bool _isLoggedIn = false;
@@ -47,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> deleteEvent(String eventId) async {
     try {
       await Supabase.instance.client
-          .from('Events')
+          .from('SUIET_Events')
           .delete()
           .eq('Event_Id', eventId);
       setState(() {
@@ -70,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     try {
       final data = await Supabase.instance.client
-          .from('Events')
+          .from('SUIET_Events')
           .select()
           .order('Start_date', ascending: true)
           .limit(10);
@@ -108,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
       };
 
       final response = await Supabase.instance.client
-          .from('Events')
+          .from('SUIET_Events')
           .insert(eventData)
           .select();
 
@@ -139,6 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
       final ImagePicker picker = ImagePicker();
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
       if (image != null) {
         setState(() {
           _imageFile = File(image.path);
@@ -165,20 +168,19 @@ class _ProfilePageState extends State<ProfilePage> {
     });
 
     try {
-      final fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      final path = '2f2bf73d-2d57-4080-bd1f-2d7a7b915f09/$fileName';
+      final path_url = await _cloudflareService.uploadImage(_imageFile!);
 
-      await Supabase.instance.client.storage
-          .from('Proper') // Replace 'Proper' with your bucket name
-          .upload(path, _imageFile!);
+      print(' File: $path_url');
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Profile updated successfully! File: $path')),
+        SnackBar(
+            content: Text('Profile updated successfully! File: $path_url')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error uploading image: ${e.toString()}')),
       );
+      print("Error: ${e.toString()}");
     } finally {
       setState(() {
         _isUploading = false;
@@ -194,7 +196,6 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -229,14 +230,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       .fadeIn(duration: 500.ms),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: 
-                      // Implement pick image logic here
-                      pickImage,
-                    
+                    onPressed:
+                        // Implement pick image logic here
+                        pickImage,
                     child: const Text('Pick Profile'),
                   ).animate().fadeIn(duration: 600.ms),
                   const SizedBox(height: 20),
-ElevatedButton(
+                  ElevatedButton(
                     onPressed: _isUploading ? null : uploadImage,
                     child: _isUploading
                         ? const CircularProgressIndicator()

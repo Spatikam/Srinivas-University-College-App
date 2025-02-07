@@ -19,7 +19,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final ScrollController _scrollController = ScrollController();
   List<Map<String, dynamic>> _events = [];
-  
+
+  final List<String> images = [
+    //'assets/images/image1.jpg',
+    'assets/images/image6.jpg',
+    'assets/images/image7.jpg',
+    'assets/images/image8.jpg',
+    'assets/images/image9.jpg',
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -37,32 +45,31 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
   }
-  
-   Future<void> fetchEvents() async {
-  setState(() {
-    _isLoading = true;
-  });
 
-  try {
-    final response = await Supabase.instance.client
-        .from('Events')
-        .select()
-        .order('Start_date', ascending: true)
-        .limit(10);
-
-    _events = List<Map<String, dynamic>>.from(response); // Direct cast
-
-  } catch (e) {
-    print("Supabase error: $e");
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error fetching events: $e')),
-    );
-  } finally {
+  Future<void> fetchEvents() async {
     setState(() {
-      _isLoading = false;
+      _isLoading = true;
     });
+
+    try {
+      final response = await Supabase.instance.client
+          .from('SUIET_Events')
+          .select()
+          .order('Start_date', ascending: true)
+          .limit(10);
+
+      _events = List<Map<String, dynamic>>.from(response); // Direct cast
+    } catch (e) {
+      print("Supabase error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching events: $e')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
-}
 
   @override
   void dispose() {
@@ -74,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = Color(0xFF658CC2);
+    //final primaryColor = Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Container(
@@ -93,40 +100,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: PageView.builder(
                       controller: _pageController,
                       physics: const BouncingScrollPhysics(),
-                      itemCount: 3,
+                      itemCount: images.length,
                       itemBuilder: (context, index) {
                         return ClipRRect(
                           borderRadius: BorderRadius.circular(16),
-                          child: ColorFiltered(
-                            colorFilter: ColorFilter.mode(
-                                themeColor.withOpacity(0.3), BlendMode.darken),
-                            child: Stack(
-                              children: [
-                                Image.asset(
-                                  'assets/images/image1.jpg', // Replace with your images
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: Container(
-                                    height: 150,
-                                    decoration: BoxDecoration(
-                                      gradient: LinearGradient(
-                                        begin: Alignment.bottomCenter,
-                                        end: Alignment.topCenter,
-                                        colors: [
-                                          primaryColor,
-                                          Colors.transparent,
-                                        ],
-                                      ),
+                          child: Stack(
+                            children: [
+                              Image.asset(
+                                images[index],
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                child: Container(
+                                  height: 150,
+                                  decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                      colors: [
+                                        Color(0xFF658CC2),
+                                        Colors.transparent,
+                                      ],
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         );
                       },
@@ -138,10 +141,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: Alignment.bottomCenter,
                   child: Text(
                     'Explore Academics, Notices, Feeds\nall in one app',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.kanit(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: iconColor,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -149,19 +152,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 30),
             FadeInUp(
-        duration: const Duration(milliseconds: 800),
-        child: Column(
-          children: [
-            _buildSectionTitle('Explore '),
-            const SizedBox(height: 15),
-            _buildGridView(),
-            _buildSectionTitle('Build'),
-            const SizedBox(height: 15),
-            _buildBuildSection(),
-            _buildSectionTitle('Announcements'),
-            _buildAnnouncements(),
-            const SizedBox(height: 56),
-            ],),),
+              duration: const Duration(milliseconds: 800),
+              child: Column(
+                children: [
+                  _buildSectionTitle('Explore '),
+                  const SizedBox(height: 15),
+                  _buildGridView(),
+                  _buildSectionTitle('Build'),
+                  const SizedBox(height: 15),
+                  _buildBuildSection(),
+                  _buildSectionTitle('Announcements'),
+                  _buildAnnouncements(),
+                  const SizedBox(height: 56),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -179,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Text(
         title,
-        style: GoogleFonts.poppins(
+        style: GoogleFonts.kanit(
           fontSize: 22,
           fontWeight: FontWeight.bold,
           color: iconColor,
@@ -265,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 8),
             Text(
               title,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.kanit(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -274,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 6),
             Text(
               description,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.kanit(
                 fontSize: 13,
                 color: Colors.black.withOpacity(0.6),
               ),
@@ -304,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text(
                 title,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.kanit(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -312,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 8),
               Text(
                 description,
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.kanit(
                   fontSize: 14,
                   color: iconColor.withOpacity(0.6),
                 ),
@@ -330,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Text(
                     'Close',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.kanit(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                     ),
@@ -349,74 +354,79 @@ class _HomeScreenState extends State<HomeScreen> {
     //final primaryColor = const Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     final themeColor = isDarkMode ? Colors.black : Colors.white;
-    
+
     int? expandedIndex;
 
     return StatefulBuilder(
-    builder: (context, setState) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: List.generate(_events.length, (index) {
-            final event = _events[index];
-            final isExpanded = expandedIndex == index; // Correct comparison for null-safe value
+      builder: (context, setState) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            children: List.generate(_events.length, (index) {
+              final event = _events[index];
+              final isExpanded = expandedIndex ==
+                  index; // Correct comparison for null-safe value
 
-            return AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: isExpanded ? const EdgeInsets.all(16.0) : EdgeInsets.zero,
-              decoration: BoxDecoration(
-                color: isExpanded ? Colors.blue.shade50 : themeColor,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: isExpanded ? 12 : 4,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  // Wrap the setState call to ensure safety during the rebuild
-                  setState(() {
-                    expandedIndex = isExpanded ? null : index; // Toggle between expanded/collapsed
-                  });
-                },
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(16),
-                  leading: Icon(
-                    Icons.message_rounded,
-                    size: 32,
-                    color: Colors.orange.shade300,
-                  ),
-                  title: Text(
-                    event['Name'] ?? 'Event ${index + 1}', // Safe fallback for event name
-                    style: GoogleFonts.poppins(
-                      fontSize: isExpanded ? 18 : 16,
-                      fontWeight: FontWeight.bold,
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                margin: const EdgeInsets.only(bottom: 12),
+                padding:
+                    isExpanded ? const EdgeInsets.all(16.0) : EdgeInsets.zero,
+                decoration: BoxDecoration(
+                  color: isExpanded ? Colors.blue.shade50 : themeColor,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: isExpanded ? 12 : 4,
+                      offset: const Offset(0, 4),
                     ),
-                  ),
-                  subtitle: Text(
-                    event['Description'] ?? 'No description available.', // Safe fallback for description
-                    style: GoogleFonts.poppins(
-                      fontSize: 14,
-                      color: iconColor.withOpacity(0.6),
+                  ],
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    // Wrap the setState call to ensure safety during the rebuild
+                    setState(() {
+                      expandedIndex = isExpanded
+                          ? null
+                          : index; // Toggle between expanded/collapsed
+                    });
+                  },
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(16),
+                    leading: Icon(
+                      Icons.message_rounded,
+                      size: 32,
+                      color: Colors.orange.shade300,
                     ),
-                  ),
-                  trailing: Icon(
-                    isExpanded ? Icons.expand_less : Icons.chevron_right,
-                    color: Colors.black54,
+                    title: Text(
+                      event['Name'] ??
+                          'Event ${index + 1}', // Safe fallback for event name
+                      style: GoogleFonts.kanit(
+                        fontSize: isExpanded ? 18 : 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      event['Description'] ??
+                          'No description available.', // Safe fallback for description
+                      style: GoogleFonts.kanit(
+                        fontSize: 14,
+                        color: iconColor.withOpacity(0.6),
+                      ),
+                    ),
+                    trailing: Icon(
+                      isExpanded ? Icons.expand_less : Icons.chevron_right,
+                      color: Colors.black54,
+                    ),
                   ),
                 ),
-              ),
-            );
-          }),
-        ),
-      );
-    },
-  );
-}
-
+              );
+            }),
+          ),
+        );
+      },
+    );
+  }
 }

@@ -5,7 +5,7 @@ import 'package:rip_college_app/screens/widget_common/appbar.dart';
 class WebViewPage extends StatefulWidget {
   final String url;
   final String collegeName;
-  const WebViewPage({Key? key, required this.url, required this.collegeName}) : super(key: key);
+  const WebViewPage({super.key, required this.url, required this.collegeName});
 
   @override
   _WebViewPageState createState() => _WebViewPageState();

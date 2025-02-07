@@ -5,15 +5,17 @@ import 'package:rip_college_app/screens/widget_common/appbar.dart';
 import 'package:rip_college_app/screens/widget_common/web_view.dart';
 
 class NavigationScreen extends StatefulWidget {
+  const NavigationScreen({super.key});
+
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
   final List<String> imageUrls = [
-    'assets/images/chancellor.JPG',
-    'assets/images/bharatnatyam.JPG',
-    'assets/images/yaksha.JPG',
+    'assets/images/srinivas.JPG',
+    'assets/images/srinivas1.JPG',
+    'assets/images/srinivas3.JPG',
   ];
 
   final List<String> imageDescriptions = [
@@ -106,7 +108,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     'University of Edinburgh': 'https://www.ed.ac.uk',
   };
 
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {

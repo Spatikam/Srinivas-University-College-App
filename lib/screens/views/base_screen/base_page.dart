@@ -67,13 +67,11 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
               ExplorePage(),
               PhotoGallery(
                 imagePaths: [
-                  'assets/images/image6.jpeg',
-                  'assets/images/image7.jpeg',
-                  'assets/images/image8.jpeg',
-                  'assets/images/image9.jpeg',
-                  'assets/images/image1.jpg',
-                  'assets/images/image3.jpg',
-                  'assets/images/image5.jpg',
+                  'assets/images/image6.jpg',
+                  'assets/images/image7.jpg',
+                  'assets/images/image8.jpg',
+                  'assets/images/image9.jpg',
+                  'assets/images/image10.jpg',
                   // ... more image URLs
                 ],
               ),
