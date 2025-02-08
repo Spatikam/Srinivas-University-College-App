@@ -6,6 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rip_college_app/screens/widget_common/image_upload.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 class Placement_Update extends StatefulWidget {
   const Placement_Update({super.key});
@@ -26,6 +29,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
   List<Map<String, dynamic>> _placements = [];
   XFile? _selectedImage;
   File? _imageFile;
+  File? _compressedImage;
   bool _isUploading = false;
 
   final CloudinaryService _CloudinaryService = CloudinaryService();
@@ -55,9 +59,9 @@ class _Placement_UpdateState extends State<Placement_Update> {
 
       int index = _placements
           .indexWhere((placement) => placement['Placement_Id'] == placementId);
-      
 
-      bool isDeleted = await CloudinaryService.deleteImage(CloudinaryService.extractPublicId(_placements[index]['Link']));
+      bool isDeleted = await CloudinaryService.deleteImage(
+          CloudinaryService.extractPublicId(_placements[index]['Link']));
 
       if (isDeleted) {
         print("Image deleted successfully!");
@@ -169,7 +173,9 @@ class _Placement_UpdateState extends State<Placement_Update> {
     try {
       _imageFile = File(_selectedImage!.path);
 
-      path_url = await _CloudinaryService.uploadImage(_imageFile!);
+      _compressedImage = await _CloudinaryService.compressImage(_imageFile!);
+
+      path_url = await _CloudinaryService.uploadImage(_compressedImage!);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

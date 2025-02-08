@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 class CloudinaryService {
   Future<String?> uploadImage(File imageFile) async {
@@ -41,6 +44,21 @@ class CloudinaryService {
     print("response: ${response.reasonPhrase}");
 
     return response.statusCode == 200;
+  }
+
+
+  Future<File> compressImage(File file) async {
+    final directory = await getTemporaryDirectory();
+    final targetPath = path.join(directory.path, 'compressed.jpg');
+
+    final result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      targetPath,
+      quality: 10, // Adjust quality (0-100)
+    );
+
+    return File(result!.path);
+     
   }
 
   /*static Future<bool> deleteImage(String imagepath) async {
