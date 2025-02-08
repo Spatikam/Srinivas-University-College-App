@@ -27,7 +27,8 @@ class _Placement_UpdateState extends State<Placement_Update> {
   XFile? _selectedImage;
   File? _imageFile;
   bool _isUploading = false;
-  final CloudflareService _cloudflareService = CloudflareService();
+
+  final CloudinaryService _CloudinaryService = CloudinaryService();
 
   @override
   void initState() {
@@ -51,6 +52,18 @@ class _Placement_UpdateState extends State<Placement_Update> {
           .from('SUIET_Placement')
           .delete()
           .eq('Placement_Id', placementId);
+
+      int index = _placements
+          .indexWhere((placement) => placement['Placement_Id'] == placementId);
+      
+
+      bool isDeleted = await CloudinaryService.deleteImage(CloudinaryService.extractPublicId(_placements[index]['Link']));
+
+      if (isDeleted) {
+        print("Image deleted successfully!");
+      } else {
+        print("Failed to delete image.");
+      }
       setState(() {
         _placements.removeWhere(
             (placement) => placement['Placement_Id'] == placementId);
@@ -99,7 +112,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
 
     try {
       String? link_path = await uploadImage();
-      print(link_path);
+      print("link: ${link_path}");
       final PlacementData = {
         'Name': _PlacementNameController.text,
         'LPA': _PlacementLPAController.text,
@@ -156,7 +169,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
     try {
       _imageFile = File(_selectedImage!.path);
 
-      path_url = await _cloudflareService.uploadImage(_imageFile!);
+      path_url = await _CloudinaryService.uploadImage(_imageFile!);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

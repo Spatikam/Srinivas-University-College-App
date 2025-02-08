@@ -4,38 +4,99 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rip_college_app/screens/widget_common/web_view.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class ExplorePage extends StatelessWidget {
-  final List<Map<String, String>> alumniData = [
-    {
-      'image': 'assets/images/placed1.png',
-      'name': 'John Doe',
-      'package': '12 LPA'
-    },
-    {
-      'image': 'assets/images/placed2.png',
-      'name': 'Jane Smith',
-      'package': '15 LPA'
-    },
-    {
-      'image': 'assets/images/placed3.png',
-      'name': 'Sam Wilson',
-      'package': '10 LPA'
-    },
-  ];
+class ExplorePage extends StatefulWidget {
+  const ExplorePage({super.key});
 
- String collegeName = "Engineering";
+  @override
+  State<ExplorePage> createState() => _ExplorePageState();
+}
+
+class _ExplorePageState extends State<ExplorePage> {
+  List<Map<String, dynamic>> _placements = [];
+  bool _isLoading = false; 
+  
+  String collegeName = "Engineering";
 
   final List exploreCategories = [
-    {'title': 'Courses', 'icon': Icons.school, 'gotoPage': WebViewPage(url: "https://www.suiet.in/courses",collegeName: "Engineering",)},
-    {'title': 'Sports', 'icon': Icons.sports_soccer, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",collegeName: "Engineering",)},
-    {'title': 'News', 'icon': Icons.newspaper, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",collegeName: "Engineering",)},
-    {'title': 'Events', 'icon': Icons.event, 'gotoPage': WebViewPage(url: "https://www.suiet.in/event#",collegeName: "Engineering",)},
-    {'title': 'Clubs', 'icon': Icons.group, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",collegeName: "Engineering",)},
-    {'title': 'Placements', 'icon': Icons.work, 'gotoPage': WebViewPage(url: "https://www.suiet.in/",collegeName: "Engineering",)},
+    {
+      'title': 'Courses',
+      'icon': Icons.school,
+      'gotoPage': WebViewPage(
+        url: "https://www.suiet.in/courses",
+        collegeName: "Engineering",
+      )
+    },
+    {
+      'title': 'Sports',
+      'icon': Icons.sports_soccer,
+      'gotoPage': WebViewPage(
+        url: "https://www.suiet.in/",
+        collegeName: "Engineering",
+      )
+    },
+    {
+      'title': 'News',
+      'icon': Icons.newspaper,
+      'gotoPage': WebViewPage(
+        url: "https://www.suiet.in/",
+        collegeName: "Engineering",
+      )
+    },
+    {
+      'title': 'Events',
+      'icon': Icons.event,
+      'gotoPage': WebViewPage(
+        url: "https://www.suiet.in/event#",
+        collegeName: "Engineering",
+      )
+    },
+    {
+      'title': 'Clubs',
+      'icon': Icons.group,
+      'gotoPage': WebViewPage(
+        url: "https://www.suiet.in/",
+        collegeName: "Engineering",
+      )
+    },
+    {
+      'title': 'Placements',
+      'icon': Icons.work,
+      'gotoPage': WebViewPage(
+        url: "https://www.suiet.in/",
+        collegeName: "Engineering",
+      )
+    },
   ];
 
-  ExplorePage({super.key});
+  @override
+  void initState() {
+    super.initState();
+    fetchplacements();
+  }
+
+  Future<void> fetchplacements() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final response =
+          await Supabase.instance.client.from('SUIET_Placement').select("*");
+
+      _placements = List<Map<String, dynamic>>.from(response); // Direct cast
+    } catch (e) {
+      print("Supabase error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching Placements: $e')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +129,7 @@ class ExplorePage extends StatelessWidget {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 
   Widget _buildAlumniCarousel(BuildContext context) {
@@ -85,7 +145,7 @@ class ExplorePage extends StatelessWidget {
         enableInfiniteScroll: true,
         viewportFraction: 0.8,
       ),
-      items: alumniData.map((alumnus) {
+      items: _placements.map((placed) {
         return Builder(
           builder: (BuildContext context) {
             return FadeIn(
@@ -95,7 +155,8 @@ class ExplorePage extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: AssetImage(alumnus['image']!),
+                    image: NetworkImage(placed[
+                        'Link']), //Image.network(placed['Link'], fit: BoxFit.cover);,
                     fit: BoxFit.cover,
                   ),
                   boxShadow: [
@@ -118,7 +179,7 @@ class ExplorePage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          alumnus['name']!,
+                          placed['Name']!,
                           style: GoogleFonts.kanit(
                             color: iconColor,
                             fontSize: 16,
@@ -126,7 +187,7 @@ class ExplorePage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Package: ${alumnus['package']!}',
+                          'Package: ${placed['LPA']!}',
                           style: GoogleFonts.kanit(
                             color: iconColor,
                             fontSize: 14,
@@ -172,10 +233,12 @@ class ExplorePage extends StatelessWidget {
               itemCount: exploreCategories.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
-                  onTap: () {   
+                  onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => exploreCategories[index]['gotoPage']),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              exploreCategories[index]['gotoPage']),
                     );
                   },
                   child: Container(
@@ -260,7 +323,8 @@ class ExplorePage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => WebViewPage(
-                                url: "https://www.suiet.in/about-us/Institute-Engineering%20&%20Technology",
+                                url:
+                                    "https://www.suiet.in/about-us/Institute-Engineering%20&%20Technology",
                                 collegeName: "Engineering",
                               )),
                     );

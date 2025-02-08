@@ -22,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _eventDescController = TextEditingController();
   final TextEditingController _eventVenueController = TextEditingController();
 
-  final CloudflareService _cloudflareService = CloudflareService();
+  final CloudinaryService _CloudinaryService = CloudinaryService();
 
   File? _imageFile;
   bool _isLoggedIn = false;
@@ -168,7 +168,7 @@ class _ProfilePageState extends State<ProfilePage> {
     });
 
     try {
-      final path_url = await _cloudflareService.uploadImage(_imageFile!);
+      final path_url = await _CloudinaryService.uploadImage(_imageFile!);
 
       print(' File: $path_url');
 

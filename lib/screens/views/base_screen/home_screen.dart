@@ -80,10 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    //bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     //final primaryColor = Color(0xFF658CC2);
-    final iconColor = isDarkMode ? Colors.white : Colors.black;
-    final themeColor = isDarkMode ? Colors.black : Colors.white;
+    //final iconColor = isDarkMode ? Colors.white : Colors.black;
+    //final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Container(
       child: SingleChildScrollView(
         controller: _scrollController,
