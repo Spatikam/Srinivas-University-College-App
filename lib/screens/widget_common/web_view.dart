@@ -5,7 +5,8 @@ import 'package:rip_college_app/screens/widget_common/appbar.dart';
 class WebViewPage extends StatefulWidget {
   final String url;
   final String collegeName;
-  const WebViewPage({super.key, required this.url, required this.collegeName});
+  final bool appbar_display;
+  const WebViewPage({super.key, required this.url, this.collegeName = " ", this.appbar_display = true});
 
   @override
   _WebViewPageState createState() => _WebViewPageState();
@@ -17,7 +18,7 @@ class _WebViewPageState extends State<WebViewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(collegeName: widget.collegeName),
+      appBar: widget.appbar_display? CustomAppBar(collegeName: widget.collegeName):null,
       body: InAppWebView(
         initialUrlRequest: URLRequest(url: WebUri(widget.url)), // ✅ Fixed
         onWebViewCreated: (controller) {

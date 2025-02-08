@@ -7,9 +7,11 @@ import 'package:rip_college_app/screens/views/login_screen/login_page.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String collegeName;
+  final bool slide_menu_access;
   const CustomAppBar({
     super.key,
-    required this.collegeName,
+    this.collegeName = "",
+    this.slide_menu_access = true
   });
   @override
   _CustomAppBar createState() => _CustomAppBar();
@@ -193,7 +195,8 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
           ),
         ],
       ),
-      actions: [
+      
+      actions: widget.slide_menu_access? [
         IconButton(
           icon: PhosphorIcon(
             PhosphorIcons.dotsThreeOutline(), // Phosphor menu icon
@@ -202,7 +205,7 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
           ),
           onPressed: _openSlidingMenu,
         ),
-      ],
+      ]: null,
     );
   }
 

@@ -4,8 +4,9 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:rip_college_app/screens/views/base_screen/calendar_screen.dart';
 import 'package:rip_college_app/screens/views/base_screen/explore_page.dart';
 import 'package:rip_college_app/screens/views/base_screen/home_screen.dart';
-import 'package:rip_college_app/screens/views/base_screen/photo_gallery.dart';
+//import 'package:rip_college_app/screens/views/base_screen/photo_gallery.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
+import 'package:rip_college_app/screens/widget_common/web_view.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -65,7 +66,8 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
             children: [
               const HomeScreen(),
               ExplorePage(),
-              PhotoGallery(
+              WebViewPage(url: "https://www.suiet.in/gallery-suiet", collegeName: "Engineering", appbar_display: false,),
+              /*PhotoGallery(
                 imagePaths: [
                   'assets/images/image6.jpg',
                   'assets/images/image7.jpg',
@@ -74,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                   'assets/images/image10.jpg',
                   // ... more image URLs
                 ],
-              ),
+              ),*/
               CalendarScreen(),
             ],
           ),

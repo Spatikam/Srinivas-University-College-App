@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:rip_college_app/screens/widget_common/image_controls';
 import 'package:rip_college_app/screens/widget_common/web_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -15,8 +16,9 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage> {
   List<Map<String, dynamic>> _placements = [];
-  bool _isLoading = false; 
-  
+  bool _isLoading = false;
+  final PythonAnywhereService _pythonAnywhereService = PythonAnywhereService();
+
   String collegeName = "Engineering";
 
   final List exploreCategories = [
@@ -66,6 +68,7 @@ class _ExplorePageState extends State<ExplorePage> {
       'gotoPage': WebViewPage(
         url: "https://www.suiet.in/",
         collegeName: "Engineering",
+        appbar_display: true,
       )
     },
   ];
@@ -155,8 +158,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: NetworkImage(placed[
-                        'Link']), //Image.network(placed['Link'], fit: BoxFit.cover);,
+                    image: NetworkImage(_pythonAnywhereService.getImageUrl("suiet", placed['Link'])  ), //Image.network(placed['Link'], fit: BoxFit.cover);,
                     fit: BoxFit.cover,
                   ),
                   boxShadow: [

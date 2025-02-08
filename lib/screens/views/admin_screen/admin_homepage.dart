@@ -27,7 +27,7 @@ class _AdminPageState extends State<AdminPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
-      appBar: CustomAppBar(collegeName: "Engineering"),
+      appBar: CustomAppBar(collegeName: "Engineering", slide_menu_access: false,),
       body: Column(
         children: [
           Padding(

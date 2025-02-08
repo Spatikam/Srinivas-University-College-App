@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rip_college_app/screens/widget_common/image_upload.dart';
+import 'package:rip_college_app/screens/widget_common/image_controls';
+//import 'package:rip_college_app/screens/widget_common/image_upload.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
+//import 'package:path_provider/path_provider.dart';
+//import 'package:path/path.dart' as path;
 
 class Placement_Update extends StatefulWidget {
   const Placement_Update({super.key});
@@ -23,7 +24,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
   final TextEditingController _PlacementLPAController = TextEditingController();
   final TextEditingController _PlacementCompanyController =
       TextEditingController();
-
+  
   bool _isLoggedIn = false;
   bool _isLoading = false;
   List<Map<String, dynamic>> _placements = [];
@@ -32,7 +33,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
   File? _compressedImage;
   bool _isUploading = false;
 
-  final CloudinaryService _CloudinaryService = CloudinaryService();
+  final PythonAnywhereService _pythonAnywhereService = PythonAnywhereService();
 
   @override
   void initState() {
@@ -60,8 +61,8 @@ class _Placement_UpdateState extends State<Placement_Update> {
       int index = _placements
           .indexWhere((placement) => placement['Placement_Id'] == placementId);
 
-      bool isDeleted = await CloudinaryService.deleteImage(
-          CloudinaryService.extractPublicId(_placements[index]['Link']));
+      bool isDeleted = await _pythonAnywhereService.deleteImage(
+          "suiet", _placements[index]['Link']);
 
       if (isDeleted) {
         print("Image deleted successfully!");
@@ -173,9 +174,9 @@ class _Placement_UpdateState extends State<Placement_Update> {
     try {
       _imageFile = File(_selectedImage!.path);
 
-      _compressedImage = await _CloudinaryService.compressImage(_imageFile!);
+      _compressedImage = await _pythonAnywhereService.compressImage(_imageFile!);
 
-      path_url = await _CloudinaryService.uploadImage(_compressedImage!);
+      path_url = await _pythonAnywhereService.uploadImage(_compressedImage!, 'suiet');
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

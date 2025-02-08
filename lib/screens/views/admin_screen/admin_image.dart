@@ -84,14 +84,6 @@ class _ImagePostPageState extends State<ImagePostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Event Registration',
-          style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.deepPurple,
-        elevation: 0,
-      ),
       body: FadeInUp(
         duration: const Duration(milliseconds: 600),
         child: SingleChildScrollView(

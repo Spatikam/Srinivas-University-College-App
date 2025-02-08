@@ -49,7 +49,8 @@ class CloudinaryService {
 
   Future<File> compressImage(File file) async {
     final directory = await getTemporaryDirectory();
-    final targetPath = path.join(directory.path, 'compressed.jpg');
+    final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    final targetPath = path.join(directory.path, '$fileName.jpg');
 
     final result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
