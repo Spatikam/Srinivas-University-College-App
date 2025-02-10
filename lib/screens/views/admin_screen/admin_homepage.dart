@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 import 'package:rip_college_app/screens/views/admin_screen/admin_image.dart';
 import 'package:rip_college_app/screens/views/admin_screen/admin_placement.dart';
-import 'package:rip_college_app/screens/views/admin_screen/admin_profile.dart';
+import 'package:rip_college_app/screens/views/admin_screen/admin_events.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
 
 class AdminPage extends StatefulWidget {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rip_college_app/screens/widget_common/image_controls';
+import 'package:rip_college_app/screens/widget_common/image_controls.dart';
 //import 'package:rip_college_app/screens/widget_common/image_upload.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -24,7 +24,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
   final TextEditingController _PlacementLPAController = TextEditingController();
   final TextEditingController _PlacementCompanyController =
       TextEditingController();
-  
+
   bool _isLoggedIn = false;
   bool _isLoading = false;
   List<Map<String, dynamic>> _placements = [];
@@ -54,7 +54,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
   Future<void> deletePlacement(String placementId) async {
     try {
       await Supabase.instance.client
-          .from('SUIET_Placement')
+          .from('Placements')
           .delete()
           .eq('Placement_Id', placementId);
 
@@ -90,7 +90,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
 
     try {
       final data =
-          await Supabase.instance.client.from('SUIET_Placement').select('*');
+          await Supabase.instance.client.from('Placements').select('*');
 
       setState(() {
         _placements = List<Map<String, dynamic>>.from(data);
@@ -127,7 +127,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
       };
 
       final response = await Supabase.instance.client
-          .from('SUIET_Placement')
+          .from('Placements')
           .insert(PlacementData)
           .select();
 
@@ -151,10 +151,18 @@ class _Placement_UpdateState extends State<Placement_Update> {
 
   Future<void> _pickimage() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _selectedImage = image;
-    });
+    bool hasPermission =
+        await _pythonAnywhereService.requestStoragePermission();
+    if (hasPermission) {
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _selectedImage = image;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Media acess permission required')),
+      );
+    }
   }
 
   Future<String?> uploadImage() async {
@@ -174,9 +182,11 @@ class _Placement_UpdateState extends State<Placement_Update> {
     try {
       _imageFile = File(_selectedImage!.path);
 
-      _compressedImage = await _pythonAnywhereService.compressImage(_imageFile!);
+      _compressedImage =
+          await _pythonAnywhereService.compressImage(_imageFile!);
 
-      path_url = await _pythonAnywhereService.uploadImage(_compressedImage!, 'suiet');
+      path_url =
+          await _pythonAnywhereService.uploadImage(_compressedImage!, 'suiet');
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

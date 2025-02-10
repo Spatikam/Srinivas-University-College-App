@@ -13,11 +13,11 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
-  bool isStudentLogin = true;
+  //bool isStudentLogin = true;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoggedIn = false;
-
+  bool _obscureText = true;
   //LOGIN
   Future<void> signInWithEmail(String email, String password) async {
     try {
@@ -113,8 +113,8 @@ class _LoginPageState extends State<LoginPage>
               child: AnimatedContainer(
                 duration: const Duration(seconds: 1),
                 curve: Curves.easeInOut,
-                width: isStudentLogin ? 150 : 200,
-                height: isStudentLogin ? 150 : 200,
+                width: 200,
+                height: 200,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.1),
                   shape: BoxShape.circle,
@@ -127,8 +127,8 @@ class _LoginPageState extends State<LoginPage>
               child: AnimatedContainer(
                 duration: const Duration(seconds: 1),
                 curve: Curves.easeInOut,
-                width: isStudentLogin ? 100 : 130,
-                height: isStudentLogin ? 100 : 130,
+                width: 130,
+                height: 130,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
                   shape: BoxShape.circle,
@@ -141,8 +141,8 @@ class _LoginPageState extends State<LoginPage>
               child: AnimatedContainer(
                 duration: const Duration(seconds: 1),
                 curve: Curves.easeInOut,
-                width: isStudentLogin ? 200 : 250,
-                height: isStudentLogin ? 200 : 250,
+                width: 250,
+                height: 250,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.15),
                   shape: BoxShape.circle,
@@ -161,11 +161,7 @@ class _LoginPageState extends State<LoginPage>
                       transitionBuilder: (child, animation) {
                         return ScaleTransition(scale: animation, child: child);
                       },
-                      child: Icon(
-                        isStudentLogin
-                            ? PhosphorIcons.student()
-                            : PhosphorIcons.userCircle(),
-                        key: ValueKey<bool>(isStudentLogin),
+                      child: Icon(PhosphorIcons.userCircle(),
                         size: 80,
                         color: Colors.white,
                       ),
@@ -177,8 +173,7 @@ class _LoginPageState extends State<LoginPage>
                         return FadeTransition(opacity: animation, child: child);
                       },
                       child: Text(
-                        isStudentLogin ? "Student Login" : "Admin Login",
-                        key: ValueKey<bool>(isStudentLogin),
+                         "Admin Login",
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -225,25 +220,25 @@ class _LoginPageState extends State<LoginPage>
                           // Password Field
                           TextField(
                             controller: _passwordController,
-                            obscureText: true,
+                            obscureText: _obscureText,
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 PhosphorIcons.lockSimple(),
                                 color: Colors.grey[600],
                               ),
                               labelText: "Password",
+                                suffixIcon: IconButton(
+                                  icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscureText = !_obscureText; // Toggle password visibility
+                                    });
+                                  },
+                              ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: const BorderSide(color: Colors.grey),
                               ),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              onPressed: () {},
-                              child: const Text("Forgot Password?"),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -251,11 +246,6 @@ class _LoginPageState extends State<LoginPage>
                           ElevatedButton(
                             onPressed: () {
                               _isLoggedIn?{logOut()}:{logIn()};
-                              /*Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ImagePostPage()),
-                              );*/
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF6F61),
@@ -270,62 +260,11 @@ class _LoginPageState extends State<LoginPage>
                               style: const TextStyle(fontSize: 16),
                             ),
                           ),
-                          const SizedBox(height: 16),
-                          // Social Login
-                          const Text(
-                            "or log in with",
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                icon: Icon(
-                                  PhosphorIcons.facebookLogo(),
-                                  size: 32,
-                                  color: Colors.blue[700],
-                                ),
-                                onPressed: () {},
-                              ),
-                              const SizedBox(width: 16),
-                              IconButton(
-                                icon: Icon(
-                                  PhosphorIcons.googleLogo(),
-                                  size: 32,
-                                  color: Colors.red[700],
-                                ),
-                                onPressed: () {},
-                              ),
-                              const SizedBox(width: 16),
-                              IconButton(
-                                icon: Icon(
-                                  PhosphorIcons.twitterLogo(),
-                                  size: 32,
-                                  color: Colors.blue,
-                                ),
-                                onPressed: () {},
-                              ),
-                            ],
-                          ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 16),
                     // Switch between Student and Admin Login
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          isStudentLogin = !isStudentLogin;
-                        });
-                      },
-                      child: Text(
-                        isStudentLogin
-                            ? "Switch to Admin Login"
-                            : "Switch to Student Login",
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
                   ],
                 ),
               ),

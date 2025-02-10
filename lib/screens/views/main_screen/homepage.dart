@@ -13,8 +13,8 @@ class NavigationScreen extends StatefulWidget {
 
 class _NavigationScreenState extends State<NavigationScreen> {
   final List<String> imageUrls = [
-    'assets/images/srinivas.JPG',
     'assets/images/srinivas1.JPG',
+    'assets/images/srinivas2.JPG',
     'assets/images/srinivas3.JPG',
   ];
 
@@ -92,20 +92,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
         'https://srinivasuniversity.edu.in/College-BCA-MCA',
     'Hotel Management':
         'https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism',
-    'Interior Design': 'https://interiordesign.srinivasuniversity.edu.in',
     'Physiotherapy':
         'https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy',
     'Allied health sciences':
         'https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences',
     'Education(IED)': 'https://srinivasuniversity.edu.in/College-Of-Education',
     'Nursing Science': 'https://srinivasuniversity.edu.in/College-Of-Nursing',
-    'Aviation Studies': 'https://aviation.srinivasuniversity.edu.in',
-    'Port,Shipping & Logistics': 'https://shipping.srinivasuniversity.edu.in',
-    'SIT (valachil)': 'https://sit.srinivasuniversity.edu.in',
-    'Pharmacy': 'https://pharmacy.srinivasuniversity.edu.in',
-    'SIMSRC (Medical)': 'https://simsrc.srinivasuniversity.edu.in',
-    'Dental Sciences': 'https://dental.srinivasuniversity.edu.in',
-    'University of Edinburgh': 'https://www.ed.ac.uk',
+    //'Port,Shipping & Logistics': 'https://shipping.srinivasuniversity.edu.in',
   };
 
   final TextEditingController _searchController = TextEditingController();
