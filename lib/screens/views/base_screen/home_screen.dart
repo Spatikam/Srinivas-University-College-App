@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     try {
       final response = await Supabase.instance.client
-          .from('SUIET_Events')
+          .from('Events')
           .select()
           .order('Start_date', ascending: true)
           .limit(10);

@@ -43,11 +43,15 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
           );
+          //Navigator.pop(context);
           return false; // Prevent the app from closing
+
         }
       },
       child: Scaffold(
-        appBar: CustomAppBar(collegeName: "Engineering",),
+        appBar: CustomAppBar(
+          collegeName: "Engineering",
+        ),
         // Rest of your Scaffold content
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
@@ -66,17 +70,11 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
             children: [
               const HomeScreen(),
               ExplorePage(),
-              WebViewPage(url: "https://www.suiet.in/gallery-suiet", collegeName: "Engineering", appbar_display: false,),
-              /*PhotoGallery(
-                imagePaths: [
-                  'assets/images/image6.jpg',
-                  'assets/images/image7.jpg',
-                  'assets/images/image8.jpg',
-                  'assets/images/image9.jpg',
-                  'assets/images/image10.jpg',
-                  // ... more image URLs
-                ],
-              ),*/
+              WebViewPage(
+                url: "https://www.suiet.in/gallery-suiet",
+                collegeName: "Engineering",
+                appbar_display: false,
+              ),
               CalendarScreen(),
             ],
           ),
@@ -104,8 +102,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
               change_page = false;
             });
             _controller.animateToPage(index,
-                duration: Duration(milliseconds: 300),
-                curve: Curves.easeInOut);
+                duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
           },
         ), //BottomNavBarRaisedInsetFb1()
       ),
