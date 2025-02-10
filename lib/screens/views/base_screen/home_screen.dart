@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:rip_college_app/screens/views/content_pages/event_page.dart';
+import 'package:rip_college_app/screens/widget_common/web_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,19 +21,66 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final ScrollController _scrollController = ScrollController();
   List<Map<String, dynamic>> _events = [];
+  List<Map<String, dynamic>> _announcements = [];
 
   final List<String> images = [
-    //'assets/images/image1.jpg',
     'assets/images/image6.jpg',
     'assets/images/image7.jpg',
     'assets/images/image8.jpg',
     'assets/images/image9.jpg',
   ];
 
+  final List explore_section = [
+    {
+      'title': 'Events',
+      'description': 'All your courses syllabus & guide at your fingertips',
+      'icon': PhosphorIcons.clock(),
+      'goto': EventsPage(),
+      'gradient': LinearGradient(
+          colors: [Colors.orange.shade300, Colors.orange.shade100]),
+    },
+    {
+      'title': 'PhotoGallery',
+      'description': 'Moments captured in time',
+      'icon': PhosphorIcons.googlePhotosLogo(),
+      'goto': WebViewPage(
+        url: "https://www.suiet.in/gallery-suiet",
+        collegeName: "Engineering",
+        appbar_display: false,
+      ),
+      'gradient': LinearGradient(
+          colors: [Colors.purple.shade300, Colors.purple.shade100]),
+    },
+    {
+      'title': 'Admission',
+      'description': 'Join Srinivas to unlock your True Potential',
+      'icon': PhosphorIcons.buildings(),
+      'goto': WebViewPage(
+        collegeName: "Engineering",
+        url: "https://apply.suiet.in/",
+        appbar_display: true,
+      ),
+      'gradient':
+          LinearGradient(colors: [Colors.blue.shade300, Colors.blue.shade100]),
+    },
+    {
+      'title': 'Quick Access',
+      'description': 'Access contacts & our social media handles',
+      'icon': PhosphorIcons.gridFour(),
+      'goto': WebViewPage(
+        collegeName: "Engineering",
+        url: "https://apply.suiet.in/",
+        appbar_display: true,
+      ),
+      'gradient': LinearGradient(
+          colors: [Colors.green.shade300, Colors.green.shade100]),
+    },
+  ];
+
   @override
   void initState() {
     super.initState();
-    fetchEvents();
+    fetchAnnouncements();
     Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_pageController.hasClients) {
         setState(() {
@@ -46,19 +95,26 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> fetchEvents() async {
+  Future<void> fetchAnnouncements() async {
     setState(() {
       _isLoading = true;
     });
 
     try {
-      final response = await Supabase.instance.client
+      var response = await Supabase.instance.client
           .from('Events')
           .select()
           .order('Start_date', ascending: true)
           .limit(10);
 
       _events = List<Map<String, dynamic>>.from(response); // Direct cast
+
+      response = await Supabase.instance.client
+          .from('Announcements')
+          .select()
+          .order('Created_At', ascending: false)
+          .limit(10);
+      _announcements = List<Map<String, dynamic>>.from(response);
     } catch (e) {
       print("Supabase error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
@@ -158,9 +214,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   _buildSectionTitle('Explore '),
                   const SizedBox(height: 15),
                   _buildGridView(),
-                  _buildSectionTitle('Build'),
-                  const SizedBox(height: 15),
-                  _buildBuildSection(),
                   _buildSectionTitle('Announcements'),
                   _buildAnnouncements(),
                   const SizedBox(height: 56),
@@ -196,55 +249,24 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildGridView() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: GridView.count(
-        crossAxisCount: 2,
+      child: GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        crossAxisSpacing: 16,
-        children: [
-          _buildSection(
-            gradient: LinearGradient(
-                colors: [Colors.orange.shade300, Colors.orange.shade100]),
-            icon: PhosphorIcons.clock(),
-            title: 'Events',
-            description: 'All your course syllabus & guide at your fingertips.',
-          ),
-          _buildSection(
-            gradient: LinearGradient(
-                colors: [Colors.purple.shade300, Colors.purple.shade100]),
-            icon: PhosphorIcons.googlePhotosLogo(),
-            title: 'Photo Gallery',
-            description: 'Find unit-wise solved question & answers.',
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBuildSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: GridView.count(
-        crossAxisCount: 2,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisSpacing: 16,
-        children: [
-          _buildSection(
-            gradient: LinearGradient(
-                colors: [Colors.blue.shade300, Colors.blue.shade100]),
-            icon: PhosphorIcons.buildings(),
-            title: 'Infrastructure',
-            description: 'Explore labs, libraries, and other facilities.',
-          ),
-          _buildSection(
-            gradient: LinearGradient(
-                colors: [Colors.green.shade300, Colors.green.shade100]),
-            icon: PhosphorIcons.book(),
-            title: 'Curriculum',
-            description: 'Detailed curriculum for each course.',
-          ),
-        ],
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 16,
+        ),
+        itemCount: explore_section.length,
+        itemBuilder: (context, index) {
+          return _buildSection(
+              gradient: explore_section[index]['gradient'],
+              icon: explore_section[index]['icon'],
+              title: explore_section[index]['title'],
+              description: explore_section[index]['description'],
+              index: index,
+            );
+        },
       ),
     );
   }
@@ -254,9 +276,16 @@ class _HomeScreenState extends State<HomeScreen> {
     required IconData icon,
     required String title,
     required String description,
+    required index,
   }) {
     return GestureDetector(
-      onTap: () => _showPopup(title, description),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => explore_section[index]['goto']),
+        );
+      },
       child: Container(
         decoration: BoxDecoration(
           gradient: gradient,
@@ -292,139 +321,158 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _showPopup(String title, String description) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    //final primaryColor = const Color(0xFF658CC2);
-    final iconColor = isDarkMode ? Colors.white : Colors.black;
-    //final themeColor = isDarkMode ? Colors.black : Colors.white;
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: GoogleFonts.kanit(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                description,
-                style: GoogleFonts.kanit(
-                  fontSize: 14,
-                  color: iconColor.withOpacity(0.6),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    'Close',
-                    style: GoogleFonts.kanit(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
   Widget _buildAnnouncements() {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     //final primaryColor = const Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     final themeColor = isDarkMode ? Colors.black : Colors.white;
 
-    int? expandedIndex;
+    int? expandedEventIndex;
+    int? expandedAnnouncementIndex;
 
     return StatefulBuilder(
       builder: (context, setState) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            children: List.generate(_events.length, (index) {
-              final event = _events[index];
-              final isExpanded = expandedIndex ==
-                  index; // Correct comparison for null-safe value
-
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                margin: const EdgeInsets.only(bottom: 12),
-                padding:
-                    isExpanded ? const EdgeInsets.all(16.0) : EdgeInsets.zero,
-                decoration: BoxDecoration(
-                  color: isExpanded ? Colors.blue.shade50 : themeColor,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: isExpanded ? 12 : 4,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    // Wrap the setState call to ensure safety during the rebuild
-                    setState(() {
-                      expandedIndex = isExpanded
-                          ? null
-                          : index; // Toggle between expanded/collapsed
-                    });
-                  },
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.all(16),
-                    leading: Icon(
-                      Icons.message_rounded,
-                      size: 32,
-                      color: Colors.orange.shade300,
-                    ),
-                    title: Text(
-                      event['Name'] ??
-                          'Event ${index + 1}', // Safe fallback for event name
-                      style: GoogleFonts.kanit(
-                        fontSize: isExpanded ? 18 : 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      event['Description'] ??
-                          'No description available.', // Safe fallback for description
-                      style: GoogleFonts.kanit(
-                        fontSize: 14,
-                        color: iconColor.withOpacity(0.6),
-                      ),
-                    ),
-                    trailing: Icon(
-                      isExpanded ? Icons.expand_less : Icons.chevron_right,
-                      color: Colors.black54,
-                    ),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: List.generate(_announcements.length, (index) {
+                      final announcement = _announcements[index];
+                      final isExpanded = expandedAnnouncementIndex == index;
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 800),
+                        curve: Curves.easeInOut,
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: isExpanded
+                            ? const EdgeInsets.all(16.0)
+                            : EdgeInsets.zero,
+                        decoration: BoxDecoration(
+                          color: themeColor,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: isExpanded ? 12 : 4,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              expandedAnnouncementIndex =
+                                  isExpanded ? null : index;
+                            });
+                          },
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(16),
+                            leading: Icon(
+                              Icons.announcement,
+                              size: 32,
+                              color: Colors.orange.shade300,
+                            ),
+                            title: Text(
+                              announcement['Name'] ??
+                                  'Announcement ${index + 1}',
+                              style: GoogleFonts.poppins(
+                                fontSize: isExpanded ? 18 : 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              announcement['Description'] ??
+                                  'No description available.',
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: iconColor.withOpacity(0.6),
+                              ),
+                            ),
+                            trailing: Icon(
+                              isExpanded
+                                  ? Icons.expand_less
+                                  : Icons.chevron_right,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
                   ),
-                ),
-              );
-            }),
-          ),
+
+                  //Events Section
+                  Column(
+                    children: List.generate(_events.length, (index) {
+                      final event = _events[index];
+                      final isExpanded = expandedEventIndex ==
+                          index; // Correct comparison for null-safe value
+
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeInOut,
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: isExpanded
+                            ? const EdgeInsets.all(16.0)
+                            : EdgeInsets.zero,
+                        decoration: BoxDecoration(
+                          color: themeColor,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: isExpanded ? 12 : 4,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            // Wrap the setState call to ensure safety during the rebuild
+                            setState(() {
+                              expandedEventIndex = isExpanded
+                                  ? null
+                                  : index; // Toggle between expanded/collapsed
+                            });
+                          },
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(16),
+                            leading: Icon(
+                              Icons.message_rounded,
+                              size: 32,
+                              color: Colors.orange.shade300,
+                            ),
+                            title: Text(
+                              event['Name'] ??
+                                  'Event ${index + 1}', // Safe fallback for event name
+                              style: GoogleFonts.kanit(
+                                fontSize: isExpanded ? 18 : 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              event['Description'] ??
+                                  'No description available.', // Safe fallback for description
+                              style: GoogleFonts.kanit(
+                                fontSize: 14,
+                                color: iconColor.withOpacity(0.6),
+                              ),
+                            ),
+                            trailing: Icon(
+                              isExpanded
+                                  ? Icons.expand_less
+                                  : Icons.chevron_right,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ],
+              ),
+            )
         );
       },
     );
