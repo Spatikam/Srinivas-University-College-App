@@ -239,7 +239,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
+                         builder: (context) =>
                               exploreCategories[index]['gotoPage']),
                     );
                   },

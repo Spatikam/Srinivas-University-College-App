@@ -134,29 +134,6 @@ class _ImagePostPageState extends State<ImagePostPage> {
                       : _buildImagePreview(),
                 ),
               ),
-              /*const SizedBox(height: 20),
-                _buildDropdown(
-                  title: 'Select Branch',
-                  items: branches,
-                  value: _selectedBranch,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedBranch = value;
-                    });
-                  },
-                ),
-                const SizedBox(height: 20),
-                _buildDropdown(
-                  title: 'Type of Event',
-                  items: eventTypes,
-                  value: _selectedEventType,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedEventType = value;
-                    });
-                  },
-                ),
-                */
               const SizedBox(height: 30),
               FadeIn(
                 duration: const Duration(milliseconds: 800),
@@ -189,58 +166,6 @@ class _ImagePostPageState extends State<ImagePostPage> {
     );
   }
 
-/*
-  Widget _buildDropdown({
-    required String title,
-    required List<String> items,
-    required String? value,
-    required void Function(String?) onChanged,
-  }) {
-    return FadeInUp(
-      duration: const Duration(milliseconds: 600),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: GoogleFonts.kanit(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 10),
-          DropdownButtonFormField<String>(
-            value: value,
-            items: items
-                .map(
-                  (item) => DropdownMenuItem(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: GoogleFonts.kanit(fontSize: 14),
-                    ),
-                  ),
-                )
-                .toList(),
-            onChanged: onChanged,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.deepPurple.withOpacity(0.1),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Colors.deepPurple),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Colors.deepPurple),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-*/
   Widget _buildImagePreview() {
     return SizedBox(
       height: 180,

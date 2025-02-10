@@ -25,31 +25,19 @@ class _NavigationScreenState extends State<NavigationScreen> {
   ];
 
   final List<String> institutions = [
-    'Engineering',
-    'Management & Commerce',
-    'Computer and Information science',
-    'Hotel Management',
-    'Interior Design',
-    'Physiotherapy',
-    'Allied health sciences',
-    'Education(IED)',
-    'Nursing Science',
-    'Aviation Studies',
-    'Port,Shipping & Logistics',
-    'SIT (valachil)',
-    'Pharmacy',
-    'SIMSRC (Medical)',
-    'Dental Sciences',
-    'University of Edinburgh',
+    'Engineering & Technology',//
+    'Management & Commerce',//
+    'Computer Science & Information Science',//
+    'Hotel Management & Tourism',//
+    'Physiotherapy',//
+    'Allied Health Sciences',//
+    'Social Sciences & Humanities',//
+    'Education',//
+    'Nursing Science',//
+    'Aviation Studies',//
   ];
 
   final List<String> institutionLogos = [
-    'assets/images/logo.jpg',
-    'assets/images/logo.jpg',
-    'assets/images/logo.jpg',
-    'assets/images/logo.jpg',
-    'assets/images/logo.jpg',
-    'assets/images/logo.jpg',
     'assets/images/logo.jpg',
     'assets/images/logo.jpg',
     'assets/images/logo.jpg',
@@ -85,7 +73,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   String customLogoUrl = 'assets/images/logo.jpg';
 
   final Map<String, String> institutionUrls = {
-    'Engineering': 'home.dart', // Link to home.dart for engineering
+    'Engineering & Technology': 'home.dart', // Link to home.dart for engineering
     'Management & Commerce':
         'https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce',
     'Computer and Information science':
@@ -98,7 +86,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
         'https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences',
     'Education(IED)': 'https://srinivasuniversity.edu.in/College-Of-Education',
     'Nursing Science': 'https://srinivasuniversity.edu.in/College-Of-Nursing',
-    //'Port,Shipping & Logistics': 'https://shipping.srinivasuniversity.edu.in',
+    'Social Sciences & Humanities':'https://srinivasuniversity.edu.in/College-Of-SSH',
+    'Aviation Studies': 'https://srinivasuniversity.edu.in/College-Of-AM'
   };
 
   final TextEditingController _searchController = TextEditingController();
@@ -240,7 +229,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
                   return GestureDetector(
                     onTap: () {
-                      if (institution == 'Engineering') {
+                      if (institution == 'Engineering & Technology') {
                         // Navigate directly to HomeScreen when "Engineering" is clicked
                         Navigator.push(
                           context,

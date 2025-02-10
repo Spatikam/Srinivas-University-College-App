@@ -7,21 +7,21 @@ import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 
 class PythonAnywhereService {
-  final String baseUrl = "http://webflowserver.pythonanywhere.com"; // Change this!
+  final String baseUrl =
+      "http://webflowserver.pythonanywhere.com"; // Change this!
 
   // ✅ Upload Image to PythonAnywhere
   Future<String?> uploadImage(File imageFile, String institute) async {
-    
     final Uri uri = Uri.parse("$baseUrl/upload/$institute");
 
     // Compress Image Before Uploading
     File compressedImage = await compressImage(imageFile);
 
     var request = http.MultipartRequest('POST', uri);
-    request.files.add(await http.MultipartFile.fromPath('file', compressedImage.path));
-    request.headers.addAll({
-      "X-API-KEY":"887a88ba-1a25-4e2d-bf4a-748e4a835694"
-    });
+    request.files
+        .add(await http.MultipartFile.fromPath('file', compressedImage.path));
+    request.headers
+        .addAll({"X-API-KEY": "887a88ba-1a25-4e2d-bf4a-748e4a835694"});
 
     var response = await request.send();
     if (response.statusCode == 201) {
@@ -44,10 +44,8 @@ class PythonAnywhereService {
     final Uri uri = Uri.parse("$baseUrl/delete/$institute/$filename");
     var request = http.Request('DELETE', uri);
 
-  
-    request.headers.addAll({
-      "X-API-KEY":"887a88ba-1a25-4e2d-bf4a-748e4a835694"
-    });
+    request.headers
+        .addAll({"X-API-KEY": "887a88ba-1a25-4e2d-bf4a-748e4a835694"});
 
     var response = await request.send();
 
@@ -61,7 +59,7 @@ class PythonAnywhereService {
   }
 
   // ✅ Compress Image Before Uploading
-  
+
   Future<File> compressImage(File file) async {
     final directory = await getTemporaryDirectory();
     final fileName = DateTime.now().millisecondsSinceEpoch.toString();
@@ -70,33 +68,31 @@ class PythonAnywhereService {
     final result = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       targetPath,
-      quality: 10, // Adjust quality (0-100)
+      quality: 90, // Adjust quality (0-100)
     );
 
     return File(result!.path);
-     
   }
-
 
   Future<bool> requestStoragePermission() async {
     PermissionStatus status;
-    
-    if (await Permission.storage.isGranted || 
+
+    if (await Permission.storage.isGranted ||
         await Permission.photos.isGranted) {
       return true;
     }
-    
+
     status = await Permission.storage.request();
-    
+
     if (status.isDenied) {
       return false;
     }
-    
+
     if (status.isPermanentlyDenied) {
       openAppSettings();
       return false;
     }
-    
+
     return status.isGranted;
   }
 }
