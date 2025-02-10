@@ -4,11 +4,14 @@ import 'dart:async';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:rip_college_app/screens/views/content_pages/event_page.dart';
+import 'package:rip_college_app/screens/views/content_pages/quick_access.dart';
 import 'package:rip_college_app/screens/widget_common/web_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String collegeName;
+
+  const HomeScreen({super.key, required this.collegeName});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -18,64 +21,26 @@ class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
   bool _isLoading = false; // Define _isLoading
+  late String collegeName;
 
   final ScrollController _scrollController = ScrollController();
   List<Map<String, dynamic>> _events = [];
   List<Map<String, dynamic>> _announcements = [];
 
-  final List<String> images = [
-    'assets/images/image6.jpg',
-    'assets/images/image7.jpg',
-    'assets/images/image8.jpg',
-    'assets/images/image9.jpg',
-  ];
-
-  final List explore_section = [
-    {
-      'title': 'Events',
-      'description': 'All your courses syllabus & guide at your fingertips',
-      'icon': PhosphorIcons.clock(),
-      'goto': EventsPage(),
-      'gradient': LinearGradient(
-          colors: [Colors.orange.shade300, Colors.orange.shade100]),
-    },
-    {
-      'title': 'PhotoGallery',
-      'description': 'Moments captured in time',
-      'icon': PhosphorIcons.googlePhotosLogo(),
-      'goto': WebViewPage(
-        url: "https://www.suiet.in/gallery-suiet",
-        collegeName: "Engineering",
-        appbar_display: false,
-      ),
-      'gradient': LinearGradient(
-          colors: [Colors.purple.shade300, Colors.purple.shade100]),
-    },
-    {
-      'title': 'Admission',
-      'description': 'Join Srinivas to unlock your True Potential',
-      'icon': PhosphorIcons.buildings(),
-      'goto': WebViewPage(
-        collegeName: "Engineering",
-        url: "https://apply.suiet.in/",
-        appbar_display: true,
-      ),
-      'gradient':
-          LinearGradient(colors: [Colors.blue.shade300, Colors.blue.shade100]),
-    },
-    {
-      'title': 'Quick Access',
-      'description': 'Access contacts & our social media handles',
-      'icon': PhosphorIcons.gridFour(),
-      'goto': WebViewPage(
-        collegeName: "Engineering",
-        url: "https://apply.suiet.in/",
-        appbar_display: true,
-      ),
-      'gradient': LinearGradient(
-          colors: [Colors.green.shade300, Colors.green.shade100]),
-    },
-  ];
+  final Map<String, List<String>> images = {
+    'Engineering & Technology': [
+      'assets/images/suiet/image1.jpg',
+      'assets/images/suiet/image2.jpg',
+      'assets/images/suiet/image3.jpg',
+      'assets/images/suiet/image4.jpg',
+    ],
+    'Hotel Management & Tourism': [
+      'assets/images/ihmt/image1.png',
+      'assets/images/ihmt/image2.png',
+      'assets/images/ihmt/image3.jpg',
+      'assets/images/ihmt/image4.png',
+    ],
+  };
 
   @override
   void initState() {
@@ -93,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }
     });
+    collegeName = widget.collegeName;
   }
 
   Future<void> fetchAnnouncements() async {
@@ -140,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //final primaryColor = Color(0xFF658CC2);
     //final iconColor = isDarkMode ? Colors.white : Colors.black;
     //final themeColor = isDarkMode ? Colors.black : Colors.white;
+
     return Container(
       child: SingleChildScrollView(
         controller: _scrollController,
@@ -156,14 +123,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: PageView.builder(
                       controller: _pageController,
                       physics: const BouncingScrollPhysics(),
-                      itemCount: images.length,
+                      itemCount: images[widget.collegeName]!.length,
                       itemBuilder: (context, index) {
                         return ClipRRect(
                           borderRadius: BorderRadius.circular(16),
                           child: Stack(
                             children: [
                               Image.asset(
-                                images[index],
+                                images[widget.collegeName]![index],
                                 fit: BoxFit.cover,
                                 width: double.infinity,
                               ),
@@ -247,6 +214,72 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildGridView() {
+    Map<String, List> explore_goto = {
+      'Engineering & Technology': [
+        EventsPage(),
+        WebViewPage(
+          url: "https://www.suiet.in/gallery-suiet",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        ),
+        WebViewPage(
+          collegeName: widget.collegeName,
+          url: "https://apply.suiet.in/",
+          appbar_display: true,
+        ),
+        QuickAccessApp()
+      ],
+      'Hotel Management & Tourism': [
+        EventsPage(),
+        WebViewPage(
+          url:
+              "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Student-Life-at-Campus",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        ),
+        WebViewPage(
+          collegeName: widget.collegeName,
+          url:
+              "https://srinivasuniversity.edu.in/SrinivasUniversity/Admission-Enquiry",
+          appbar_display: true,
+        ),
+        QuickAccessApp()
+      ]
+    };
+    final List explore_section = [
+      {
+        'title': 'Events',
+        'description': 'All your courses syllabus & guide at your fingertips',
+        'icon': PhosphorIcons.clock(),
+        'goto': explore_goto[collegeName]![0],
+        'gradient': LinearGradient(
+            colors: [Colors.orange.shade300, Colors.orange.shade100]),
+      },
+      {
+        'title': 'PhotoGallery',
+        'description': 'Moments captured in time',
+        'icon': PhosphorIcons.googlePhotosLogo(),
+        'goto': explore_goto[collegeName]![1],
+        'gradient': LinearGradient(
+            colors: [Colors.purple.shade300, Colors.purple.shade100]),
+      },
+      {
+        'title': 'Admission',
+        'description': 'Join Srinivas to unlock your True Potential',
+        'icon': PhosphorIcons.buildings(),
+        'goto': explore_goto[collegeName]![2],
+        'gradient': LinearGradient(
+            colors: [Colors.blue.shade300, Colors.blue.shade100]),
+      },
+      {
+        'title': 'Quick Access',
+        'description': 'Access contacts & our social media handles',
+        'icon': PhosphorIcons.gridFour(),
+        'goto': explore_goto[collegeName]![3],
+        'gradient': LinearGradient(
+            colors: [Colors.green.shade300, Colors.green.shade100]),
+      },
+    ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: GridView.builder(
@@ -260,12 +293,13 @@ class _HomeScreenState extends State<HomeScreen> {
         itemCount: explore_section.length,
         itemBuilder: (context, index) {
           return _buildSection(
-              gradient: explore_section[index]['gradient'],
-              icon: explore_section[index]['icon'],
-              title: explore_section[index]['title'],
-              description: explore_section[index]['description'],
-              index: index,
-            );
+            gradient: explore_section[index]['gradient'],
+            icon: explore_section[index]['icon'],
+            title: explore_section[index]['title'],
+            description: explore_section[index]['description'],
+            index: index,
+            goto: explore_section[index]['goto'],
+          );
         },
       ),
     );
@@ -277,13 +311,13 @@ class _HomeScreenState extends State<HomeScreen> {
     required String title,
     required String description,
     required index,
+    required Widget goto,
   }) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(
-              builder: (context) => explore_section[index]['goto']),
+          MaterialPageRoute(builder: (context) => goto),
         );
       },
       child: Container(
@@ -472,8 +506,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-            )
-        );
+            ));
       },
     );
   }

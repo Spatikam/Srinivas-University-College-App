@@ -82,7 +82,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         'https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism',
     'Physiotherapy':
         'https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy',
-    'Allied health sciences':
+    'Allied Health Sciences':
         'https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences',
     'Education(IED)': 'https://srinivasuniversity.edu.in/College-Of-Education',
     'Nursing Science': 'https://srinivasuniversity.edu.in/College-Of-Nursing',
@@ -229,12 +229,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
                   return GestureDetector(
                     onTap: () {
-                      if (institution == 'Engineering & Technology') {
+                      if (institution == 'Engineering & Technology' || institution == "Hotel Management & Tourism") {
                         // Navigate directly to HomeScreen when "Engineering" is clicked
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyHomePage(),
+                              builder: (context) => MyHomePage(collegeName: institution,),
                           ),
                         );
                       } else {

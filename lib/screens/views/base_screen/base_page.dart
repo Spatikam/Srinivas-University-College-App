@@ -4,12 +4,16 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:rip_college_app/screens/views/base_screen/calendar_screen.dart';
 import 'package:rip_college_app/screens/views/base_screen/explore_page.dart';
 import 'package:rip_college_app/screens/views/base_screen/home_screen.dart';
+import 'package:rip_college_app/screens/views/base_screen/photo_gallery.dart';
 //import 'package:rip_college_app/screens/views/base_screen/photo_gallery.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
-import 'package:rip_college_app/screens/widget_common/web_view.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  final String collegeName;
+
+  
+  const MyHomePage({super.key,required this.collegeName});
+
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -19,11 +23,6 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   int _currentIndex = 0;
   final _controller = PageController(initialPage: 0);
   bool change_page = true;
-  List<String> imageUrls = [
-    'assets/images/image.png',
-    'assets/images/image.png'
-    // ... more image URLs
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +44,11 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
           );
           //Navigator.pop(context);
           return false; // Prevent the app from closing
-
         }
       },
       child: Scaffold(
         appBar: CustomAppBar(
-          collegeName: "Engineering",
+          collegeName: widget.collegeName,
         ),
         // Rest of your Scaffold content
         body: AnimatedSwitcher(
@@ -68,13 +66,9 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
               });
             },
             children: [
-              const HomeScreen(),
-              ExplorePage(),
-              WebViewPage(
-                url: "https://www.suiet.in/gallery-suiet",
-                collegeName: "Engineering",
-                appbar_display: false,
-              ),
+              HomeScreen(collegeName: widget.collegeName),
+              ExplorePage(collegeName: widget.collegeName),
+              PhotoGallery(collegeName: widget.collegeName, imagePaths: ['logo.jpg']),
               CalendarScreen(),
             ],
           ),
