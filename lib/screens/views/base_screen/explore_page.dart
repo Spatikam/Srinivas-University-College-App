@@ -3,12 +3,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:rip_college_app/screens/widget_common/image_controls.dart';
 import 'package:rip_college_app/screens/widget_common/web_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ExplorePage extends StatefulWidget {
-  const ExplorePage({super.key});
+  final String collegeName;
+
+  const ExplorePage({super.key, required this.collegeName});
 
   @override
   State<ExplorePage> createState() => _ExplorePageState();
@@ -19,59 +22,151 @@ class _ExplorePageState extends State<ExplorePage> {
   bool _isLoading = false;
   final PythonAnywhereService _pythonAnywhereService = PythonAnywhereService();
 
-  String collegeName = "Engineering";
+  late String collegeName = widget.collegeName;
 
-  final List exploreCategories = [
-    {
-      'title': 'Courses',
-      'icon': Icons.school,
-      'gotoPage': WebViewPage(
-        url: "https://www.suiet.in/courses",
-        collegeName: "Engineering",
-      )
-    },
-    {
-      'title': 'Sports',
-      'icon': Icons.sports_soccer,
-      'gotoPage': WebViewPage(
+  late final Map<String, List> exploreCategories = {
+    'Engineering & Technology': [
+      {
+        'title': 'Courses',
+        'icon': Icons.school,
+        'gotoPage': WebViewPage(
+          url: "https://www.suiet.in/courses",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Events',
+        'icon': Icons.event,
+        'gotoPage': WebViewPage(
+          url: "https://www.suiet.in/event",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'News',
+        'icon': Icons.newspaper,
+        'gotoPage': WebViewPage(
+          url: "https://www.suiet.in/",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Aluminus',
+        'icon': PhosphorIcons.users(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Library',
+        'icon': PhosphorIcons.book(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/Library",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Placements',
+        'icon': Icons.work,
+        'gotoPage': WebViewPage(
+          url: "https://www.suiet.in/",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        )
+      },
+    ],
+    'Hotel Management & Tourism': [
+      {
+        'title': 'Courses',
+        'icon': Icons.school,
+        'gotoPage': WebViewPage(
+          url:
+              "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Courses",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Student Life',
+        'icon': Icons.sports_soccer,
+        'gotoPage': WebViewPage(
+          url:
+              "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Student-Life-at-Campus",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'News',
+        'icon': Icons.newspaper,
+        'gotoPage': WebViewPage(
+          url:
+              "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Blog-Category?newsEvents=1",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Alumni',
+        'icon': Icons.event,
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Library',
+        'icon': Icons.group,
+        'gotoPage': WebViewPage(
+          url: "http://103.167.211.212/",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Placements',
+        'icon': Icons.work,
+        'gotoPage': WebViewPage(
+          url:
+              "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Placement-Info",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        )
+      },
+    ]
+  };
+
+  late Map<String, List> explore_more = {
+    'Engineering & Technology': [
+      WebViewPage(
+        url: "https://www.suiet.in/gallery/campus-life",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
         url: "https://www.suiet.in/",
-        collegeName: "Engineering",
-      )
-    },
-    {
-      'title': 'News',
-      'icon': Icons.newspaper,
-      'gotoPage': WebViewPage(
-        url: "https://www.suiet.in/",
-        collegeName: "Engineering",
-      )
-    },
-    {
-      'title': 'Events',
-      'icon': Icons.event,
-      'gotoPage': WebViewPage(
-        url: "https://www.suiet.in/event#",
-        collegeName: "Engineering",
-      )
-    },
-    {
-      'title': 'Clubs',
-      'icon': Icons.group,
-      'gotoPage': WebViewPage(
-        url: "https://www.suiet.in/",
-        collegeName: "Engineering",
-      )
-    },
-    {
-      'title': 'Placements',
-      'icon': Icons.work,
-      'gotoPage': WebViewPage(
-        url: "https://www.suiet.in/",
-        collegeName: "Engineering",
-        appbar_display: true,
-      )
-    },
-  ];
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url:
+            "https://www.suiet.in/about-us/Institute-Engineering%20&%20Technology",
+        collegeName: widget.collegeName,
+      ),
+    ],
+    'Hotel Management & Tourism': [
+      WebViewPage(
+        url:
+            "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Facilities",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url:
+            "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Calendar",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url:
+            "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/About-Us",
+        collegeName: widget.collegeName,
+      ),
+    ]
+  };
 
   @override
   void initState() {
@@ -158,7 +253,10 @@ class _ExplorePageState extends State<ExplorePage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: NetworkImage(_pythonAnywhereService.getImageUrl("suiet", placed['Link'])  ), //Image.network(placed['Link'], fit: BoxFit.cover);,
+                    image: NetworkImage(_pythonAnywhereService.getImageUrl(
+                        "suiet",
+                        placed[
+                            'Link'])), //Image.network(placed['Link'], fit: BoxFit.cover);,
                     fit: BoxFit.cover,
                   ),
                   boxShadow: [
@@ -232,15 +330,16 @@ class _ExplorePageState extends State<ExplorePage> {
                 crossAxisSpacing: 10,
                 childAspectRatio: 1,
               ),
-              itemCount: exploreCategories.length,
+              itemCount: exploreCategories[collegeName]!.length,
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                         builder: (context) =>
-                              exploreCategories[index]['gotoPage']),
+                          builder: (context) =>
+                              exploreCategories[collegeName]![index]
+                                  ['gotoPage']),
                     );
                   },
                   child: Container(
@@ -258,13 +357,13 @@ class _ExplorePageState extends State<ExplorePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          exploreCategories[index]['icon'],
+                          exploreCategories[collegeName]![index]['icon'],
                           size: 30,
                           color: Colors.blueAccent,
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          exploreCategories[index]['title']!,
+                          exploreCategories[collegeName]![index]['title']!,
                           style: GoogleFonts.kanit(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
@@ -304,16 +403,27 @@ class _ExplorePageState extends State<ExplorePage> {
                 ListTile(
                   leading: Icon(FontAwesomeIcons.university,
                       color: Colors.blueAccent),
-                  title: Text('Campus Tour',
-                      style: GoogleFonts.kanit(fontSize: 14)),
-                  onTap: () {},
+                  title: Text('Campus', style: GoogleFonts.kanit(fontSize: 14)),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => explore_more[collegeName]![0]),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: Icon(FontAwesomeIcons.calendarDays,
                       color: Colors.blueAccent),
                   title: Text('Academic Calendar',
                       style: GoogleFonts.kanit(fontSize: 14)),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => explore_more[collegeName]![1]),
+                    );
+                  },
                 ),
                 ListTile(
                   leading: Icon(FontAwesomeIcons.infoCircle,
@@ -324,11 +434,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => WebViewPage(
-                                url:
-                                    "https://www.suiet.in/about-us/Institute-Engineering%20&%20Technology",
-                                collegeName: "Engineering",
-                              )),
+                          builder: (context) => explore_more[collegeName]![2]),
                     );
                   },
                 ),

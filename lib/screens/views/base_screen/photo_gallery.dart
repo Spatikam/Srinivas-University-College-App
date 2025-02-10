@@ -6,8 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class PhotoGallery extends StatefulWidget {
   final List<String> imagePaths;
+  final String collegeName;
 
-  const PhotoGallery({super.key, required this.imagePaths});
+  const PhotoGallery({super.key, required this.imagePaths, required this.collegeName});
 
   @override
   State<PhotoGallery> createState() => _PhotoGalleryState();
@@ -16,7 +17,6 @@ class PhotoGallery extends StatefulWidget {
 class _PhotoGalleryState extends State<PhotoGallery> {
   int _currentIndex = 0;
   bool _isFullScreen = false;
-  
 
   @override
   Widget build(BuildContext context) {

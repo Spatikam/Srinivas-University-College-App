@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
+import 'package:rip_college_app/screens/views/admin_screen/admin_announcement.dart';
+import 'package:rip_college_app/screens/views/admin_screen/admin_article.dart';
 import 'package:rip_college_app/screens/views/admin_screen/admin_image.dart';
 import 'package:rip_college_app/screens/views/admin_screen/admin_placement.dart';
 import 'package:rip_college_app/screens/views/admin_screen/admin_events.dart';
@@ -17,10 +19,10 @@ class _AdminPageState extends State<AdminPage> {
   
   final Map<String, Widget> optionWidgets = {
     "Event": ProfilePage(),
-    "Article": Center(child: Text("Article Content", style: TextStyle(fontSize: 24))),
+    "Article": ArticleUpload(),
     "Image": ImagePostPage(),
     "Placement": Placement_Update(),
-    "Announcement": Center(child: Text("Announcement Content", style: TextStyle(fontSize: 24))),
+    "Announcement": AddAnnouncementScreen(),
   };
 
   @override
