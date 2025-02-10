@@ -7,13 +7,12 @@ import 'package:rip_college_app/screens/views/base_screen/home_screen.dart';
 import 'package:rip_college_app/screens/views/base_screen/photo_gallery.dart';
 //import 'package:rip_college_app/screens/views/base_screen/photo_gallery.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
   final String collegeName;
 
-  
-  const MyHomePage({super.key,required this.collegeName});
-
+  const MyHomePage({super.key, required this.collegeName});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -23,9 +22,32 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   int _currentIndex = 0;
   final _controller = PageController(initialPage: 0);
   bool change_page = true;
+  String uuid = "";
+
+  Future<void> fetchUserId() async {
+    try {
+      var response = await Supabase.instance.client
+          .from('Users')
+          .select('uuid')
+          .eq('College', widget.collegeName)
+          .maybeSingle();
+      uuid = response!['uuid'];
+    } catch (e) {
+      print("Supabase error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching uuid: $e')),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    fetchUserId();
     double height = 56;
     final primaryColor = Color(0xFF658CC2);
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -66,9 +88,13 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
               });
             },
             children: [
-              HomeScreen(collegeName: widget.collegeName),
+              HomeScreen(
+                collegeName: widget.collegeName,
+                uuid: uuid,
+              ),
               ExplorePage(collegeName: widget.collegeName),
-              PhotoGallery(collegeName: widget.collegeName, imagePaths: ['logo.jpg']),
+              PhotoGallery(
+                  collegeName: widget.collegeName, imagePaths: ['logo.jpg']),
               CalendarScreen(),
             ],
           ),

@@ -10,8 +10,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   final String collegeName;
+  final String uuid;
 
-  const HomeScreen({super.key, required this.collegeName});
+  const HomeScreen({super.key, required this.collegeName, required this.uuid});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -65,31 +66,34 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _isLoading = true;
     });
+    if(widget.uuid!=""){
+      try {
+        var response = await Supabase.instance.client
+            .from('Events')
+            .select()
+            .eq('created_by', widget.uuid)
+            .order('Start_date', ascending: true)
+            .limit(10);
 
-    try {
-      var response = await Supabase.instance.client
-          .from('Events')
-          .select()
-          .order('Start_date', ascending: true)
-          .limit(10);
+        _events = List<Map<String, dynamic>>.from(response); // Direct cast
 
-      _events = List<Map<String, dynamic>>.from(response); // Direct cast
-
-      response = await Supabase.instance.client
-          .from('Announcements')
-          .select()
-          .order('Created_At', ascending: false)
-          .limit(10);
-      _announcements = List<Map<String, dynamic>>.from(response);
-    } catch (e) {
-      print("Supabase error: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching events: $e')),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+        response = await Supabase.instance.client
+            .from('Announcements')
+            .select()
+            .eq('owner_id', widget.uuid)
+            .order('Created_At', ascending: false)
+            .limit(10);
+        _announcements = List<Map<String, dynamic>>.from(response);
+      } catch (e) {
+        print("Supabase error: $e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error fetching events: $e')),
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
