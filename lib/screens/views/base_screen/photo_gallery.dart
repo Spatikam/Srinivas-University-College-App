@@ -3,12 +3,15 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rip_college_app/screens/widget_common/image_controls.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PhotoGallery extends StatefulWidget {
-  final List<String> imagePaths;
+  final String uuid;
   final String collegeName;
 
-  const PhotoGallery({super.key, required this.imagePaths, required this.collegeName});
+  const PhotoGallery(
+      {super.key, required this.collegeName, required this.uuid});
 
   @override
   State<PhotoGallery> createState() => _PhotoGalleryState();
@@ -17,6 +20,38 @@ class PhotoGallery extends StatefulWidget {
 class _PhotoGalleryState extends State<PhotoGallery> {
   int _currentIndex = 0;
   bool _isFullScreen = false;
+  List<Map<String, dynamic>> imagepaths = [];
+  bool _isLoading = false;
+  final PythonAnywhereService _pythonAnywhereService = PythonAnywhereService();
+
+  Future<void> fetchimages() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final response = await Supabase.instance.client
+          .from('Gallery')
+          .select("*")
+          .eq('Created_by', widget.uuid);
+      imagepaths = List<Map<String, dynamic>>.from(response);
+      print(imagepaths);
+    } catch (e) {
+      print("Supabase error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching Images: $e')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchimages();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,12 +151,15 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16.0),
-                            child: Tile(imagePath: widget.imagePaths[index]),
+                            child: Image.network(
+                                _pythonAnywhereService.getImageUrl("gallery", imagepaths[index]['Filename']),
+                                fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       );
                     },
-                    childCount: widget.imagePaths.length,
+                    childCount: imagepaths.length,
                   ),
                 ),
               ),
@@ -156,7 +194,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
               minScale: 0.5,
               maxScale: 3.0,
               child: PageView.builder(
-                itemCount: widget.imagePaths.length,
+                itemCount: imagepaths.length,
                 controller: pageController,
                 onPageChanged: (index) {
                   setState(() {
@@ -164,8 +202,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                   });
                 },
                 itemBuilder: (context, index) {
-                  return Image.asset(
-                    widget.imagePaths[_currentIndex],
+                  return Image.network(
+                    _pythonAnywhereService.getImageUrl("gallery", imagepaths[index]['Filename']), 
                     fit: BoxFit.contain,
                   );
                 },

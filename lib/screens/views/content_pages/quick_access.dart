@@ -75,9 +75,9 @@ class _QuickAccessPageState extends State<QuickAccessPage>
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = Color(0xFF658CC2);
+    //final primaryColor = Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
-    final themeColor = isDarkMode ? Colors.black : Colors.white;
+    //final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -273,7 +273,7 @@ class _QuickAccessPageState extends State<QuickAccessPage>
             const Spacer(),
             Text(
               phoneNumber,
-              style: GoogleFonts.kanit(fontSize: 14, color: iconColor),
+              style: GoogleFonts.kanit(fontSize: 14, color: Colors.grey),
             ),
           ],
         ),
