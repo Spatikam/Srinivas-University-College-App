@@ -7,7 +7,8 @@ import 'package:rip_college_app/screens/widget_common/image_controls.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ArticleUpload extends StatefulWidget {
-  const ArticleUpload({super.key});
+  final String uuid;
+  const ArticleUpload({super.key, required this.uuid});
 
   @override
   State<ArticleUpload> createState() => _ArticleUploadState();
@@ -50,7 +51,7 @@ class _ArticleUploadState extends State<ArticleUpload> {
     });
 
     try {
-      final data = await Supabase.instance.client.from('Articles').select('*');
+      final data = await Supabase.instance.client.from('Articles').select('*').eq('op_id', widget.uuid);
       setState(() {
         _articles = List<Map<String, dynamic>>.from(data);
       });

@@ -4,7 +4,8 @@ import 'package:flutter_animate/flutter_animate.dart'; // For animations
 import 'package:phosphor_flutter/phosphor_flutter.dart'; // For Phosphor icons
 
 class AddAnnouncementScreen extends StatefulWidget {
-  const AddAnnouncementScreen({super.key});
+  final String uuid;
+  const AddAnnouncementScreen({super.key, required this.uuid});
 
   @override
   State<AddAnnouncementScreen> createState() => _AddAnnouncementScreenState();
@@ -58,6 +59,7 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
       final data = await Supabase.instance.client
           .from('Announcements')
           .select()
+          .eq('owner_id', widget.uuid)
           .order('Created_At', ascending: false)
           .limit(10);
 
@@ -125,13 +127,6 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              AppBar(
-                title: Text("Announcements", style: TextStyle(color: iconColor))
-                    .animate()
-                    .fadeIn(duration: 500.ms),
-                backgroundColor: themeColor,
-                elevation: 0,
-              ),
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(16),

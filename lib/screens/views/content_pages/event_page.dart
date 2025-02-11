@@ -6,39 +6,10 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:async';
 
 
-class SectionTitle extends StatelessWidget {
-  final String title;
-  final VoidCallback onSeeAll;
-
-  const SectionTitle({super.key, required this.title, required this.onSeeAll});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        TextButton(
-          onPressed: onSeeAll,
-          child: Text(
-            "See All",
-            style: GoogleFonts.kanit(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class EventsPage extends StatefulWidget {
-  const EventsPage({super.key});
+  final String uuid;
+  const EventsPage({super.key, required this.uuid});
 
   @override
   _EventsPageState createState() => _EventsPageState();
@@ -94,6 +65,7 @@ class _EventsPageState extends State<EventsPage>
       final data = await Supabase.instance.client
           .from('Events')
           .select()
+          .eq('created_by', widget.uuid)
           .order('Start_date', ascending: true)
           .limit(10);
 
@@ -258,47 +230,47 @@ class _EventsPageState extends State<EventsPage>
                   SizedBox(
                     height: 200,
                     child: _isLoading
-                        ? Center(child: CircularProgressIndicator())
-                        : ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: _events.length,
-                            itemBuilder: (context, index) {
-                              final event = _events[index];
-                              // Build the full image URL from the stored filename.
-                              final imageUrl = (event['Poster_path'] != null &&
-                                      event['Poster_path'].toString().isNotEmpty)
-                                  ? _pythonAnywhereService.getImageUrl(
-                                      "suiet", event['Poster_path'])
-                                  : "assets/images/default_event.jpg";
-                              return GestureDetector(
-                                onTap: () => _showEventDetails(
-                                    context,
-                                    EventCard(
-                                      title: event['Name'] ?? "No Title",
-                                      date: event['Start_date'] != null
-                                          ? event['Start_date']
-                                              .split('T')[0]
-                                          : "",
-                                      venue: event['Venue'] ?? "",
-                                      imagePath: imageUrl,
-                                      description: event['Description'] ?? "",
-                                      contact:
-                                          event['Contact'] ?? "+91 0000000000",
-                                    )),
-                                child: EventCard(
-                                  title: event['Name'] ?? "No Title",
-                                  date: event['Start_date'] != null
-                                      ? event['Start_date'].split('T')[0]
-                                      : "",
-                                  venue: event['Venue'] ?? "",
-                                  imagePath: imageUrl,
-                                  description: event['Description'] ?? "",
-                                  contact: event['Contact'] ??
-                                      "+91 0000000000",
-                                ),
-                              );
-                            },
-                          ),
+                      ? Center(child: CircularProgressIndicator())
+                      : ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: _events.length,
+                          itemBuilder: (context, index) {
+                            final event = _events[index];
+                            // Build the full image URL from the stored filename.
+                            final imageUrl = (event['Poster_path'] != null &&
+                                    event['Poster_path'].toString().isNotEmpty)
+                                ? _pythonAnywhereService.getImageUrl(
+                                    "suiet", event['Poster_path'])
+                                : "assets/images/default_event.jpg";
+                            return GestureDetector(
+                              onTap: () => _showEventDetails(
+                                  context,
+                                  EventCard(
+                                    title: event['Name'] ?? "No Title",
+                                    date: event['Start_date'] != null
+                                        ? event['Start_date']
+                                            .split('T')[0]
+                                        : "",
+                                    venue: event['Venue'] ?? "",
+                                    imagePath: imageUrl,
+                                    description: event['Description'] ?? "",
+                                    contact:
+                                        event['Contact'] ?? "+91 0000000000",
+                                  )),
+                              child: EventCard(
+                                title: event['Name'] ?? "No Title",
+                                date: event['Start_date'] != null
+                                    ? event['Start_date'].split('T')[0]
+                                    : "",
+                                venue: event['Venue'] ?? "",
+                                imagePath: imageUrl,
+                                description: event['Description'] ?? "",
+                                contact: event['Contact'] ??
+                                    "+91 0000000000",
+                              ),
+                            );
+                          },
+                        ),
                   ),
                   SizedBox(height: 30),
                   // Popular Articles Section (example using local asset images)
@@ -342,7 +314,7 @@ class _EventsPageState extends State<EventsPage>
     });
 
     try {
-      final data = await Supabase.instance.client.from('Articles').select('*');
+      final data = await Supabase.instance.client.from('Articles').select('*').eq('op_id', widget.uuid);
       setState(() {
         _articles = List<Map<String, dynamic>>.from(data);
       });
@@ -466,6 +438,38 @@ class _EventsPageState extends State<EventsPage>
   );
 }
     }
+
+
+class SectionTitle extends StatelessWidget {
+  final String title;
+  final VoidCallback onSeeAll;
+
+  const SectionTitle({super.key, required this.title, required this.onSeeAll});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        TextButton(
+          onPressed: onSeeAll,
+          child: Text(
+            "See All",
+            style: GoogleFonts.kanit(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 class CurvedClipper extends CustomClipper<Path> {
   @override

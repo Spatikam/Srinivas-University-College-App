@@ -10,8 +10,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ExplorePage extends StatefulWidget {
   final String collegeName;
+  final String uuid;
 
-  const ExplorePage({super.key, required this.collegeName});
+  const ExplorePage({super.key, required this.collegeName, required this.uuid});
 
   @override
   State<ExplorePage> createState() => _ExplorePageState();
@@ -181,7 +182,7 @@ class _ExplorePageState extends State<ExplorePage> {
 
     try {
       final response =
-          await Supabase.instance.client.from('Placements').select("*");
+          await Supabase.instance.client.from('Placements').select("*").eq('Uploaded_by', widget.uuid);
 
       _placements = List<Map<String, dynamic>>.from(response); // Direct cast
     } catch (e) {
