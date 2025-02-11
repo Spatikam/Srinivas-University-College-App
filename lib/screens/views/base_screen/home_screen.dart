@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }
     });
-    collegeName = widget.collegeName;
+    //collegeName = widget.collegeName;
   }
 
   Future<void> fetchAnnouncements() async {
@@ -255,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'title': 'Events',
         'description': 'All your courses syllabus & guide at your fingertips',
         'icon': PhosphorIcons.clock(),
-        'goto': explore_goto[collegeName]![0],
+        'goto': explore_goto[widget.collegeName]![0],
         'gradient': LinearGradient(
             colors: [Colors.orange.shade300, Colors.orange.shade100]),
       },
@@ -263,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'title': 'PhotoGallery',
         'description': 'Moments captured in time',
         'icon': PhosphorIcons.googlePhotosLogo(),
-        'goto': explore_goto[collegeName]![1],
+        'goto': explore_goto[widget.collegeName]![1],
         'gradient': LinearGradient(
             colors: [Colors.purple.shade300, Colors.purple.shade100]),
       },
@@ -271,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'title': 'Admission',
         'description': 'Join Srinivas to unlock your True Potential',
         'icon': PhosphorIcons.buildings(),
-        'goto': explore_goto[collegeName]![2],
+        'goto': explore_goto[widget.collegeName]![2],
         'gradient': LinearGradient(
             colors: [Colors.blue.shade300, Colors.blue.shade100]),
       },
@@ -279,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'title': 'Quick Access',
         'description': 'Access contacts & our social media handles',
         'icon': PhosphorIcons.gridFour(),
-        'goto': explore_goto[collegeName]![3],
+        'goto': explore_goto[widget.collegeName]![3],
         'gradient': LinearGradient(
             colors: [Colors.green.shade300, Colors.green.shade100]),
       },
