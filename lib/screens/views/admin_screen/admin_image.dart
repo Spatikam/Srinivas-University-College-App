@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rip_college_app/screens/widget_common/image_controls.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ImagePostPage extends StatefulWidget {
@@ -15,29 +16,14 @@ class ImagePostPage extends StatefulWidget {
 class _ImagePostPageState extends State<ImagePostPage> {
   List<XFile>? _selectedImages = [];
   File? _imageFile;
-  //String? _selectedBranch;
-  //String? _selectedEventType;
+  File? _compressedImage;
   bool _isUploading = false;
-
-  /*final List<String> branches = [
-    'Computer Science',
-    'Mechanical Engineering',
-    'Electronics',
-    'Civil Engineering',
-    'Information Technology'
-  ];
-
-  final List<String> eventTypes = [
-    'Cultural',
-    'Technical',
-    'Sports',
-    'Workshop',
-    'Seminar'
-  ];*/
+  final PythonAnywhereService _pythonAnywhereService = PythonAnywhereService();
 
   Future<void> _pickImages() async {
     final ImagePicker picker = ImagePicker();
     final List<XFile> images = await picker.pickMultiImage();
+
     setState(() {
       _selectedImages = images;
     });
@@ -55,21 +41,29 @@ class _ImagePostPageState extends State<ImagePostPage> {
       _isUploading = true;
     });
 
+    var path_url;
+
     try {
-
       for (XFile image_file in _selectedImages!) {
-        final fileName = DateTime.now().millisecondsSinceEpoch.toString();
-        final path = '2f2bf73d-2d57-4080-bd1f-2d7a7b915f09/Events/$fileName';
-
         _imageFile = File(image_file.path);
-        await Supabase.instance.client.storage
-            .from('Proper') // Replace 'Proper' with your bucket name
-            .upload(path, _imageFile!);
-      }
+        _compressedImage =
+            await _pythonAnywhereService.compressImage(_imageFile!);
+        path_url = await _pythonAnywhereService.uploadImage(
+            _compressedImage!, 'gallery');
+        final GalleryData = {
+          'Filename': path_url,
+        };
+        final response = await Supabase.instance.client
+            .from('Gallery')
+            .insert(GalleryData)
+            .select();
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Images updated successfully! File')),
-      );
+        if (response.isNotEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Images updated successfully!')),
+          );
+        }
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error uploading image: ${e.toString()}')),
