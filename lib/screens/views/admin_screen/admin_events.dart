@@ -8,7 +8,8 @@ import 'package:flutter_animate/flutter_animate.dart'; // For animations
 import 'package:phosphor_flutter/phosphor_flutter.dart'; // For Phosphor icons
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final String uuid;
+  const ProfilePage({super.key, required this.uuid});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -90,6 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
       final data = await Supabase.instance.client
           .from('Events')
           .select()
+          .eq('created_by', widget.uuid)
           .order('Start_date', ascending: true)
           .limit(10);
 
@@ -255,13 +257,6 @@ class _ProfilePageState extends State<ProfilePage> {
         child: SafeArea(
           child: Column(
             children: [
-              AppBar(
-                title: Text("Events", style: TextStyle(color: iconColor))
-                    .animate()
-                    .fadeIn(duration: 500.ms),
-                backgroundColor: theme,
-                elevation: 0,
-              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(

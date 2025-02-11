@@ -21,11 +21,12 @@ class _LoginPageState extends State<LoginPage>
   //LOGIN
   Future<void> signInWithEmail(String email, String password) async {
     try {
-      final AuthResponse res = await Supabase.instance.client.auth.signInWithPassword(
+      final AuthResponse res =
+          await Supabase.instance.client.auth.signInWithPassword(
         email: email,
         password: password,
       );
-
+      
       if (res.session != null) {
         setState(() {
           _isLoggedIn = true; // Set user as logged in
@@ -36,12 +37,14 @@ class _LoginPageState extends State<LoginPage>
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => AdminPage()
-            ),
+              builder: (context) => AdminPage(
+                    uuid: res.user!.id,
+                  )),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login failed. Please check your credentials.')),
+          const SnackBar(
+              content: Text('Login failed. Please check your credentials.')),
         );
       }
     } catch (e) {
@@ -51,7 +54,6 @@ class _LoginPageState extends State<LoginPage>
     }
   }
 
-  
   Future<void> logIn() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
@@ -81,19 +83,17 @@ class _LoginPageState extends State<LoginPage>
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async{
-        if(ModalRoute.of(context)?.isCurrent ?? false){
+      onWillPop: () async {
+        if (ModalRoute.of(context)?.isCurrent ?? false) {
           logOut();
           print("Die happy");
         }
         return true;
       },
-      child: 
-      Scaffold(
+      child: Scaffold(
         body: Stack(
           children: [
             // Background Gradient
@@ -161,7 +161,8 @@ class _LoginPageState extends State<LoginPage>
                       transitionBuilder: (child, animation) {
                         return ScaleTransition(scale: animation, child: child);
                       },
-                      child: Icon(PhosphorIcons.userCircle(),
+                      child: Icon(
+                        PhosphorIcons.userCircle(),
                         size: 80,
                         color: Colors.white,
                       ),
@@ -173,7 +174,7 @@ class _LoginPageState extends State<LoginPage>
                         return FadeTransition(opacity: animation, child: child);
                       },
                       child: Text(
-                         "Admin Login",
+                        "Admin Login",
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -212,7 +213,8 @@ class _LoginPageState extends State<LoginPage>
                               labelText: "Email",
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.grey),
+                                borderSide:
+                                    const BorderSide(color: Colors.grey),
                               ),
                             ),
                           ),
@@ -227,17 +229,21 @@ class _LoginPageState extends State<LoginPage>
                                 color: Colors.grey[600],
                               ),
                               labelText: "Password",
-                                suffixIcon: IconButton(
-                                  icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
-                                  onPressed: () {
-                                    setState(() {
-                                      _obscureText = !_obscureText; // Toggle password visibility
-                                    });
-                                  },
+                              suffixIcon: IconButton(
+                                icon: Icon(_obscureText
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
+                                onPressed: () {
+                                  setState(() {
+                                    _obscureText =
+                                        !_obscureText; // Toggle password visibility
+                                  });
+                                },
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.grey),
+                                borderSide:
+                                    const BorderSide(color: Colors.grey),
                               ),
                             ),
                           ),
@@ -245,7 +251,7 @@ class _LoginPageState extends State<LoginPage>
                           // Login Button
                           ElevatedButton(
                             onPressed: () {
-                              _isLoggedIn?{logOut()}:{logIn()};
+                              _isLoggedIn ? {logOut()} : {logIn()};
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFFF6F61),
@@ -256,7 +262,7 @@ class _LoginPageState extends State<LoginPage>
                               ),
                             ),
                             child: Text(
-                              _isLoggedIn? "Log Out":" Log In",
+                              _isLoggedIn ? "Log Out" : " Log In",
                               style: const TextStyle(fontSize: 16),
                             ),
                           ),

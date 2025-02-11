@@ -8,7 +8,8 @@ import 'package:rip_college_app/screens/views/admin_screen/admin_events.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
 
 class AdminPage extends StatefulWidget {
-  const AdminPage({super.key});
+  final String uuid;
+  const AdminPage({super.key, required this.uuid});
 
   @override
   _AdminPageState createState() => _AdminPageState();
@@ -17,12 +18,12 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
   String selectedOption = "Event";
   
-  final Map<String, Widget> optionWidgets = {
-    "Event": ProfilePage(),
-    "Article": ArticleUpload(),
+  late final Map<String, Widget> optionWidgets = {
+    "Event": ProfilePage(uuid: widget.uuid,),
+    "Article": ArticleUpload(uuid: widget.uuid,),
     "Image": ImagePostPage(),
-    "Placement": Placement_Update(),
-    "Announcement": AddAnnouncementScreen(),
+    "Placement": Placement_Update(uuid: widget.uuid,),
+    "Announcement": AddAnnouncementScreen(uuid: widget.uuid,),
   };
 
   @override

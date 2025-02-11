@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                 collegeName: widget.collegeName,
                 uuid: uuid,
               ),
-              ExplorePage(collegeName: widget.collegeName),
+              ExplorePage(collegeName: widget.collegeName, uuid: uuid,),
               PhotoGallery(
                   collegeName: widget.collegeName, imagePaths: ['logo.jpg']),
               CalendarScreen(),

@@ -12,7 +12,8 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 //import 'package:path/path.dart' as path;
 
 class Placement_Update extends StatefulWidget {
-  const Placement_Update({super.key});
+  final String uuid;
+  const Placement_Update({super.key, required this.uuid});
 
   @override
   State<Placement_Update> createState() => _Placement_UpdateState();
@@ -90,7 +91,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
 
     try {
       final data =
-          await Supabase.instance.client.from('Placements').select('*');
+          await Supabase.instance.client.from('Placements').select('*').eq('Uploaded_by', widget.uuid);
 
       setState(() {
         _placements = List<Map<String, dynamic>>.from(data);

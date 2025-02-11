@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildGridView() {
     Map<String, List> explore_goto = {
       'Engineering & Technology': [
-        EventsPage(),
+        EventsPage(uuid: widget.uuid,),
         WebViewPage(
           url: "https://www.suiet.in/gallery-suiet",
           collegeName: widget.collegeName,
@@ -234,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen> {
         QuickAccessApp()
       ],
       'Hotel Management & Tourism': [
-        EventsPage(),
+        EventsPage(uuid: widget.uuid,),
         WebViewPage(
           url:
               "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Student-Life-at-Campus",
