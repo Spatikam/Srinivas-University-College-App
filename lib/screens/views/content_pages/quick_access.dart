@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:rip_college_app/screens/widget_common/web_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:lottie/lottie.dart';
-
-void main() {
-  runApp(const QuickAccessApp());
-}
 
 class QuickAccessApp extends StatelessWidget {
   const QuickAccessApp({super.key});
@@ -72,16 +70,14 @@ class _QuickAccessPageState extends State<QuickAccessPage>
     }
   }
 
-  // Function to open social media links
-  void _launchSocialMedia(String url) async {
-    final Uri socialUri = Uri.parse(url);
-    if (!await launchUrl(socialUri, mode: LaunchMode.externalApplication)) {
-      throw 'Could not launch $socialUri';
-    }
-  }
+  // Fu
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final primaryColor = Color(0xFF658CC2);
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+    final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -128,19 +124,19 @@ class _QuickAccessPageState extends State<QuickAccessPage>
                     children: [
                       _buildQuickAccessCard(
                         context,
-                        icon: Icons.call,
+                        icon: PhosphorIcons.phoneCall(),
                         label: "Call Support",
                         phoneNumber: "+91 1234567890",
                       ),
                       _buildQuickAccessCard(
                         context,
-                        icon: Icons.emergency,
+                        icon: PhosphorIcons.warningCircle(),
                         label: "Emergency",
                         phoneNumber: "+91 9876543210",
                       ),
                       _buildQuickAccessCard(
                         context,
-                        icon: Icons.help,
+                        icon: PhosphorIcons.lifebuoy(),
                         label: "Help Desk",
                         phoneNumber: "+91 5555555555",
                       ),
@@ -156,30 +152,30 @@ class _QuickAccessPageState extends State<QuickAccessPage>
                   const SizedBox(height: 10),
                   _buildCollegeContactCard(
                     context,
-                    icon: Icons.people,
+                    icon: PhosphorIcons.buildingOffice(),
                     label: "Office",
-                    phoneNumber: "+91 1111111111",
+                    phoneNumber: "+91 6366410493",
                   ),
                   const SizedBox(height: 10),
                   _buildCollegeContactCard(
                     context,
-                    icon: Icons.person,
-                    label: "Manager",
-                    phoneNumber: "+91 2222222222",
+                    icon: PhosphorIcons.laptop(),
+                    label: "Admissions",
+                    phoneNumber: "0824 2412382",
                   ),
                   const SizedBox(height: 10),
                   _buildCollegeContactCard(
                     context,
-                    icon: Icons.school,
-                    label: "HOD",
-                    phoneNumber: "+91 3333333333",
+                    icon: PhosphorIcons.graduationCap(),
+                    label: "Webflow",
+                    phoneNumber: "+91 9876543210",
                   ),
                   const SizedBox(height: 30),
                   // Social Media Card
                   Text(
                     "Connect with Us",
                     style: GoogleFonts.kanit(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                        fontSize: 18, fontWeight: FontWeight.bold, color: iconColor),
                   ),
                   const SizedBox(height: 10),
                   _buildSocialMediaCard(context),
@@ -188,15 +184,6 @@ class _QuickAccessPageState extends State<QuickAccessPage>
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.access_time), label: "Quick Access"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle), label: "Account"),
-        ],
       ),
     );
   }
@@ -208,6 +195,10 @@ class _QuickAccessPageState extends State<QuickAccessPage>
     required String label,
     required String phoneNumber,
   }) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    //final primaryColor = Color(0xFF658CC2);
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+    //final themeColor = isDarkMode ? Colors.black : Colors.white;
     return GestureDetector(
       onTap: () => _makePhoneCall(phoneNumber),
       child: Container(
@@ -218,7 +209,7 @@ class _QuickAccessPageState extends State<QuickAccessPage>
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
+              color: iconColor.withOpacity(0.3),
               spreadRadius: 2,
               blurRadius: 5,
               offset: const Offset(0, 3),
@@ -228,12 +219,12 @@ class _QuickAccessPageState extends State<QuickAccessPage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 30, color: Theme.of(context).primaryColor),
+            Icon(icon, size: 30, color: iconColor),
             const SizedBox(height: 10),
             Text(
               label,
               style:
-                  GoogleFonts.kanit(fontSize: 12, fontWeight: FontWeight.bold),
+                  GoogleFonts.kanit(fontSize: 12, fontWeight: FontWeight.bold, color: iconColor),
               textAlign: TextAlign.center,
             ),
           ],
@@ -249,6 +240,10 @@ class _QuickAccessPageState extends State<QuickAccessPage>
     required String label,
     required String phoneNumber,
   }) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    //final primaryColor = Color(0xFF658CC2);
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+    //final themeColor = isDarkMode ? Colors.black : Colors.white;
     return GestureDetector(
       onTap: () => _makePhoneCall(phoneNumber),
       child: Container(
@@ -259,7 +254,7 @@ class _QuickAccessPageState extends State<QuickAccessPage>
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
+              color: iconColor.withOpacity(0.3),
               spreadRadius: 2,
               blurRadius: 5,
               offset: const Offset(0, 3),
@@ -268,17 +263,17 @@ class _QuickAccessPageState extends State<QuickAccessPage>
         ),
         child: Row(
           children: [
-            Icon(icon, size: 30, color: Theme.of(context).primaryColor),
+            Icon(icon, size: 30, color: iconColor),
             const SizedBox(width: 10),
             Text(
               label,
               style:
-                  GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold),
+                  GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold, color: iconColor),
             ),
             const Spacer(),
             Text(
               phoneNumber,
-              style: GoogleFonts.kanit(fontSize: 14, color: Colors.grey),
+              style: GoogleFonts.kanit(fontSize: 14, color: iconColor),
             ),
           ],
         ),
@@ -310,18 +305,33 @@ class _QuickAccessPageState extends State<QuickAccessPage>
             children: [
               _buildSocialMediaIcon(
                 context,
-                lottieAsset: "assets/lottie/instagram.json",
-                onTap: () => _launchSocialMedia("https://instagram.com"),
+                lottieAsset: "assets/icons/telegram.json",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WebViewPage(url: "https://telegram.openinapp.link/fkawd")),
+                  );
+                },
               ),
               _buildSocialMediaIcon(
                 context,
-                lottieAsset: "assets/lottie/linkedin.json",
-                onTap: () => _launchSocialMedia("https://linkedin.com"),
+                lottieAsset: "assets/icons/insta.json",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WebViewPage(url: "https://www.instagram.com/suiet_mukka?igsh=MTVrcTJpNW5uZnBxNA==")),
+                  );
+                },
               ),
               _buildSocialMediaIcon(
                 context,
-                lottieAsset: "assets/lottie/whatsapp.json",
-                onTap: () => _launchSocialMedia("https://whatsapp.com"),
+                lottieAsset: "assets/icons/linkedin.json",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WebViewPage(url: "https://www.linkedin.com/company/srinivasuniversity/?originalSubdomain=in")),
+                  );
+                },
               ),
             ],
           ),
