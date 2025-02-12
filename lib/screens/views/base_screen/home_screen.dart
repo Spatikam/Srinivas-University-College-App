@@ -10,7 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   final String collegeName;
-  final String uuid;
+  final String? uuid;
 
   const HomeScreen({super.key, required this.collegeName, required this.uuid});
 
@@ -66,12 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _isLoading = true;
     });
-    if(widget.uuid!=""){
+    if(widget.uuid!=null){
       try {
         var response = await Supabase.instance.client
             .from('Events')
             .select()
-            .eq('created_by', widget.uuid)
+            .eq('created_by', widget.uuid as Object)
             .order('Start_date', ascending: true)
             .limit(10);
 
@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
         response = await Supabase.instance.client
             .from('Announcements')
             .select()
-            .eq('owner_id', widget.uuid)
+            .eq('owner_id', widget.uuid as Object)
             .order('Created_At', ascending: false)
             .limit(10);
         _announcements = List<Map<String, dynamic>>.from(response);
@@ -218,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildGridView() {
-    Map<String, List> explore_goto = {
+    Map<String, List> exploreGoto = {
       'Engineering & Technology': [
         EventsPage(uuid: widget.uuid,),
         WebViewPage(
@@ -250,12 +250,12 @@ class _HomeScreenState extends State<HomeScreen> {
         QuickAccessApp()
       ]
     };
-    final List explore_section = [
+    final List exploreSection = [
       {
         'title': 'Events',
         'description': 'All your courses syllabus & guide at your fingertips',
         'icon': PhosphorIcons.clock(),
-        'goto': explore_goto[widget.collegeName]![0],
+        'goto': exploreGoto[widget.collegeName]![0],
         'gradient': LinearGradient(
             colors: [Colors.orange.shade300, Colors.orange.shade100]),
       },
@@ -263,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'title': 'PhotoGallery',
         'description': 'Moments captured in time',
         'icon': PhosphorIcons.googlePhotosLogo(),
-        'goto': explore_goto[widget.collegeName]![1],
+        'goto': exploreGoto[widget.collegeName]![1],
         'gradient': LinearGradient(
             colors: [Colors.purple.shade300, Colors.purple.shade100]),
       },
@@ -271,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'title': 'Admission',
         'description': 'Join Srinivas to unlock your True Potential',
         'icon': PhosphorIcons.buildings(),
-        'goto': explore_goto[widget.collegeName]![2],
+        'goto': exploreGoto[widget.collegeName]![2],
         'gradient': LinearGradient(
             colors: [Colors.blue.shade300, Colors.blue.shade100]),
       },
@@ -279,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'title': 'Quick Access',
         'description': 'Access contacts & our social media handles',
         'icon': PhosphorIcons.gridFour(),
-        'goto': explore_goto[widget.collegeName]![3],
+        'goto': exploreGoto[widget.collegeName]![3],
         'gradient': LinearGradient(
             colors: [Colors.green.shade300, Colors.green.shade100]),
       },
@@ -294,15 +294,15 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisSpacing: 10,
           crossAxisSpacing: 16,
         ),
-        itemCount: explore_section.length,
+        itemCount: exploreSection.length,
         itemBuilder: (context, index) {
           return _buildSection(
-            gradient: explore_section[index]['gradient'],
-            icon: explore_section[index]['icon'],
-            title: explore_section[index]['title'],
-            description: explore_section[index]['description'],
+            gradient: exploreSection[index]['gradient'],
+            icon: exploreSection[index]['icon'],
+            title: exploreSection[index]['title'],
+            description: exploreSection[index]['description'],
             index: index,
-            goto: explore_section[index]['goto'],
+            goto: exploreSection[index]['goto'],
           );
         },
       ),

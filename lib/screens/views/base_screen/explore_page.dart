@@ -10,7 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ExplorePage extends StatefulWidget {
   final String collegeName;
-  final String uuid;
+  final String? uuid;
 
   const ExplorePage({super.key, required this.collegeName, required this.uuid});
 
@@ -47,12 +47,13 @@ class _ExplorePageState extends State<ExplorePage> {
         'title': 'News',
         'icon': Icons.newspaper,
         'gotoPage': WebViewPage(
-          url: "https://www.suiet.in/",
+          url:
+              "https://youtube.com/@mediaandpresssrinivasunive4484?si=mJpfo3mlo4Kzo2xz",
           collegeName: widget.collegeName,
         )
       },
       {
-        'title': 'Aluminus',
+        'title': 'Alumnus',
         'icon': PhosphorIcons.users(),
         'gotoPage': WebViewPage(
           url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
@@ -106,7 +107,7 @@ class _ExplorePageState extends State<ExplorePage> {
         )
       },
       {
-        'title': 'Alumni',
+        'title': 'Alumnus',
         'icon': Icons.event,
         'gotoPage': WebViewPage(
           url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
@@ -179,21 +180,24 @@ class _ExplorePageState extends State<ExplorePage> {
     setState(() {
       _isLoading = true;
     });
+    if (widget.uuid != null) {
+      try {
+        final response = await Supabase.instance.client
+            .from('Placements')
+            .select("*")
+            .eq('Uploaded_by', widget.uuid as Object);
 
-    try {
-      final response =
-          await Supabase.instance.client.from('Placements').select("*").eq('Uploaded_by', widget.uuid);
-
-      _placements = List<Map<String, dynamic>>.from(response); // Direct cast
-    } catch (e) {
-      print("Supabase error: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching Placements: $e')),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+        _placements = List<Map<String, dynamic>>.from(response); // Direct cast
+      } catch (e) {
+        print("Supabase error: $e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error fetching Placements: $e')),
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 

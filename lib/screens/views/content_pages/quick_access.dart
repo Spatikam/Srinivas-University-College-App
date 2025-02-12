@@ -69,8 +69,13 @@ class _QuickAccessPageState extends State<QuickAccessPage>
       throw 'Could not launch $phoneUri';
     }
   }
-
-  // Fu
+// Function to open social media links
+  void _launchSocialMedia(String url) async {
+    final Uri socialUri = Uri.parse(url);
+    if (!await launchUrl(socialUri, mode: LaunchMode.externalApplication)) {
+      throw 'Could not launch $socialUri';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -306,33 +311,18 @@ class _QuickAccessPageState extends State<QuickAccessPage>
               _buildSocialMediaIcon(
                 context,
                 lottieAsset: "assets/icons/telegram.json",
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => WebViewPage(url: "https://telegram.openinapp.link/fkawd")),
-                  );
-                },
+                onTap: () => _launchSocialMedia("https://t.me/+VcEa0Iz-mICpQZ_T"),
               ),
               _buildSocialMediaIcon(
                 context,
                 lottieAsset: "assets/icons/insta.json",
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => WebViewPage(url: "https://www.instagram.com/suiet_mukka?igsh=MTVrcTJpNW5uZnBxNA==")),
-                  );
-                },
+                onTap: () => _launchSocialMedia("https://www.instagram.com/suiet_mukka?igsh=MTVrcTJpNW5uZnBxNA=="),
               ),
               _buildSocialMediaIcon(
                 context,
                 lottieAsset: "assets/icons/linkedin.json",
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => WebViewPage(url: "https://www.linkedin.com/company/srinivasuniversity/?originalSubdomain=in")),
-                  );
-                },
-              ),
+                onTap: (() => _launchSocialMedia('https://www.linkedin.com/company/srinivasuniversity/?originalSubdomain=in')),
+              )
             ],
           ),
         ],

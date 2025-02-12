@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,7 +8,8 @@ import 'package:rip_college_app/screens/widget_common/image_controls.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ImagePostPage extends StatefulWidget {
-  const ImagePostPage({super.key});
+  final String uuid;
+  const ImagePostPage({super.key, required this.uuid});
 
   @override
   _ImagePostPageState createState() => _ImagePostPageState();
@@ -18,7 +20,27 @@ class _ImagePostPageState extends State<ImagePostPage> {
   File? _imageFile;
   File? _compressedImage;
   bool _isUploading = false;
+  bool _isLoading = false;
+  bool _isLoggedIn = false;
+  List<Map<String, dynamic>> imagepaths = [];
   final PythonAnywhereService _pythonAnywhereService = PythonAnywhereService();
+
+  @override
+  void initState() {
+    super.initState();
+    _checkAuthStatus();
+    print("DIE");
+  }
+
+  Future<void> _checkAuthStatus() async {
+    final user = Supabase.instance.client.auth.currentUser;
+    setState(() {
+      _isLoggedIn = user != null;
+    });
+    if (_isLoggedIn) {
+      fetchimages();
+    }
+  }
 
   Future<void> _pickImages() async {
     final ImagePicker picker = ImagePicker();
@@ -27,6 +49,29 @@ class _ImagePostPageState extends State<ImagePostPage> {
     setState(() {
       _selectedImages = images;
     });
+  }
+
+  Future<void> fetchimages() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      print('LIVE');
+      final response = await Supabase.instance.client
+          .from('Gallery')
+          .select("*")
+          .eq('Created_by', widget.uuid);
+      imagepaths = List<Map<String, dynamic>>.from(response);
+    } catch (e) {
+      print("Supabase error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching Images: $e')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   Future<void> uploadImage() async {
@@ -41,17 +86,17 @@ class _ImagePostPageState extends State<ImagePostPage> {
       _isUploading = true;
     });
 
-    var path_url;
+    String? pathUrl;
 
     try {
       for (XFile image_file in _selectedImages!) {
         _imageFile = File(image_file.path);
         _compressedImage =
             await _pythonAnywhereService.compressImage(_imageFile!);
-        path_url = await _pythonAnywhereService.uploadImage(
+        pathUrl = await _pythonAnywhereService.uploadImage(
             _compressedImage!, 'gallery');
         final GalleryData = {
-          'Filename': path_url,
+          'Filename': pathUrl,
         };
         final response = await Supabase.instance.client
             .from('Gallery')
@@ -75,6 +120,40 @@ class _ImagePostPageState extends State<ImagePostPage> {
     }
   }
 
+  Future<void> deleteimage(String Filename) async {
+    try {
+      await Supabase.instance.client
+          .from('Gallery')
+          .delete()
+          .eq('Filename', Filename);
+
+      int index = imagepaths
+          .indexWhere((imagePath) => imagePath['Filename'] == Filename);
+
+      bool isDeleted = await _pythonAnywhereService.deleteImage(
+          "gallery",
+          _pythonAnywhereService.getImageUrl(
+              "gallery", imagepaths[index]['Filename']));
+
+      if (isDeleted) {
+        print("Image deleted successfully!");
+      } else {
+        print("Failed to delete image.");
+      }
+      setState(() {
+        imagepaths
+            .removeWhere((imagePath) => imagePath['Filename'] == Filename);
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Images Detail deleted successfully!')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error deleting Images Detail: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +165,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Upload Event Images',
+                'Upload Images',
                 style: GoogleFonts.kanit(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -144,7 +223,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
                   ),
                   onPressed: _isUploading ? null : uploadImage,
                   child: Text(
-                    'Submit',
+                    'Upload',
                     style: GoogleFonts.kanit(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -153,6 +232,51 @@ class _ImagePostPageState extends State<ImagePostPage> {
                   ),
                 ),
               ),
+              if (_isLoading)
+                /*const CircularProgressIndicator()
+                        .animate()
+                        .fadeIn(duration: 500.ms)*/
+
+                if (!_isLoading)
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: imagepaths.length,
+                    itemBuilder: (context, index) {
+                      final imagePath = imagepaths[index];
+                      return Card(
+                        margin: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          title: Text(imagePath['Filename']),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.network(
+                                _pythonAnywhereService.getImageUrl(
+                                    "gallery", imagepaths[index]['Filename']),
+                                fit: BoxFit.cover,
+                              ),
+                              IconButton(
+                                icon:
+                                    const Icon(Icons.delete, color: Colors.red),
+                                onPressed: () {
+                                  if (imagePath['Filename'] != null) {
+                                    deleteimage(imagePath['Filename']);
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              'Filename is missing. Cannot delete.')),
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ).animate().fadeIn(delay: (100 * index).ms);
+                    },
+                  ),
             ],
           ),
         ),

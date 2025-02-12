@@ -7,7 +7,7 @@ import 'package:rip_college_app/screens/widget_common/image_controls.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PhotoGallery extends StatefulWidget {
-  final String uuid;
+  final String? uuid;
   final String collegeName;
 
   const PhotoGallery(
@@ -28,22 +28,24 @@ class _PhotoGalleryState extends State<PhotoGallery> {
     setState(() {
       _isLoading = true;
     });
-    try {
-      final response = await Supabase.instance.client
-          .from('Gallery')
-          .select("*")
-          .eq('Created_by', widget.uuid);
-      imagepaths = List<Map<String, dynamic>>.from(response);
-      print(imagepaths);
-    } catch (e) {
-      print("Supabase error: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching Images: $e')),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+    if (widget.uuid != null) {
+      try {
+        final response = await Supabase.instance.client
+            .from('Gallery')
+            .select("*")
+            .eq('Created_by', widget.uuid as Object);
+        imagepaths = List<Map<String, dynamic>>.from(response);
+        print(imagepaths);
+      } catch (e) {
+        print("Supabase error: $e");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error fetching Images: $e')),
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -152,8 +154,9 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16.0),
                             child: Image.network(
-                                _pythonAnywhereService.getImageUrl("gallery", imagepaths[index]['Filename']),
-                                fit: BoxFit.cover,
+                              _pythonAnywhereService.getImageUrl(
+                                  "gallery", imagepaths[index]['Filename']),
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -203,7 +206,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                 },
                 itemBuilder: (context, index) {
                   return Image.network(
-                    _pythonAnywhereService.getImageUrl("gallery", imagepaths[index]['Filename']), 
+                    _pythonAnywhereService.getImageUrl(
+                        "gallery", imagepaths[index]['Filename']),
                     fit: BoxFit.contain,
                   );
                 },
