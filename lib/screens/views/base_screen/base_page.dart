@@ -22,7 +22,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   int _currentIndex = 0;
   final _controller = PageController(initialPage: 0);
   bool change_page = true;
-  String uuid = "";
+  String? uuid;
 
   Future<void> fetchUserId() async {
     try {
@@ -31,7 +31,9 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
           .select('uuid')
           .eq('College', widget.collegeName)
           .maybeSingle();
-      uuid = response!['uuid'];
+      setState(() {
+        uuid = response!['uuid'];
+      });
     } catch (e) {
       print("Supabase error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
@@ -43,11 +45,11 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   @override
   void initState() {
     super.initState();
+    fetchUserId();
   }
 
   @override
   Widget build(BuildContext context) {
-    fetchUserId();
     double height = 56;
     final primaryColor = Color(0xFF658CC2);
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;

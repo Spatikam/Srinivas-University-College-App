@@ -5,10 +5,8 @@ import 'package:rip_college_app/screens/widget_common/web_view.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:async';
 
-
-
 class EventsPage extends StatefulWidget {
-  final String uuid;
+  final String? uuid;
   const EventsPage({super.key, required this.uuid});
 
   @override
@@ -21,8 +19,6 @@ class _EventsPageState extends State<EventsPage>
   late Animation<double> _animation;
   final PythonAnywhereService _pythonAnywhereService = PythonAnywhereService();
 
-  
-
   List<Map<String, dynamic>> _events = [];
   List<Map<String, dynamic>> _articles = [];
   bool _isLoading = false;
@@ -30,7 +26,7 @@ class _EventsPageState extends State<EventsPage>
   @override
   void initState() {
     super.initState();
-    
+
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: this,
@@ -46,7 +42,6 @@ class _EventsPageState extends State<EventsPage>
     _controller.forward();
     fetchEvents();
     fetchArticles();
-   
   }
 
   @override
@@ -56,31 +51,32 @@ class _EventsPageState extends State<EventsPage>
   }
 
   // Fetch events from Supabase.
- Future<void> fetchEvents() async {
+  Future<void> fetchEvents() async {
     setState(() {
       _isLoading = true;
     });
 
-    try {
-      final data = await Supabase.instance.client
-          .from('Events')
-          .select()
-          .eq('created_by', widget.uuid)
-          .order('Start_date', ascending: true)
-          .limit(10);
+    if (widget.uuid != null) {
+      try {
+        final data = await Supabase.instance.client
+            .from('Events')
+            .select()
+            .eq('created_by', widget.uuid as Object)
+            .order('Start_date', ascending: true)
+            .limit(10);
 
-          _events = List<Map<String, dynamic>>.from(data as List);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching events: $e')),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+        _events = List<Map<String, dynamic>>.from(data as List);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error fetching events: $e')),
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
-
 
   // Show event details in a modal bottom sheet.
   void _showEventDetails(BuildContext context, EventCard event) {
@@ -144,7 +140,8 @@ class _EventsPageState extends State<EventsPage>
                     context,
                     MaterialPageRoute(
                         builder: (context) => WebViewPage(
-                            url: "https://www.suiet.in/", appbar_display: true))),
+                            url: "https://www.suiet.in/",
+                            appbar_display: true))),
                 child: Text(
                   "Visit Website",
                   style: GoogleFonts.kanit(
@@ -188,8 +185,7 @@ class _EventsPageState extends State<EventsPage>
               ),
             ),
             Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+              padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -230,47 +226,47 @@ class _EventsPageState extends State<EventsPage>
                   SizedBox(
                     height: 200,
                     child: _isLoading
-                      ? Center(child: CircularProgressIndicator())
-                      : ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: _events.length,
-                          itemBuilder: (context, index) {
-                            final event = _events[index];
-                            // Build the full image URL from the stored filename.
-                            final imageUrl = (event['Poster_path'] != null &&
-                                    event['Poster_path'].toString().isNotEmpty)
-                                ? _pythonAnywhereService.getImageUrl(
-                                    "suiet", event['Poster_path'])
-                                : "assets/images/default_event.jpg";
-                            return GestureDetector(
-                              onTap: () => _showEventDetails(
-                                  context,
-                                  EventCard(
-                                    title: event['Name'] ?? "No Title",
-                                    date: event['Start_date'] != null
-                                        ? event['Start_date']
-                                            .split('T')[0]
-                                        : "",
-                                    venue: event['Venue'] ?? "",
-                                    imagePath: imageUrl,
-                                    description: event['Description'] ?? "",
-                                    contact:
-                                        event['Contact'] ?? "+91 0000000000",
-                                  )),
-                              child: EventCard(
-                                title: event['Name'] ?? "No Title",
-                                date: event['Start_date'] != null
-                                    ? event['Start_date'].split('T')[0]
-                                    : "",
-                                venue: event['Venue'] ?? "",
-                                imagePath: imageUrl,
-                                description: event['Description'] ?? "",
-                                contact: event['Contact'] ??
-                                    "+91 0000000000",
-                              ),
-                            );
-                          },
-                        ),
+                        ? Center(child: CircularProgressIndicator())
+                        : ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: _events.length,
+                            itemBuilder: (context, index) {
+                              final event = _events[index];
+                              // Build the full image URL from the stored filename.
+                              final imageUrl = (event['Poster_path'] != null &&
+                                      event['Poster_path']
+                                          .toString()
+                                          .isNotEmpty)
+                                  ? _pythonAnywhereService.getImageUrl(
+                                      "suiet", event['Poster_path'])
+                                  : "assets/images/default_event.jpg";
+                              return GestureDetector(
+                                onTap: () => _showEventDetails(
+                                    context,
+                                    EventCard(
+                                      title: event['Name'] ?? "No Title",
+                                      date: event['Start_date'] != null
+                                          ? event['Start_date'].split('T')[0]
+                                          : "",
+                                      venue: event['Venue'] ?? "",
+                                      imagePath: imageUrl,
+                                      description: event['Description'] ?? "",
+                                      contact:
+                                          event['Contact'] ?? "+91 0000000000",
+                                    )),
+                                child: EventCard(
+                                  title: event['Name'] ?? "No Title",
+                                  date: event['Start_date'] != null
+                                      ? event['Start_date'].split('T')[0]
+                                      : "",
+                                  venue: event['Venue'] ?? "",
+                                  imagePath: imageUrl,
+                                  description: event['Description'] ?? "",
+                                  contact: event['Contact'] ?? "+91 0000000000",
+                                ),
+                              );
+                            },
+                          ),
                   ),
                   SizedBox(height: 30),
                   // Popular Articles Section (example using local asset images)
@@ -285,20 +281,26 @@ class _EventsPageState extends State<EventsPage>
                   ),
                   SizedBox(height: 10),
                   ListView.builder(
-  shrinkWrap: true,
-  physics: NeverScrollableScrollPhysics(),
-  itemCount: _articles.length,
-  itemBuilder: (context, index) {  
-    return GestureDetector(
-      onTap: () => _showArticleDetails(context, _articles[index].map((key, value) => MapEntry(key, value.toString()))),
-      child: _buildArticleCard(
-        imagePath: 'assets/images/default.jpg', // Match stored field
-        title: _articles[index]['Heading'] ?? 'No Title', // Match stored field
-        author: _articles[index]['Published_by'] ?? 'Unknown Author', // Match stored field
-      ),
-    );
-  },
-),
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: _articles.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () => _showArticleDetails(
+                            context,
+                            _articles[index].map((key, value) =>
+                                MapEntry(key, value.toString()))),
+                        child: _buildArticleCard(
+                          imagePath:
+                              'assets/images/default.jpg', // Match stored field
+                          title: _articles[index]['Heading'] ??
+                              'No Title', // Match stored field
+                          author: _articles[index]['Published_by'] ??
+                              'Unknown Author', // Match stored field
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -308,13 +310,16 @@ class _EventsPageState extends State<EventsPage>
     );
   }
 
-   Future<void> fetchArticles() async {
+  Future<void> fetchArticles() async {
     setState(() {
       _isLoading = true;
     });
 
     try {
-      final data = await Supabase.instance.client.from('Articles').select('*').eq('op_id', widget.uuid);
+      final data = await Supabase.instance.client
+          .from('Articles')
+          .select('*')
+          .eq('op_id', widget.uuid as Object);
       setState(() {
         _articles = List<Map<String, dynamic>>.from(data);
       });
@@ -330,115 +335,115 @@ class _EventsPageState extends State<EventsPage>
   }
 
   Widget _buildArticleCard({
-  required String imagePath,
-  required String title,
-  required String author,
-}) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 10),
-    decoration: BoxDecoration(
-      color: Theme.of(context).cardColor,
-      borderRadius: BorderRadius.circular(10),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.grey.withOpacity(0.3),
-          spreadRadius: 2,
-          blurRadius: 5,
-          offset: Offset(0, 3),
-        ),
-      ],
-    ),
-    child: Row(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
-          child: Image.asset('assets/images/book2.jpeg',
-            height: 100,
-            width: 100,
-            fit: BoxFit.cover,
+    required String imagePath,
+    required String title,
+    required String author,
+  }) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3),
           ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: GoogleFonts.kanit(
-                      fontSize: 14, fontWeight: FontWeight.bold),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(height: 5),
-                Text(
-                  author,
-                  style: GoogleFonts.kanit(fontSize: 12, color: Colors.grey),
-                ),
-              ],
+        ],
+      ),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+            child: Image.asset(
+              'assets/images/book2.jpeg',
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.kanit(
+                        fontSize: 14, fontWeight: FontWeight.bold),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    author,
+                    style: GoogleFonts.kanit(fontSize: 12, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   void _showArticleDetails(BuildContext context, Map<String, String> article) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
-    builder: (context) {
-      return Container(
-        height: MediaQuery.of(context).size.height * 0.75,
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.asset(
-                'assets/images/book2.jpeg',
-                height: 200,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              article['Heading']!,
-              style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              "Published by: ${article['Published_by']!}",
-              style: GoogleFonts.kanit(fontSize: 16),
-            ),
-            SizedBox(height: 20),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Text(
-                  article['Description']!,
-                  style: GoogleFonts.kanit(fontSize: 16),
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.75,
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          padding: EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  'assets/images/book2.jpeg',
+                  height: 200,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
+              SizedBox(height: 20),
+              Text(
+                article['Heading']!,
+                style: GoogleFonts.kanit(
+                    fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "Published by: ${article['Published_by']!}",
+                style: GoogleFonts.kanit(fontSize: 16),
+              ),
+              SizedBox(height: 20),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Text(
+                    article['Description']!,
+                    style: GoogleFonts.kanit(fontSize: 16),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
-    }
-
 
 class SectionTitle extends StatelessWidget {
   final String title;
@@ -476,7 +481,8 @@ class CurvedClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final path = Path();
     path.lineTo(0, size.height - 100);
-    path.quadraticBezierTo(size.width / 2, size.height, size.width, size.height - 100);
+    path.quadraticBezierTo(
+        size.width / 2, size.height, size.width, size.height - 100);
     path.lineTo(size.width, 0);
     path.close();
     return path;
@@ -491,7 +497,11 @@ class AnimatedCategoryCard extends StatefulWidget {
   final int maxCount;
   final Color color;
 
-  const AnimatedCategoryCard({super.key, required this.title, required this.maxCount, required this.color});
+  const AnimatedCategoryCard(
+      {super.key,
+      required this.title,
+      required this.maxCount,
+      required this.color});
 
   @override
   _AnimatedCategoryCardState createState() => _AnimatedCategoryCardState();
@@ -534,7 +544,8 @@ class _AnimatedCategoryCardState extends State<AnimatedCategoryCard> {
             SizedBox(height: 5),
             Text(
               "$currentCount",
-              style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold),
+              style:
+                  GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -571,8 +582,7 @@ class EventCard extends StatelessWidget {
         height: 100,
         width: double.infinity,
         fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) =>
-            Icon(Icons.error),
+        errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
       );
     } else {
       imageWidget = Image.asset(

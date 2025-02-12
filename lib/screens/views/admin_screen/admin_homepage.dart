@@ -21,7 +21,7 @@ class _AdminPageState extends State<AdminPage> {
   late final Map<String, Widget> optionWidgets = {
     "Event": ProfilePage(uuid: widget.uuid,),
     "Article": ArticleUpload(uuid: widget.uuid,),
-    "Image": ImagePostPage(),
+    "Image": ImagePostPage(uuid: widget.uuid,),
     "Placement": Placement_Update(uuid: widget.uuid,),
     "Announcement": AddAnnouncementScreen(uuid: widget.uuid,),
   };

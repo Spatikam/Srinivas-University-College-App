@@ -6,14 +6,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-Map<DateTime, List<String>> predefinedEvents = {
-  DateTime.utc(2025, 1, 1): ['New Year, January 1, happy holiday!'],
-  DateTime.utc(2025, 1, 15): ['Founding day of Srinivas University'],
-  DateTime.utc(2025, 1, 26): ['Republic day, January 26, happy holiday!'],
-  DateTime.utc(2025, 2, 1): ['Inter college Sports day of Srinivas University'],
-  DateTime.utc(2025, 2, 5): ['Workshop on Flutter and Dart'],
-  DateTime.utc(2025, 3, 18): ['Sem end exams begin'],
-};
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -42,6 +34,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }, // Feb 20, 10 AM
   ];
 
+  Map<DateTime, List<String>> predefinedEvents = {
+  DateTime.utc(2025, 1, 1): ['New Year'],
+  DateTime.utc(2025, 2, 14): ['Founder\'s day of Srinivas University'],
+  DateTime.utc(2025, 1, 26): ['Republic day, January 26, happy holiday!'],
+};
+
+
   @override
   void initState() {
     super.initState();
@@ -51,10 +50,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     _scheduleEventNotifications();
   }
 
-  List<String> _getEventsForDay(DateTime day) {
-    final normalizedDay = DateTime(day.year, day.month, day.day); 
-    return events[normalizedDay] ?? [];
-  }
+  List<String> _getEventsForDay(DateTime day) => events[day] ?? [];
 
   List<Map<String, dynamic>> _getEventsForMonth() => events.entries
       .where((entry) => entry.key.month == focusedDay.month)

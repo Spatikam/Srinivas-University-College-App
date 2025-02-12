@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:rip_college_app/screens/views/content_pages/event_page.dart';
 import 'package:rip_college_app/screens/widget_common/image_controls.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart'; // For animations
 import 'package:phosphor_flutter/phosphor_flutter.dart'; // For Phosphor icons
+import 'package:intl/intl.dart'; // For formatting date/time
 
 class ProfilePage extends StatefulWidget {
   final String uuid;
@@ -16,17 +17,17 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  // Controllers for event details.
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _eventDescController = TextEditingController();
   final TextEditingController _eventVenueController = TextEditingController();
+  final TextEditingController _startDateController = TextEditingController();
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endDateController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
   final TextEditingController _linkController = TextEditingController();
   final TextEditingController _contactController = TextEditingController();
   final TextEditingController _attachmentController = TextEditingController();
-
-
 
   File? _imageFile;
   bool _isLoggedIn = false;
@@ -35,8 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool _isLoading = false;
   bool _isUploading = false;
   File? _compressedImage;
- //final CloudinaryService _cloudinaryService = CloudinaryService();
- final PythonAnywhereService _pythonAnywhereService = PythonAnywhereService();
+  final PythonAnywhereService _pythonAnywhereService = PythonAnywhereService();
 
   @override
   void initState() {
@@ -60,15 +60,13 @@ class _ProfilePageState extends State<ProfilePage> {
           .from('Events')
           .delete()
           .eq('Event_Id', eventId);
-          int index = _events.indexWhere((event) => event['Event_Id'] == eventId);
-          bool isDeleted = await _pythonAnywhereService.deleteImage("suiet", _events[index]['Poster_path']);
-          
-    if (isDeleted) {
-      print("\n\nImage Deleted Successfully\n\n");
-    }else{
-      print("\n\nImage Deletion Failed\n\n");
-    }
-    
+      int index = _events.indexWhere((event) => event['Event_Id'] == eventId);
+      bool isDeleted = await _pythonAnywhereService.deleteImage("suiet", _events[index]['Poster_path']);
+      if (isDeleted) {
+        print("\n\nImage Deleted Successfully\n\n");
+      } else {
+        print("\n\nImage Deletion Failed\n\n");
+      }
       setState(() {
         _events.removeWhere((event) => event['Event_Id'] == eventId);
       });
@@ -86,24 +84,23 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _isLoading = true;
     });
-
-    try {
-      final data = await Supabase.instance.client
-          .from('Events')
-          .select()
-          .eq('created_by', widget.uuid)
-          .order('Start_date', ascending: true)
-          .limit(10);
-
-          _events = List<Map<String, dynamic>>.from(data as List);
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching events: $e')),
-      );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+    if (widget.uuid != "") {
+      try {
+        final data = await Supabase.instance.client
+            .from('Events')
+            .select()
+            .order('Start_date', ascending: true)
+            .limit(10);
+        _events = List<Map<String, dynamic>>.from(data as List);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error fetching events: $e')),
+        );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -115,56 +112,50 @@ class _ProfilePageState extends State<ProfilePage> {
       );
       return;
     }
-
     setState(() {
       _isUploading = true;
     });
-
     // If an image was selected, attempt to upload it.
     String? linkPath;
     if (_selectedImage != null) {
       linkPath = await uploadImage();
     }
-
-    // Build the event data, including the image URL if available.
+    // Build the event data.
     final eventData = {
       'Name': _eventNameController.text,
       'Description': _eventDescController.text,
-      'Venue': _eventVenueController.text,
-      'Start_date': DateTime.now().toIso8601String(),
+      'Venue': (_eventVenueController.text!="")?_eventVenueController.text:null,
+      'Start_date': (_startDateController.text!="")?_startDateController.text:null, // using picked date
+      'Start_time': (_startTimeController.text!="")?_startTimeController.text:null,
+      'End_date': (_endDateController.text!="")?_endDateController.text:null,
+      'End_time': (_endTimeController.text!="")?_endTimeController.text:null,
+      'Link': (_linkController.text!="")?_linkController.text:null,
+      'Contact': (_contactController.text!="")?_contactController.text:null,
+      //'Attachment': _attachmentController.text, // Uncomment if needed
       'created_by': Supabase.instance.client.auth.currentUser!.id,
-      'Start_time': _startTimeController.text,
-      'End_date': _endDateController.text,
-      'End_time': _endTimeController.text,
-      'Link': _linkController.text,
-      'Contact': _contactController.text,
-      'Attachment': _attachmentController.text,
-      if (linkPath != null) 'Poster_path': linkPath, // Adjust the key as needed.
+      if (linkPath != null) 'Poster_path': linkPath,
     };
-
     try {
       final data = await Supabase.instance.client
           .from('Events')
           .insert(eventData)
           .select();
-
-     
-          _events.add((data as List).first);
-          _selectedImage = null;
-          _imageFile = null;
-      
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Event added successfully!')),
-        );
-        _eventNameController.clear();
-        _eventDescController.clear();
-        _eventVenueController.clear();
-        _startTimeController.clear();
-        _endDateController.clear();
-        _endTimeController.clear();
-        _linkController.clear();
-        _contactController.clear();
-        _attachmentController.clear();
+      _events.add((data as List).first);
+      _selectedImage = null;
+      _imageFile = null;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Event added successfully!')),
+      );
+      _eventNameController.clear();
+      _eventDescController.clear();
+      _eventVenueController.clear();
+      _startDateController.clear();
+      _startTimeController.clear();
+      _endDateController.clear();
+      _endTimeController.clear();
+      _linkController.clear();
+      _contactController.clear();
+      _attachmentController.clear();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error adding event: $e')),
@@ -176,7 +167,6 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  /// Uploads the image using CloudinaryService and returns the image URL.
   Future<String?> uploadImage() async {
     if (_selectedImage == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -184,13 +174,10 @@ class _ProfilePageState extends State<ProfilePage> {
       );
       return null;
     }
-
     setState(() {
       _isUploading = true;
     });
-
     String? pathUrl;
-
     try {
       _imageFile = File(_selectedImage!.path);
       _compressedImage = await _pythonAnywhereService.compressImage(_imageFile!);
@@ -211,32 +198,107 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> pickImage() async {
-    try {
-      if (Platform.isAndroid) {
-        await requestPermission();
-      }
-
-      final ImagePicker picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
+    bool hasPermission = await _pythonAnywhereService.requestStoragePermission();
+    if (hasPermission) {
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        setState(() {
-          _selectedImage = image;
-          _imageFile = File(image.path);
-        });
-      }
-    } catch (e) {
+      setState(() {
+        _selectedImage = image;
+      });
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error picking image: $e')),
+        const SnackBar(content: Text('Media access permission required')),
       );
     }
   }
 
-  Future<void> requestPermission() async {
-    if (Platform.isAndroid) {
-      if (await Permission.photos.isDenied || await Permission.photos.isPermanentlyDenied) {
-        await Permission.photos.request();
-      }
+  // Date picker for Start Date.
+  Future<void> _selectStartDate() async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
+      setState(() {
+        _startDateController.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
     }
+  }
+
+  // Time picker for Start Time.
+  Future<void> _selectStartTime() async {
+    TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) {
+      final now = DateTime.now();
+      final dt = DateTime(now.year, now.month, now.day, picked.hour, picked.minute);
+      setState(() {
+        _startTimeController.text = DateFormat('HH:mm').format(dt);
+      });
+    }
+  }
+
+  // Date picker for End Date.
+  Future<void> _selectEndDate() async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
+      setState(() {
+        _endDateController.text = DateFormat('yyyy-MM-dd').format(picked);
+      });
+    }
+  }
+
+  // Time picker for End Time.
+  Future<void> _selectEndTime() async {
+    TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) {
+      final now = DateTime.now();
+      final dt = DateTime(now.year, now.month, now.day, picked.hour, picked.minute);
+      setState(() {
+        _endTimeController.text = DateFormat('HH:mm').format(dt);
+      });
+    }
+  }
+
+  void _showEventDetails(BuildContext context, EventCard eventCard) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(eventCard.title),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.network(eventCard.imagePath),
+              Text(eventCard.description),
+              Text('Date: ${eventCard.date}'),
+              Text('Venue: ${eventCard.venue}'),
+              Text('Contact: ${eventCard.contact}'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -244,7 +306,6 @@ class _ProfilePageState extends State<ProfilePage> {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     final theme = isDarkMode ? Colors.black : Colors.white;
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -257,6 +318,13 @@ class _ProfilePageState extends State<ProfilePage> {
         child: SafeArea(
           child: Column(
             children: [
+              AppBar(
+                title: Text("Events", style: TextStyle(color: iconColor))
+                    .animate()
+                    .fadeIn(duration: 500.ms),
+                backgroundColor: theme,
+                elevation: 0,
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
@@ -325,32 +393,53 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ).animate().slideX(duration: 700.ms),
                             const SizedBox(height: 16),
+                            // Start Date Field with Calendar Picker.
+                            TextField(
+                              controller: _startDateController,
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                labelText: 'Start Date',
+                                border: const OutlineInputBorder(),
+                                prefixIcon: const Icon(Icons.calendar_today),
+                              ),
+                              onTap: _selectStartDate,
+                            ).animate().slideX(duration: 800.ms),
+                            const SizedBox(height: 16),
+                            // Start Time Field with Time Picker.
                             TextField(
                               controller: _startTimeController,
+                              readOnly: true,
                               decoration: InputDecoration(
                                 labelText: 'Start Time',
                                 border: const OutlineInputBorder(),
-                                prefixIcon: PhosphorIcon(PhosphorIcons.clock()),
+                                prefixIcon: const Icon(Icons.access_time),
                               ),
-                            ).animate().slideX(duration: 800.ms),
+                              onTap: _selectStartTime,
+                            ).animate().slideX(duration: 900.ms),
                             const SizedBox(height: 16),
+                            // End Date Field with Calendar Picker.
                             TextField(
                               controller: _endDateController,
+                              readOnly: true,
                               decoration: InputDecoration(
                                 labelText: 'End Date',
                                 border: const OutlineInputBorder(),
-                                prefixIcon: PhosphorIcon(PhosphorIcons.calendar()),
+                                prefixIcon: const Icon(Icons.calendar_today),
                               ),
-                            ).animate().slideX(duration: 900.ms),
+                              onTap: _selectEndDate,
+                            ).animate().slideX(duration: 1000.ms),
                             const SizedBox(height: 16),
+                            // End Time Field with Time Picker.
                             TextField(
                               controller: _endTimeController,
+                              readOnly: true,
                               decoration: InputDecoration(
                                 labelText: 'End Time',
                                 border: const OutlineInputBorder(),
-                                prefixIcon: PhosphorIcon(PhosphorIcons.clock()),
+                                prefixIcon: const Icon(Icons.access_time),
                               ),
-                            ).animate().slideX(duration: 1000.ms),
+                              onTap: _selectEndTime,
+                            ).animate().slideX(duration: 1100.ms),
                             const SizedBox(height: 16),
                             TextField(
                               controller: _linkController,
@@ -359,7 +448,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 border: const OutlineInputBorder(),
                                 prefixIcon: PhosphorIcon(PhosphorIcons.linkSimple()),
                               ),
-                            ).animate().slideX(duration: 1100.ms),
+                            ).animate().slideX(duration: 1200.ms),
                             const SizedBox(height: 16),
                             TextField(
                               controller: _contactController,
@@ -368,18 +457,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 border: const OutlineInputBorder(),
                                 prefixIcon: PhosphorIcon(PhosphorIcons.phone()),
                               ),
-                            ).animate().slideX(duration: 1200.ms),
-                            const SizedBox(height: 16),
-                            TextField(
-                              controller: _attachmentController,
-                              decoration: InputDecoration(
-                                labelText: 'Attachment',
-                                border: const OutlineInputBorder(),
-                                prefixIcon: PhosphorIcon(PhosphorIcons.paperclip()),
-                              ),
                             ).animate().slideX(duration: 1300.ms),
                             const SizedBox(height: 16),
-                            
                             ElevatedButton.icon(
                               onPressed: _isUploading ? null : addEvent,
                               icon: _isUploading
@@ -401,33 +480,37 @@ class _ProfilePageState extends State<ProfilePage> {
                               itemCount: _events.length,
                               itemBuilder: (context, index) {
                                 final event = _events[index];
-                                return Card(
-                                  color: theme.withOpacity(0.9),
-                                  margin: const EdgeInsets.all(8.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                                final imageUrl = (event['Poster_path'] != null &&
+                                        event['Poster_path'].toString().isNotEmpty)
+                                    ? _pythonAnywhereService.getImageUrl("suiet", event['Poster_path'])
+                                    : "assets/images/default_event.jpg";
+                                return GestureDetector(
+                                  onTap: () => _showEventDetails(
+                                      context,
+                                      EventCard(
+                                        title: event['Name'] ?? "No Title",
+                                        date: event['Start_date'] != null
+                                            ? event['Start_date']
+                                                .split('T')[0]
+                                            : "",
+                                        venue: event['Venue'] ?? "",
+                                        imagePath: imageUrl,
+                                        description: event['Description'] ?? "",
+                                        contact: event['Contact'] ??
+                                            "+91 0000000000",
+                                      )),
+                                  child: EventCard(
+                                    title: event['Name'] ?? "No Title",
+                                    date: event['Start_date'] != null
+                                        ? event['Start_date'].split('T')[0]
+                                        : "",
+                                    venue: event['Venue'] ?? "",
+                                    imagePath: imageUrl,
+                                    description: event['Description'] ?? "",
+                                    contact: event['Contact'] ??
+                                        "+91 0000000000",
                                   ),
-                                  child: ListTile(
-                                    title: Text(
-                                      event['Name'],
-                                      style: const TextStyle(fontWeight: FontWeight.bold),
-                                    ),
-                                    subtitle: Text(event['Description']),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Text(event['Start_date'].split('T')[0]),
-                                        IconButton(
-                                          icon: PhosphorIcon(PhosphorIcons.trash()),
-                                          onPressed: () {
-                                            deleteEvent(event['Event_Id']);
-                                          },
-                                          color: Colors.red,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ).animate().fadeIn(delay: (100 * index).ms);
+                                );
                               },
                             ),
                     ],

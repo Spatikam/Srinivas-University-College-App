@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rip_college_app/screens/widget_common/image_controls.dart';
 //import 'package:rip_college_app/screens/widget_common/image_upload.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 //import 'package:path_provider/path_provider.dart';
 //import 'package:path/path.dart' as path;
 
@@ -117,14 +116,14 @@ class _Placement_UpdateState extends State<Placement_Update> {
     }
 
     try {
-      String? link_path = await uploadImage();
-      print("link: ${link_path}");
+      String? linkPath = await uploadImage();
+      print("link: $linkPath");
       final PlacementData = {
         'Name': _PlacementNameController.text,
         'LPA': _PlacementLPAController.text,
         'Company_Name': _PlacementCompanyController.text,
         'Uploaded_by': Supabase.instance.client.auth.currentUser!.id,
-        'Link': link_path,
+        'Link': linkPath,
       };
 
       final response = await Supabase.instance.client
@@ -178,7 +177,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
       _isUploading = true;
     });
 
-    var path_url;
+    String? pathUrl;
 
     try {
       _imageFile = File(_selectedImage!.path);
@@ -186,12 +185,12 @@ class _Placement_UpdateState extends State<Placement_Update> {
       _compressedImage =
           await _pythonAnywhereService.compressImage(_imageFile!);
 
-      path_url =
+      pathUrl =
           await _pythonAnywhereService.uploadImage(_compressedImage!, 'suiet');
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('image updated successfully! File: ${path_url}')),
+            content: Text('image updated successfully! File: $pathUrl')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -202,7 +201,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
         _isUploading = false;
       });
     }
-    return path_url;
+    return pathUrl;
   }
 
   @override

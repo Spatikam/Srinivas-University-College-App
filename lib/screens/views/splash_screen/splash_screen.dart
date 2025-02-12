@@ -4,6 +4,8 @@ import 'package:shimmer/shimmer.dart';// Make sure the navigation screen is impo
 import 'dart:ui';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -71,12 +73,12 @@ class _SplashScreenState extends State<SplashScreen> {
                       height: 250, // Same height as logo
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.blue.withOpacity(0.6), // 60% opacity
+                        color: Color.fromARGB(1,57,49,134), // 60% opacity
                       ),
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                         child: Container(
-                          color: Colors.blue.withOpacity(0.2),
+                          color: Color.fromARGB(1,57,49,134),
                         ),
                       ),
                     ),
