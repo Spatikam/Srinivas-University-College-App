@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
               duration: const Duration(milliseconds: 800),
               child: Column(
                 children: [
-                  _buildSectionTitle('Explore '),
+                  _buildSectionTitle('Explore'),
                   const SizedBox(height: 15),
                   _buildGridView(),
                   _buildSectionTitle('Announcements'),
@@ -253,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final List exploreSection = [
       {
         'title': 'Events',
-        'description': 'All your courses syllabus & guide at your fingertips',
+        'description': 'Check out what\'s happenning here at Srinivas University',
         'icon': PhosphorIcons.clock(),
         'goto': exploreGoto[widget.collegeName]![0],
         'gradient': LinearGradient(

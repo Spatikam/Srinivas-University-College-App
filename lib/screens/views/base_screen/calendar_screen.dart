@@ -6,7 +6,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
 
@@ -20,26 +19,32 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime focusedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   final List<Map<String, dynamic>> notif_events = [
-    {
-      "title": "Science Fair",
-      "date": DateTime(2025, 2, 2, 18, 15)
-    }, // Feb 5, 9 AM
-    {
-      "title": "Sports Day",
-      "date": DateTime(2025, 2, 2, 18, 20)
-    }, // Feb 10, 8:30 AM
-    {
-      "title": "Cultural Fest",
-      "date": DateTime(2025, 2, 20, 10, 0)
-    }, // Feb 20, 10 AM
+    {"title": "Science Fair", "date": DateTime(2025, 2, 2, 18, 15)}, // Feb 5, 9 AM
+    {"title": "Sports Day", "date": DateTime(2025, 2, 2, 18, 20)}, // Feb 10, 8:30 AM
+    {"title": "Founder's Day", "date": DateTime(2025, 2, 14, 2, 16)}, // Feb 10, 8:30 AM
+    //{"title": "Founder's Day", "date": DateTime(2025, 2, 14, 9, 0)} // Feb 20, 10 AM
   ];
 
   Map<DateTime, List<String>> predefinedEvents = {
-  DateTime.utc(2025, 1, 1): ['New Year'],
-  DateTime.utc(2025, 2, 14): ['Founder\'s day of Srinivas University'],
-  DateTime.utc(2025, 1, 26): ['Republic day, January 26, happy holiday!'],
-};
-
+    DateTime.utc(2025, 1, 1): ['New Year'],
+    DateTime.utc(2025, 2, 14): ['Founder\'s day of Srinivas University'],
+    DateTime.utc(2025, 1, 26): ['Republic day, January 26, happy holiday!'],
+    DateTime.utc(2025, 2, 16): ['Cultural Day'],
+    DateTime.utc(2024, 12, 9): ['Commencement of Classes'],
+    DateTime.utc(2025, 1, 16): ['1st Phase Assesment Day 1'],
+    DateTime.utc(2025, 1, 16): ['1st Phase Assesment Day 2'],
+    DateTime.utc(2025, 1, 16): ['1st Phase Assesment Day 3'],
+    DateTime.utc(2025, 3, 10): ['2nd Phase Assesment Day 1'],
+    DateTime.utc(2025, 3, 11): ['2nd Phase Assesment Day 2'],
+    DateTime.utc(2025, 3, 12): ['2nd Phase Assesment Day 3'],
+    DateTime.utc(2025, 3, 22): ['Last Working Day'],
+    DateTime.utc(2025, 3, 27): ['Practical Exams Begin'],
+    DateTime.utc(2025, 4, 7): ['Theory Exams Begin'],
+    DateTime.utc(2025, 6, 10): ['Commencement of Odd Semester'],
+    DateTime.utc(2025, 2, 25): ['Srinivas Premier League Day 1'],
+    DateTime.utc(2025, 2, 26): ['Srinivas Premier League Day 2'],
+    DateTime.utc(2025, 2, 27): ['Srinivas Premier League Day 3'],
+  };
 
   @override
   void initState() {
@@ -71,7 +76,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     for (var event in notif_events) {
       NotificationService().scheduleNotification(
         event["title"],
-        "Don't forget: ${event["title"]} is happening today!",
+        "Join Us in celebrating ${event["title"]}",
         event["date"],
       );
     }
@@ -163,14 +168,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
               margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
               decoration: BoxDecoration(
-                color:
-                    isDarkMode ? Colors.lightBlue.shade900 : Colors.blueAccent,
+                color: isDarkMode ? Colors.lightBlue.shade900 : Colors.blueAccent,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: isDarkMode
-                        ? Colors.grey.shade700
-                        : Colors.grey.shade300,
+                    color: isDarkMode ? Colors.grey.shade700 : Colors.grey.shade300,
                     blurRadius: 5,
                     spreadRadius: 2,
                   ),
@@ -206,39 +208,33 @@ class _CalendarScreenState extends State<CalendarScreen> {
 }
 
 class NotificationService {
-  static final FlutterLocalNotificationsPlugin _notificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  static final FlutterLocalNotificationsPlugin _notificationsPlugin = FlutterLocalNotificationsPlugin();
 
   Future<void> initNotifications() async {
-    const AndroidInitializationSettings androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const AndroidInitializationSettings androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    const InitializationSettings settings =
-        InitializationSettings(android: androidSettings);
+    const InitializationSettings settings = InitializationSettings(android: androidSettings);
 
     await _notificationsPlugin.initialize(settings);
 
     tz.initializeTimeZones(); // Required for scheduling
   }
 
-  Future<void> scheduleNotification(
-      String title, String body, DateTime eventTime) async {
+  Future<void> scheduleNotification(String title, String body, DateTime eventTime) async {
     final tz.TZDateTime scheduledDate = tz.TZDateTime.from(eventTime, tz.local);
 
     if (scheduledDate.isBefore(tz.TZDateTime.now(tz.local))) {
       return; // Prevent scheduling past events
     }
 
-    const AndroidNotificationDetails androidDetails =
-        AndroidNotificationDetails(
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
       "event_channel",
       "Event Reminders",
       importance: Importance.max,
       priority: Priority.high,
     );
 
-    const NotificationDetails details =
-        NotificationDetails(android: androidDetails);
+    const NotificationDetails details = NotificationDetails(android: androidDetails);
 
     await _notificationsPlugin.zonedSchedule(
       title.hashCode,
@@ -246,8 +242,7 @@ class NotificationService {
       body,
       scheduledDate,
       details,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle, // ✅ Fixed
     );
   }

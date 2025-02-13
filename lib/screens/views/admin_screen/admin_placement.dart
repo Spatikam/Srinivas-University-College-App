@@ -71,7 +71,8 @@ class _Placement_UpdateState extends State<Placement_Update> {
       }
       setState(() {
         _placements.removeWhere(
-            (placement) => placement['Placement_Id'] == placementId);
+          (placement) => placement['Placement_Id'] == placementId
+        );
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Placement Detail deleted successfully!')),
@@ -89,8 +90,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
     });
 
     try {
-      final data =
-          await Supabase.instance.client.from('Placements').select('*').eq('Uploaded_by', widget.uuid);
+      final data = await Supabase.instance.client.from('Placements').select('*').eq('Uploaded_by', widget.uuid);
 
       setState(() {
         _placements = List<Map<String, dynamic>>.from(data);
@@ -131,18 +131,18 @@ class _Placement_UpdateState extends State<Placement_Update> {
           .insert(PlacementData)
           .select();
 
-      if (response.isNotEmpty) {
-        setState(() {
-          _placements.add(response.first);
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Placement added successfully!')),
-        );
-        _PlacementNameController.clear();
-        _PlacementLPAController.clear();
-        _PlacementCompanyController.clear();
-      }
-    } catch (e) {
+        if (response.isNotEmpty) {
+          setState(() {
+            _placements.add(response.first);
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Placement added successfully!')),
+          );
+          _PlacementNameController.clear();
+          _PlacementLPAController.clear();
+          _PlacementCompanyController.clear();
+        }
+      }catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error adding Placement Details: $e')),
       );
@@ -151,8 +151,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
 
   Future<void> _pickimage() async {
     final ImagePicker picker = ImagePicker();
-    bool hasPermission =
-        await _pythonAnywhereService.requestStoragePermission();
+    bool hasPermission = await _pythonAnywhereService.requestStoragePermission();
     if (hasPermission) {
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
       setState(() {
@@ -182,11 +181,9 @@ class _Placement_UpdateState extends State<Placement_Update> {
     try {
       _imageFile = File(_selectedImage!.path);
 
-      _compressedImage =
-          await _pythonAnywhereService.compressImage(_imageFile!);
+      _compressedImage = await _pythonAnywhereService.compressImage(_imageFile!);
 
-      pathUrl =
-          await _pythonAnywhereService.uploadImage(_compressedImage!, 'suiet');
+      pathUrl = await _pythonAnywhereService.uploadImage(_compressedImage!, 'suiet');
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -216,7 +213,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
                     child: Column(
                       children: [
                         Text(
-                          'Upload Event image',
+                          'Upload Student Image',
                           style: GoogleFonts.kanit(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -325,14 +322,12 @@ class _Placement_UpdateState extends State<Placement_Update> {
                                       color: Colors.red),
                                   onPressed: () {
                                     if (placement['Placement_Id'] != null) {
-                                      deletePlacement(
-                                          placement['Placement_Id']);
+                                      deletePlacement(placement['Placement_Id']);
                                     } else {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                            content: Text(
-                                                'Placement ID is missing. Cannot delete.')),
+                                          content: Text('Placement ID is missing. Cannot delete.')
+                                        ),
                                       );
                                     }
                                   },

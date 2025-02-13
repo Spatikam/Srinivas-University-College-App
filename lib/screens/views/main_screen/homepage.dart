@@ -16,12 +16,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
     'assets/images/srinivas1.JPG',
     'assets/images/srinivas2.JPG',
     'assets/images/srinivas3.JPG',
+    'assets/images/srinivas4.jpg',
   ];
 
   final List<String> imageDescriptions = [
-    'Chancellor’s Speech - A prestigious moment of the institution',
+    'Chancellor\'s Speech - A prestigious moment of the institution',
     'Bharatanatyam - Cultural performances showcasing talent',
-    'Yaksha - A classical dance form representing culture',
+    'SportsDay - Marching with discipline',
+    'Convocation Day - New beginings for our graduates',
   ];
 
   final List<String> institutions = [
