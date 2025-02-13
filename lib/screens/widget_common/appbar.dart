@@ -3,13 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rip_college_app/main.dart';
+import 'package:rip_college_app/screens/views/content_pages/about_us.dart';
 import 'package:rip_college_app/screens/views/login_screen/login_page.dart';
+import 'package:rip_college_app/screens/widget_common/web_view.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String collegeName;
   final bool slide_menu_access;
-  const CustomAppBar(
-      {super.key, this.collegeName = "", this.slide_menu_access = true});
+  const CustomAppBar({super.key, this.collegeName = "", this.slide_menu_access = true});
   @override
   _CustomAppBar createState() => _CustomAppBar();
 
@@ -54,8 +55,7 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(24)),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                 ),
                 child: SingleChildScrollView(
                   controller: scrollController,
@@ -77,33 +77,29 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
                         ],
                       ),
                       _buildDrawerItem(context,
-                          icon: isDarkMode
-                              ? PhosphorIcons.toggleLeft()
-                              : PhosphorIcons.toggleRight(),
-                          text: isDarkMode
-                              ? 'Switch to Light Mode'
-                              : 'Switch to Dark Mode',
-                          onTap: toggleTheme),
+                          icon: isDarkMode ? PhosphorIcons.toggleLeft() : PhosphorIcons.toggleRight(), text: isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode', onTap: toggleTheme),
                       _buildDrawerItem(
                         context,
                         icon: PhosphorIcons.user(),
                         text: 'Account',
-                        onTap: () => Navigator.push(
-                          context,
-                          _createPageRoute(LoginPage()),
-                        ),
+                        onTap: () => Navigator.push(context, _createPageRoute(LoginPage())),
                       ),
                       _buildDrawerItem(
                         context,
                         icon: PhosphorIcons.lock(),
-                        text: 'Privacy',
-                        onTap: () => print('Privacy tapped'),
+                        text: 'About Us',
+                        onTap: () => Navigator.push(context, _createPageRoute(AboutUsPage())),
                       ),
                       _buildDrawerItem(
                         context,
                         icon: PhosphorIcons.shieldCheck(),
                         text: 'Privacy Policy',
-                        onTap: () => print('Privacy Policy tapped'),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WebViewPage(url: 'https://docs.google.com/document/d/174u0HXLmt7wgeL9BlKGjDXEdiF2hLbC4FNq2Tmxj20c/edit?usp=sharing')
+                          ),
+                        )
                       ),
                       _buildDrawerItem(
                         context,
@@ -129,18 +125,14 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
         const begin = Offset(1.0, 0.0); // Slide from the right
         const end = Offset.zero;
         const curve = Curves.easeInOut;
-        var tween =
-            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
         var offsetAnimation = animation.drive(tween);
         return SlideTransition(position: offsetAnimation, child: child);
       },
     );
   }
 
-  Widget _buildDrawerItem(BuildContext context,
-      {required IconData icon,
-      required String text,
-      required VoidCallback onTap}) {
+  Widget _buildDrawerItem(BuildContext context, {required IconData icon, required String text, required VoidCallback onTap}) {
     return ListTile(
       leading: Icon(icon, size: 28, color: Colors.white),
       title: Text(
@@ -158,8 +150,9 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = const Color(0xFF658CC2);
+    //final primaryColor = const Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
+    //final themeColor = isDarkMode ? Colors.black : Colors.white;
     return AppBar(
       automaticallyImplyLeading: false,
       title: Row(
@@ -175,7 +168,7 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
                     style: GoogleFonts.kanit(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: primaryColor,
+                      color: iconColor,
                     ),
                   ),
                   Text(
@@ -183,7 +176,7 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
                     style: GoogleFonts.kanit(
                       fontSize: 16, // Slightly smaller font for "Engineering"
                       fontWeight: FontWeight.w500,
-                      color: primaryColor,
+                      color: iconColor,
                     ),
                   ),
                 ],

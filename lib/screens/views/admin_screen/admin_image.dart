@@ -57,11 +57,10 @@ class _ImagePostPageState extends State<ImagePostPage> {
     });
     try {
       print('LIVE');
-      final response = await Supabase.instance.client
-          .from('Gallery')
-          .select("*")
-          .eq('Created_by', widget.uuid);
-      imagepaths = List<Map<String, dynamic>>.from(response);
+      final response = await Supabase.instance.client.from('Gallery').select('*').eq('Created_by', widget.uuid);
+      setState(() {
+        imagepaths = List<Map<String, dynamic>>.from(response);
+      });
     } catch (e) {
       print("Supabase error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
@@ -91,19 +90,17 @@ class _ImagePostPageState extends State<ImagePostPage> {
     try {
       for (XFile image_file in _selectedImages!) {
         _imageFile = File(image_file.path);
-        _compressedImage =
-            await _pythonAnywhereService.compressImage(_imageFile!);
-        pathUrl = await _pythonAnywhereService.uploadImage(
-            _compressedImage!, 'gallery');
+        _compressedImage = await _pythonAnywhereService.compressImage(_imageFile!);
+        pathUrl = await _pythonAnywhereService.uploadImage(_compressedImage!, 'gallery');
         final GalleryData = {
           'Filename': pathUrl,
         };
-        final response = await Supabase.instance.client
-            .from('Gallery')
-            .insert(GalleryData)
-            .select();
+        final response = await Supabase.instance.client.from('Gallery').insert(GalleryData).select();
 
         if (response.isNotEmpty) {
+          setState(() {
+            imagepaths.add(response.first);
+          });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Images updated successfully!')),
           );
@@ -122,27 +119,23 @@ class _ImagePostPageState extends State<ImagePostPage> {
 
   Future<void> deleteimage(String Filename) async {
     try {
-      await Supabase.instance.client
-          .from('Gallery')
-          .delete()
-          .eq('Filename', Filename);
+      await Supabase.instance.client.from('Gallery').delete().eq('Filename', Filename);
 
-      int index = imagepaths
-          .indexWhere((imagePath) => imagePath['Filename'] == Filename);
+      int index = imagepaths.indexWhere((imagePath) => imagePath['Filename'] == Filename);
 
-      bool isDeleted = await _pythonAnywhereService.deleteImage(
-          "gallery",
-          _pythonAnywhereService.getImageUrl(
-              "gallery", imagepaths[index]['Filename']));
+      bool isDeleted = await _pythonAnywhereService.deleteImage("gallery", imagepaths[index]['Filen ame']);
 
       if (isDeleted) {
-        print("Image deleted successfully!");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Images deleted successfully!')),
+        );
       } else {
-        print("Failed to delete image.");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to delete image')),
+        );
       }
       setState(() {
-        imagepaths
-            .removeWhere((imagePath) => imagePath['Filename'] == Filename);
+        imagepaths.removeWhere((imagePath) => imagePath['Filename'] == Filename);
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Images Detail deleted successfully!')),
@@ -232,7 +225,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
                   ),
                 ),
               ),
-              if (_isLoading)
+              //if (_isLoading)
                 /*const CircularProgressIndicator()
                         .animate()
                         .fadeIn(duration: 500.ms)*/
@@ -252,21 +245,17 @@ class _ImagePostPageState extends State<ImagePostPage> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Image.network(
-                                _pythonAnywhereService.getImageUrl(
-                                    "gallery", imagepaths[index]['Filename']),
+                                _pythonAnywhereService.getImageUrl("gallery", imagepaths[index]['Filename']),
                                 fit: BoxFit.cover,
                               ),
                               IconButton(
-                                icon:
-                                    const Icon(Icons.delete, color: Colors.red),
+                                icon: const Icon(Icons.delete, color: Colors.red),
                                 onPressed: () {
                                   if (imagePath['Filename'] != null) {
                                     deleteimage(imagePath['Filename']);
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text(
-                                              'Filename is missing. Cannot delete.')),
+                                      const SnackBar(content: Text('Filename is missing. Cannot delete.')),
                                     );
                                   }
                                 },

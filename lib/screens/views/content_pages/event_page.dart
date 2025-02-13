@@ -13,8 +13,7 @@ class EventsPage extends StatefulWidget {
   _EventsPageState createState() => _EventsPageState();
 }
 
-class _EventsPageState extends State<EventsPage>
-    with SingleTickerProviderStateMixin {
+class _EventsPageState extends State<EventsPage> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
   final PythonAnywhereService _pythonAnywhereService = PythonAnywhereService();
@@ -58,12 +57,7 @@ class _EventsPageState extends State<EventsPage>
 
     if (widget.uuid != null) {
       try {
-        final data = await Supabase.instance.client
-            .from('Events')
-            .select()
-            .eq('created_by', widget.uuid as Object)
-            .order('Start_date', ascending: true)
-            .limit(10);
+        final data = await Supabase.instance.client.from('Events').select().eq('created_by', widget.uuid as Object).order('Start_date', ascending: true).limit(10);
 
         _events = List<Map<String, dynamic>>.from(data as List);
       } catch (e) {
@@ -98,17 +92,14 @@ class _EventsPageState extends State<EventsPage>
               // Display event image.
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: event.imagePath.startsWith("http")
-                    ? Image.network(event.imagePath,
-                        height: 200, fit: BoxFit.cover)
-                    : Image.asset(event.imagePath,
-                        height: 200, fit: BoxFit.cover),
+                child: event.imagePath.startsWith("http") 
+                  ? Image.network(event.imagePath, height: 200, width: double.infinity, fit: BoxFit.cover) 
+                  : Image.asset(event.imagePath, height: 200, fit: BoxFit.cover),
               ),
               SizedBox(height: 20),
               Text(
                 event.title,
-                style: GoogleFonts.kanit(
-                    fontSize: 24, fontWeight: FontWeight.bold),
+                style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
               Text(
@@ -136,18 +127,10 @@ class _EventsPageState extends State<EventsPage>
               ),
               SizedBox(height: 20),
               GestureDetector(
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => WebViewPage(
-                            url: "https://www.suiet.in/",
-                            appbar_display: true))),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewPage(url: "https://www.suiet.in/", appbar_display: true))),
                 child: Text(
                   "Visit Website",
-                  style: GoogleFonts.kanit(
-                      fontSize: 16,
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline),
+                  style: GoogleFonts.kanit(fontSize: 16, color: Colors.blue, decoration: TextDecoration.underline),
                 ),
               ),
             ],
@@ -171,12 +154,8 @@ class _EventsPageState extends State<EventsPage>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Colors.deepOrange.shade700
-                          : Colors.orange,
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Colors.deepOrange.shade900
-                          : Colors.deepOrange,
+                      Theme.of(context).brightness == Brightness.dark ? Colors.deepOrange.shade700 : Colors.orange,
+                      Theme.of(context).brightness == Brightness.dark ? Colors.deepOrange.shade900 : Colors.deepOrange,
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -193,34 +172,23 @@ class _EventsPageState extends State<EventsPage>
                   Center(
                     child: Text(
                       "Events Conducted",
-                      style: GoogleFonts.kanit(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.kanit(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
-                      AnimatedCategoryCard(
-                          title: "Technical", maxCount: 25, color: Colors.blue),
-                      AnimatedCategoryCard(
-                          title: "Cultural",
-                          maxCount: 30,
-                          color: Colors.purple),
-                      AnimatedCategoryCard(
-                          title: "Sports", maxCount: 15, color: Colors.green),
+                      AnimatedCategoryCard(title: "Technical", maxCount: 18, color: Colors.blue),
+                      AnimatedCategoryCard(title: "Cultural", maxCount: 11, color: Colors.purple),
+                      AnimatedCategoryCard(title: "Sports", maxCount: 7, color: Colors.green),
                     ],
                   ),
                   const SizedBox(height: 30),
                   // Featured Events Section
                   SectionTitle(
                     title: "Featured Events",
-                    onSeeAll: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => WebViewPage(
-                                url: "https://www.suiet.in/",
-                                appbar_display: true))),
+                    onSeeAll: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewPage(url: "https://www.suiet.in/", appbar_display: true))),
                   ),
                   SizedBox(height: 10),
                   SizedBox(
@@ -233,36 +201,27 @@ class _EventsPageState extends State<EventsPage>
                             itemBuilder: (context, index) {
                               final event = _events[index];
                               // Build the full image URL from the stored filename.
-                              final imageUrl = (event['Poster_path'] != null &&
-                                      event['Poster_path']
-                                          .toString()
-                                          .isNotEmpty)
-                                  ? _pythonAnywhereService.getImageUrl(
-                                      "suiet", event['Poster_path'])
+                              final imageUrl = (event['Poster_path'] != null && event['Poster_path'].toString().isNotEmpty)
+                                  ? _pythonAnywhereService.getImageUrl("suiet", event['Poster_path'])
                                   : "assets/images/default_event.jpg";
                               return GestureDetector(
                                 onTap: () => _showEventDetails(
                                     context,
                                     EventCard(
                                       title: event['Name'] ?? "No Title",
-                                      date: event['Start_date'] != null
-                                          ? event['Start_date'].split('T')[0]
-                                          : "",
+                                      date: event['Start_date'] != null ? event['Start_date'].split('T')[0] : "",
                                       venue: event['Venue'] ?? "",
                                       imagePath: imageUrl,
                                       description: event['Description'] ?? "",
-                                      contact:
-                                          event['Contact'] ?? "+91 0000000000",
+                                      contact: event['Contact'].toString(),
                                     )),
                                 child: EventCard(
                                   title: event['Name'] ?? "No Title",
-                                  date: event['Start_date'] != null
-                                      ? event['Start_date'].split('T')[0]
-                                      : "",
+                                  date: event['Start_date'] != null ? event['Start_date'].split('T')[0] : "",
                                   venue: event['Venue'] ?? "",
                                   imagePath: imageUrl,
                                   description: event['Description'] ?? "",
-                                  contact: event['Contact'] ?? "+91 0000000000",
+                                  contact: event['Contact'].toString(),
                                 ),
                               );
                             },
@@ -272,12 +231,7 @@ class _EventsPageState extends State<EventsPage>
                   // Popular Articles Section (example using local asset images)
                   SectionTitle(
                     title: "Popular Articles",
-                    onSeeAll: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => WebViewPage(
-                                url: "https://www.suiet.in/",
-                                appbar_display: true))),
+                    onSeeAll: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewPage(url: "https://www.suiet.in/", appbar_display: true))),
                   ),
                   SizedBox(height: 10),
                   ListView.builder(
@@ -286,17 +240,11 @@ class _EventsPageState extends State<EventsPage>
                     itemCount: _articles.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap: () => _showArticleDetails(
-                            context,
-                            _articles[index].map((key, value) =>
-                                MapEntry(key, value.toString()))),
+                        onTap: () => _showArticleDetails(context, _articles[index].map((key, value) => MapEntry(key, value.toString()))),
                         child: _buildArticleCard(
-                          imagePath:
-                              'assets/images/default.jpg', // Match stored field
-                          title: _articles[index]['Heading'] ??
-                              'No Title', // Match stored field
-                          author: _articles[index]['Published_by'] ??
-                              'Unknown Author', // Match stored field
+                          imagePath: _pythonAnywhereService.getImageUrl("suiet", _articles[index]['Image_path']), // Match stored field
+                          title: _articles[index]['Heading'] ?? 'No Title', // Match stored field
+                          author: _articles[index]['Published_by'] ?? 'Unknown Author', // Match stored field
                         ),
                       );
                     },
@@ -316,10 +264,7 @@ class _EventsPageState extends State<EventsPage>
     });
 
     try {
-      final data = await Supabase.instance.client
-          .from('Articles')
-          .select('*')
-          .eq('op_id', widget.uuid as Object);
+      final data = await Supabase.instance.client.from('Articles').select('*').eq('op_id', widget.uuid as Object);
       setState(() {
         _articles = List<Map<String, dynamic>>.from(data);
       });
@@ -356,10 +301,9 @@ class _EventsPageState extends State<EventsPage>
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
-            child: Image.asset(
-              'assets/images/book2.jpeg',
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+            child: Image.network(
+              imagePath,
               height: 100,
               width: 100,
               fit: BoxFit.cover,
@@ -373,8 +317,7 @@ class _EventsPageState extends State<EventsPage>
                 children: [
                   Text(
                     title,
-                    style: GoogleFonts.kanit(
-                        fontSize: 14, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.kanit(fontSize: 14, fontWeight: FontWeight.bold),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -410,8 +353,8 @@ class _EventsPageState extends State<EventsPage>
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  'assets/images/book2.jpeg',
+                child: Image.network(
+                  _pythonAnywhereService.getImageUrl("suiet", article['Image_path']!),
                   height: 200,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -420,8 +363,7 @@ class _EventsPageState extends State<EventsPage>
               SizedBox(height: 20),
               Text(
                 article['Heading']!,
-                style: GoogleFonts.kanit(
-                    fontSize: 24, fontWeight: FontWeight.bold),
+                style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
               Text(
@@ -481,8 +423,7 @@ class CurvedClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final path = Path();
     path.lineTo(0, size.height - 100);
-    path.quadraticBezierTo(
-        size.width / 2, size.height, size.width, size.height - 100);
+    path.quadraticBezierTo(size.width / 2, size.height, size.width, size.height - 100);
     path.lineTo(size.width, 0);
     path.close();
     return path;
@@ -497,11 +438,7 @@ class AnimatedCategoryCard extends StatefulWidget {
   final int maxCount;
   final Color color;
 
-  const AnimatedCategoryCard(
-      {super.key,
-      required this.title,
-      required this.maxCount,
-      required this.color});
+  const AnimatedCategoryCard({super.key, required this.title, required this.maxCount, required this.color});
 
   @override
   _AnimatedCategoryCardState createState() => _AnimatedCategoryCardState();
@@ -533,19 +470,14 @@ class _AnimatedCategoryCardState extends State<AnimatedCategoryCard> {
     return Expanded(
       child: Container(
         padding: EdgeInsets.all(15),
-        decoration: BoxDecoration(
-            color: widget.color.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(color: widget.color.withOpacity(0.2), borderRadius: BorderRadius.circular(10)),
         child: Column(
           children: [
-            Text(widget.title,
-                style: GoogleFonts.kanit(
-                    color: widget.color, fontWeight: FontWeight.bold)),
+            Text(widget.title, style: GoogleFonts.kanit(color: widget.color, fontWeight: FontWeight.bold)),
             SizedBox(height: 5),
             Text(
               "$currentCount",
-              style:
-                  GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold),
+              style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -561,6 +493,8 @@ class EventCard extends StatelessWidget {
   final String imagePath;
   final String description;
   final String contact;
+  final bool del_op;
+  final VoidCallback? onDelPressed;
 
   const EventCard({
     super.key,
@@ -570,6 +504,8 @@ class EventCard extends StatelessWidget {
     required this.imagePath,
     required this.description,
     required this.contact,
+    this.del_op = false,
+    this.onDelPressed,
   });
 
   @override
@@ -592,6 +528,11 @@ class EventCard extends StatelessWidget {
         fit: BoxFit.cover,
       );
     }
+
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    //final primaryColor = Color(0xFF658CC2);
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+    //final themeColor = isDarkMode ? Colors.black : Colors.white;
 
     return Container(
       width: 200,
@@ -617,16 +558,30 @@ class EventCard extends StatelessWidget {
             child: imageWidget,
           ),
           SizedBox(height: 10),
-          Text(
-            title,
-            style: GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 5),
-          Icon(
-            Icons.touch_app,
-            color: Theme.of(context).primaryColor,
-            size: 20,
-          ),
+          Row(
+            children: [
+              Column(
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Icon(
+                    Icons.touch_app,
+                    color: iconColor,
+                    size: 20,
+                  ),
+                ],
+              ),
+              Spacer(),
+              if (del_op)
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: onDelPressed,
+                ),
+            ],
+          )
         ],
       ),
     );

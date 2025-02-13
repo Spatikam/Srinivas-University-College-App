@@ -26,11 +26,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
 
   Future<void> fetchUserId() async {
     try {
-      var response = await Supabase.instance.client
-          .from('Users')
-          .select('uuid')
-          .eq('College', widget.collegeName)
-          .maybeSingle();
+      var response = await Supabase.instance.client.from('Users').select('uuid').eq('College', widget.collegeName).maybeSingle();
       setState(() {
         uuid = response!['uuid'];
       });
@@ -51,9 +47,10 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   @override
   Widget build(BuildContext context) {
     double height = 56;
-    final primaryColor = Color(0xFF658CC2);
+    final primaryColor = Colors.blue.shade700;
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final iconColor = isDarkMode ? Colors.white : Colors.black;
+    //final iconColor = isDarkMode ? Colors.white : Colors.black;
+    final themeColor = isDarkMode ? Colors.black : Colors.white;
 
     return WillPopScope(
       onWillPop: () async {
@@ -94,9 +91,14 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                 collegeName: widget.collegeName,
                 uuid: uuid,
               ),
-              ExplorePage(collegeName: widget.collegeName, uuid: uuid,),
+              ExplorePage(
+                collegeName: widget.collegeName,
+                uuid: uuid,
+              ),
               PhotoGallery(
-                  collegeName: widget.collegeName, uuid: uuid,),
+                collegeName: widget.collegeName,
+                uuid: uuid,
+              ),
               CalendarScreen(),
             ],
           ),
@@ -111,20 +113,17 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
           animationDuration: const Duration(milliseconds: 300),
           animationCurve: Curves.easeInOut,
           items: [
-            PhosphorIcon(PhosphorIcons.house(), size: 30, color: iconColor),
-            PhosphorIcon(PhosphorIcons.magnifyingGlass(),
-                size: 30, color: iconColor),
-            PhosphorIcon(PhosphorIcons.googlePhotosLogo(),
-                size: 30, color: iconColor),
-            PhosphorIcon(PhosphorIcons.calendar(), size: 30, color: iconColor),
+            PhosphorIcon(PhosphorIcons.house(), size: 30, color: themeColor),
+            PhosphorIcon(PhosphorIcons.magnifyingGlass(), size: 30, color: themeColor),
+            PhosphorIcon(PhosphorIcons.googlePhotosLogo(), size: 30, color: themeColor),
+            PhosphorIcon(PhosphorIcons.calendar(), size: 30, color: themeColor),
           ],
           onTap: (index) {
             setState(() {
               _currentIndex = index;
               change_page = false;
             });
-            _controller.animateToPage(index,
-                duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+            _controller.animateToPage(index, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
           },
         ), //BottomNavBarRaisedInsetFb1()
       ),

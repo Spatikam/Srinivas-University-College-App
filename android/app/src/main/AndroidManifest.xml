@@ -17,6 +17,10 @@
     <!-- Call Phone (Dialing) -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    
+    <!-- Call Phone (Dialing) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
 
     <application
         android:label="Srinivas University"

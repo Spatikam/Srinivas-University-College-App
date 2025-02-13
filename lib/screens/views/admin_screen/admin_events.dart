@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rip_college_app/screens/views/content_pages/event_page.dart';
 import 'package:rip_college_app/screens/widget_common/image_controls.dart';
@@ -55,18 +57,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> deleteEvent(String eventId) async {
+    log("Works");
     try {
-      await Supabase.instance.client
-          .from('Events')
-          .delete()
-          .eq('Event_Id', eventId);
+      await Supabase.instance.client.from('Events').delete().eq('Event_Id', eventId);
       int index = _events.indexWhere((event) => event['Event_Id'] == eventId);
       bool isDeleted = await _pythonAnywhereService.deleteImage("suiet", _events[index]['Poster_path']);
-      if (isDeleted) {
-        print("\n\nImage Deleted Successfully\n\n");
-      } else {
-        print("\n\nImage Deletion Failed\n\n");
-      }
+      log("Status: $isDeleted");
       setState(() {
         _events.removeWhere((event) => event['Event_Id'] == eventId);
       });
@@ -86,12 +82,10 @@ class _ProfilePageState extends State<ProfilePage> {
     });
     if (widget.uuid != "") {
       try {
-        final data = await Supabase.instance.client
-            .from('Events')
-            .select()
-            .order('Start_date', ascending: true)
-            .limit(10);
-        _events = List<Map<String, dynamic>>.from(data as List);
+        final data = await Supabase.instance.client.from('Events').select('*').eq('created_by', widget.uuid).order('Start_date', ascending: true);
+        setState(() {
+          _events = List<Map<String, dynamic>>.from(data);
+        });
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error fetching events: $e')),
@@ -124,22 +118,19 @@ class _ProfilePageState extends State<ProfilePage> {
     final eventData = {
       'Name': _eventNameController.text,
       'Description': _eventDescController.text,
-      'Venue': (_eventVenueController.text!="")?_eventVenueController.text:null,
-      'Start_date': (_startDateController.text!="")?_startDateController.text:null, // using picked date
-      'Start_time': (_startTimeController.text!="")?_startTimeController.text:null,
-      'End_date': (_endDateController.text!="")?_endDateController.text:null,
-      'End_time': (_endTimeController.text!="")?_endTimeController.text:null,
-      'Link': (_linkController.text!="")?_linkController.text:null,
-      'Contact': (_contactController.text!="")?_contactController.text:null,
+      'Venue': (_eventVenueController.text != "") ? _eventVenueController.text : null,
+      'Start_date': (_startDateController.text != "") ? _startDateController.text : null, // using picked date
+      'Start_time': (_startTimeController.text != "") ? _startTimeController.text : null,
+      'End_date': (_endDateController.text != "") ? _endDateController.text : null,
+      'End_time': (_endTimeController.text != "") ? _endTimeController.text : null,
+      'Link': (_linkController.text != "") ? _linkController.text : null,
+      'Contact': (_contactController.text != "") ? _contactController.text : null,
       //'Attachment': _attachmentController.text, // Uncomment if needed
       'created_by': Supabase.instance.client.auth.currentUser!.id,
       if (linkPath != null) 'Poster_path': linkPath,
     };
     try {
-      final data = await Supabase.instance.client
-          .from('Events')
-          .insert(eventData)
-          .select();
+      final data = await Supabase.instance.client.from('Events').insert(eventData).select();
       _events.add((data as List).first);
       _selectedImage = null;
       _imageFile = null;
@@ -177,7 +168,9 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _isUploading = true;
     });
+
     String? pathUrl;
+    
     try {
       _imageFile = File(_selectedImage!.path);
       _compressedImage = await _pythonAnywhereService.compressImage(_imageFile!);
@@ -318,54 +311,66 @@ class _ProfilePageState extends State<ProfilePage> {
         child: SafeArea(
           child: Column(
             children: [
-              AppBar(
-                title: Text("Events", style: TextStyle(color: iconColor))
-                    .animate()
-                    .fadeIn(duration: 500.ms),
-                backgroundColor: theme,
-                elevation: 0,
-              ),
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      // Profile Image with Banner (shows selected image, if any)
-                      Container(
-                        width: double.infinity,
-                        height: 220,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(20)),
-                          image: _imageFile != null
-                              ? DecorationImage(
-                                  image: FileImage(_imageFile!),
-                                  fit: BoxFit.cover,
-                                )
-                              : null,
-                          color: theme,
-                        ),
-                        child: _imageFile == null
-                            ? Center(
-                                child: Icon(
-                                  Icons.person,
-                                  size: 50,
-                                  color: iconColor,
-                                ),
-                              )
-                            : null,
-                      ).animate().fadeIn(duration: 500.ms),
-                      const SizedBox(height: 20),
-                      // Profile Action: Only "Pick Profile" button remains.
-                      ElevatedButton.icon(
-                        onPressed: pickImage,
-                        icon: PhosphorIcon(PhosphorIcons.camera()),
-                        label: const Text('Pick Profile'),
-                      ).animate().fadeIn(duration: 500.ms),
-                      const SizedBox(height: 20),
-                      // Event Input Form
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
-                          children: [
+                          children:[
+                            Text(
+                              'Upload Event Image',
+                              style: GoogleFonts.kanit(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            GestureDetector(
+                              onTap: pickImage,
+                              child: Container(
+                                height: 200,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: Colors.deepPurple.withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.deepPurple,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: _selectedImage == null
+                                    ? Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.cloud_upload,
+                                            size: 50,
+                                            color: Colors.deepPurple,
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                            'Tap to upload image',
+                                            style: GoogleFonts.kanit(
+                                              color: Colors.deepPurple,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.file(
+                                          File(_selectedImage!.path),
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                          height: 200,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                            const SizedBox(height: 15),
                             TextField(
                               controller: _eventNameController,
                               decoration: InputDecoration(
@@ -461,9 +466,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             const SizedBox(height: 16),
                             ElevatedButton.icon(
                               onPressed: _isUploading ? null : addEvent,
-                              icon: _isUploading
-                                  ? const CircularProgressIndicator()
-                                  : PhosphorIcon(PhosphorIcons.plusCircle()),
+                              icon: _isUploading ? const CircularProgressIndicator() : PhosphorIcon(PhosphorIcons.plusCircle()),
                               label: const Text('Add Event'),
                             ).animate().fadeIn(duration: 800.ms),
                           ],
@@ -471,17 +474,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       // Events List
                       _isLoading
-                          ? const CircularProgressIndicator()
-                              .animate()
-                              .fadeIn(duration: 500.ms)
+                          ? const CircularProgressIndicator().animate().fadeIn(duration: 500.ms)
                           : ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: _events.length,
                               itemBuilder: (context, index) {
                                 final event = _events[index];
-                                final imageUrl = (event['Poster_path'] != null &&
-                                        event['Poster_path'].toString().isNotEmpty)
+                                final imageUrl = (event['Poster_path'] != null && event['Poster_path'].toString().isNotEmpty)
                                     ? _pythonAnywhereService.getImageUrl("suiet", event['Poster_path'])
                                     : "assets/images/default_event.jpg";
                                 return GestureDetector(
@@ -489,26 +489,31 @@ class _ProfilePageState extends State<ProfilePage> {
                                       context,
                                       EventCard(
                                         title: event['Name'] ?? "No Title",
-                                        date: event['Start_date'] != null
-                                            ? event['Start_date']
-                                                .split('T')[0]
-                                            : "",
+                                        date: event['Start_date'] != null ? event['Start_date'].split('T')[0] : "",
                                         venue: event['Venue'] ?? "",
                                         imagePath: imageUrl,
                                         description: event['Description'] ?? "",
-                                        contact: event['Contact'] ??
-                                            "+91 0000000000",
+                                        contact: event['Contact'].toString(),
                                       )),
                                   child: EventCard(
                                     title: event['Name'] ?? "No Title",
-                                    date: event['Start_date'] != null
-                                        ? event['Start_date'].split('T')[0]
-                                        : "",
+                                    date: event['Start_date'] != null ? event['Start_date'].split('T')[0] : "",
                                     venue: event['Venue'] ?? "",
                                     imagePath: imageUrl,
                                     description: event['Description'] ?? "",
-                                    contact: event['Contact'] ??
-                                        "+91 0000000000",
+                                    contact: event['Contact'].toString(),
+                                    del_op: true,
+                                    onDelPressed: () {
+                                      log("Pressed");
+                                      if (event['Event_Id'] != null) {
+                                        log("Deleting: ${event['Event_Id']}");
+                                        deleteEvent(event['Event_Id']);
+                                      } else {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(content: Text('Event ID is missing. Cannot delete.')),
+                                        );
+                                      }
+                                    },
                                   ),
                                 );
                               },

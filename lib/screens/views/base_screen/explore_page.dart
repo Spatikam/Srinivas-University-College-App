@@ -258,10 +258,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: NetworkImage(_pythonAnywhereService.getImageUrl(
-                        "suiet",
-                        placed[
-                            'Link'])), //Image.network(placed['Link'], fit: BoxFit.cover);,
+                    image: NetworkImage(_pythonAnywhereService.getImageUrl("suiet",placed['Link'])), //Image.network(placed['Link'], fit: BoxFit.cover);,
                     fit: BoxFit.cover,
                   ),
                   boxShadow: [
@@ -292,7 +289,7 @@ class _ExplorePageState extends State<ExplorePage> {
                           ),
                         ),
                         Text(
-                          'Package: ${placed['LPA']!}',
+                          'Package: ${placed['LPA']!} LPA',
                           style: GoogleFonts.kanit(
                             color: iconColor,
                             fontSize: 14,
