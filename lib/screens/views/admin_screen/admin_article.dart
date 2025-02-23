@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,7 +17,7 @@ class _ArticleUploadState extends State<ArticleUpload> {
   final TextEditingController _headingController = TextEditingController();
   final TextEditingController _publishedByController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  
+
   bool _isLoggedIn = false;
   bool _isLoading = false;
   List<Map<String, dynamic>> _articles = [];
@@ -84,10 +83,7 @@ class _ArticleUploadState extends State<ArticleUpload> {
         'op_id': Supabase.instance.client.auth.currentUser!.id,
       };
 
-      final response = await Supabase.instance.client
-          .from('Articles')
-          .insert(articleData)
-          .select();
+      final response = await Supabase.instance.client.from('Articles').insert(articleData).select();
 
       if (response.isNotEmpty) {
         setState(() {
@@ -110,18 +106,18 @@ class _ArticleUploadState extends State<ArticleUpload> {
   Future<void> deleteArticle(String articleId) async {
     try {
       await Supabase.instance.client.from('Articles').delete().eq('Article_id', articleId);
-     
-       int index=_articles.indexWhere((article) => article['Article_id'] == articleId);
 
-       bool isDeleted = await _pythonAnywhereService.deleteImage("suiet", _articles[index]['Image_path']);
-        if(isDeleted){
-          print("Image Deleted");
-        }else{
-          print("Image Not Deleted");
-        }
-     setState(() {
+      int index = _articles.indexWhere((article) => article['Article_id'] == articleId);
+
+      bool isDeleted = await _pythonAnywhereService.deleteImage("suiet", _articles[index]['Image_path']);
+      if (isDeleted) {
+        print("Image Deleted");
+      } else {
+        print("Image Not Deleted");
+      }
+      setState(() {
         _articles.removeWhere((article) => article['Article_id'] == articleId);
-     });
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Article deleted successfully!')),
       );
@@ -134,10 +130,17 @@ class _ArticleUploadState extends State<ArticleUpload> {
 
   Future<void> _pickImage() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _selectedImage = image;
-    });
+    bool hasPermission = await _pythonAnywhereService.requestStoragePermission();
+    if (hasPermission) {
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _selectedImage = image;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Media access permission required')),
+      );
+    }
   }
 
   Future<String?> uploadImage() async {
@@ -153,11 +156,10 @@ class _ArticleUploadState extends State<ArticleUpload> {
     try {
       _imageFile = File(_selectedImage!.path);
       _compressedImage = await _pythonAnywhereService.compressImage(_imageFile!);
-      pathurl = await _pythonAnywhereService.uploadImage( _compressedImage!,"suiet");
+      pathurl = await _pythonAnywhereService.uploadImage(_compressedImage!, "suiet");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Image uploaded successfully!')),
       );
-      
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error uploading image: ${e.toString()}')),

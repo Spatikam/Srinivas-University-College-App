@@ -44,11 +44,18 @@ class _ImagePostPageState extends State<ImagePostPage> {
 
   Future<void> _pickImages() async {
     final ImagePicker picker = ImagePicker();
-    final List<XFile> images = await picker.pickMultiImage();
-
-    setState(() {
-      _selectedImages = images;
-    });
+    
+    bool hasPermission = await _pythonAnywhereService.requestStoragePermission();
+    if (hasPermission) {
+      final List<XFile> images = await picker.pickMultiImage();
+      setState(() {
+        _selectedImages = images;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Media access permission required')),
+      );
+    }
   }
 
   Future<void> fetchimages() async {
@@ -226,46 +233,46 @@ class _ImagePostPageState extends State<ImagePostPage> {
                 ),
               ),
               //if (_isLoading)
-                /*const CircularProgressIndicator()
+              /*const CircularProgressIndicator()
                         .animate()
                         .fadeIn(duration: 500.ms)*/
 
-                if (!_isLoading)
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: imagepaths.length,
-                    itemBuilder: (context, index) {
-                      final imagePath = imagepaths[index];
-                      return Card(
-                        margin: const EdgeInsets.all(8.0),
-                        child: ListTile(
-                          title: Text(imagePath['Filename']),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.network(
-                                _pythonAnywhereService.getImageUrl("gallery", imagepaths[index]['Filename']),
-                                fit: BoxFit.cover,
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.delete, color: Colors.red),
-                                onPressed: () {
-                                  if (imagePath['Filename'] != null) {
-                                    deleteimage(imagePath['Filename']);
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(content: Text('Filename is missing. Cannot delete.')),
-                                    );
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
+              if (!_isLoading)
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: imagepaths.length,
+                  itemBuilder: (context, index) {
+                    final imagePath = imagepaths[index];
+                    return Card(
+                      margin: const EdgeInsets.all(8.0),
+                      child: ListTile(
+                        title: Text(imagePath['Filename']),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.network(
+                              _pythonAnywhereService.getImageUrl("gallery", imagepaths[index]['Filename']),
+                              fit: BoxFit.cover,
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () {
+                                if (imagePath['Filename'] != null) {
+                                  deleteimage(imagePath['Filename']);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Filename is missing. Cannot delete.')),
+                                  );
+                                }
+                              },
+                            ),
+                          ],
                         ),
-                      ).animate().fadeIn(delay: (100 * index).ms);
-                    },
-                  ),
+                      ),
+                    ).animate().fadeIn(delay: (100 * index).ms);
+                  },
+                ),
             ],
           ),
         ),

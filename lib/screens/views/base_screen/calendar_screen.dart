@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -20,8 +21,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   final List<Map<String, dynamic>> notif_events = [
     {"title": "Science Fair", "date": DateTime(2025, 2, 2, 18, 15)}, // Feb 5, 9 AM
-    {"title": "Sports Day", "date": DateTime(2025, 2, 2, 18, 20)}, // Feb 10, 8:30 AM
-    {"title": "Founder's Day", "date": DateTime(2025, 2, 14, 2, 16)}, // Feb 10, 8:30 AM
+    {"title": "Sports Day", "date": DateTime(2025, 2, 22, 10, 17)}, // Feb 10, 8:30 AM
+    {"title": "Founder's Day", "date": DateTime(2025, 2, 22, 10, 15)}, // Feb 10, 8:30 AM
     //{"title": "Founder's Day", "date": DateTime(2025, 2, 14, 9, 0)} // Feb 20, 10 AM
   ];
 
@@ -72,12 +73,40 @@ class _CalendarScreenState extends State<CalendarScreen> {
     });
   }
 
-  void _scheduleEventNotifications() {
-    for (var event in notif_events) {
-      NotificationService().scheduleNotification(
-        event["title"],
-        "Join Us in celebrating ${event["title"]}",
-        event["date"],
+  Future<bool> requestNotificationPermission() async {
+    PermissionStatus status;
+
+    if (await Permission.notification.isGranted) {
+      return true;
+    }
+
+    status = await Permission.notification.request();
+
+    if (status.isDenied) {
+      return false;
+    }
+
+    if (status.isPermanentlyDenied) {
+      openAppSettings();
+      return false;
+    }
+
+    return status.isGranted;
+  }
+
+  void _scheduleEventNotifications() async {
+    bool hasPermission = await requestNotificationPermission();
+    if (hasPermission) {
+      for (var event in notif_events) {
+        NotificationService().scheduleNotification(
+          event["title"],
+          "Join Us in celebrating ${event["title"]}",
+          event["date"],
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Media access permission required')),
       );
     }
   }

@@ -10,9 +10,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   final String collegeName;
-  final String? uuid;
+  final String uuid;
 
-  const HomeScreen({super.key, required this.collegeName, required this.uuid});
+  const HomeScreen({super.key, required this.collegeName, this.uuid = ""});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -66,24 +66,19 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _isLoading = true;
     });
-    if(widget.uuid!=null){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('UUID: ${widget.uuid}')),
+    );
+    if (widget.uuid != "") {
       try {
-        var response = await Supabase.instance.client
-            .from('Events')
-            .select()
-            .eq('created_by', widget.uuid as Object)
-            .order('Start_date', ascending: true)
-            .limit(10);
-
-        _events = List<Map<String, dynamic>>.from(response); // Direct cast
-
-        response = await Supabase.instance.client
-            .from('Announcements')
-            .select()
-            .eq('owner_id', widget.uuid as Object)
-            .order('Created_At', ascending: false)
-            .limit(10);
-        _announcements = List<Map<String, dynamic>>.from(response);
+        var response = await Supabase.instance.client.from('Events').select('*').eq('created_by', widget.uuid as Object).order('Start_date', ascending: true).limit(10);
+        setState(() {
+          _events = List<Map<String, dynamic>>.from(response); // Direct cast
+        });
+        response = await Supabase.instance.client.from('Announcements').select('*').eq('owner_id', widget.uuid as Object).order('Created_At', ascending: false).limit(10);
+        setState(() {
+          _announcements = List<Map<String, dynamic>>.from(response);
+        });
       } catch (e) {
         print("Supabase error: $e");
         ScaffoldMessenger.of(context).showSnackBar(
@@ -220,7 +215,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildGridView() {
     Map<String, List> exploreGoto = {
       'Engineering & Technology': [
-        EventsPage(uuid: widget.uuid,),
+        EventsPage(
+          uuid: widget.uuid,
+        ),
         WebViewPage(
           url: "https://www.suiet.in/gallery-suiet",
           collegeName: widget.collegeName,
@@ -234,17 +231,17 @@ class _HomeScreenState extends State<HomeScreen> {
         QuickAccessApp()
       ],
       'Hotel Management & Tourism': [
-        EventsPage(uuid: widget.uuid,),
+        EventsPage(
+          uuid: widget.uuid,
+        ),
         WebViewPage(
-          url:
-              "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Student-Life-at-Campus",
+          url: "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Student-Life-at-Campus",
           collegeName: widget.collegeName,
           appbar_display: true,
         ),
         WebViewPage(
           collegeName: widget.collegeName,
-          url:
-              "https://srinivasuniversity.edu.in/SrinivasUniversity/Admission-Enquiry",
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/Admission-Enquiry",
           appbar_display: true,
         ),
         QuickAccessApp()
@@ -256,32 +253,28 @@ class _HomeScreenState extends State<HomeScreen> {
         'description': 'Check out what\'s happenning here at Srinivas University',
         'icon': PhosphorIcons.clock(),
         'goto': exploreGoto[widget.collegeName]![0],
-        'gradient': LinearGradient(
-            colors: [Colors.orange.shade300, Colors.orange.shade100]),
+        'gradient': LinearGradient(colors: [Colors.orange.shade300, Colors.orange.shade100]),
       },
       {
         'title': 'PhotoGallery',
         'description': 'Moments captured in time',
         'icon': PhosphorIcons.googlePhotosLogo(),
         'goto': exploreGoto[widget.collegeName]![1],
-        'gradient': LinearGradient(
-            colors: [Colors.purple.shade300, Colors.purple.shade100]),
+        'gradient': LinearGradient(colors: [Colors.purple.shade300, Colors.purple.shade100]),
       },
       {
         'title': 'Admission',
         'description': 'Join Srinivas to unlock your True Potential',
         'icon': PhosphorIcons.buildings(),
         'goto': exploreGoto[widget.collegeName]![2],
-        'gradient': LinearGradient(
-            colors: [Colors.blue.shade300, Colors.blue.shade100]),
+        'gradient': LinearGradient(colors: [Colors.blue.shade300, Colors.blue.shade100]),
       },
       {
         'title': 'Quick Access',
         'description': 'Access contacts & our social media handles',
         'icon': PhosphorIcons.gridFour(),
         'goto': exploreGoto[widget.collegeName]![3],
-        'gradient': LinearGradient(
-            colors: [Colors.green.shade300, Colors.green.shade100]),
+        'gradient': LinearGradient(colors: [Colors.green.shade300, Colors.green.shade100]),
       },
     ];
     return Padding(
@@ -384,9 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         duration: const Duration(milliseconds: 800),
                         curve: Curves.easeInOut,
                         margin: const EdgeInsets.only(bottom: 12),
-                        padding: isExpanded
-                            ? const EdgeInsets.all(16.0)
-                            : EdgeInsets.zero,
+                        padding: isExpanded ? const EdgeInsets.all(16.0) : EdgeInsets.zero,
                         decoration: BoxDecoration(
                           color: themeColor,
                           borderRadius: BorderRadius.circular(12),
@@ -401,8 +392,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
-                              expandedAnnouncementIndex =
-                                  isExpanded ? null : index;
+                              expandedAnnouncementIndex = isExpanded ? null : index;
                             });
                           },
                           child: ListTile(
@@ -413,25 +403,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.orange.shade300,
                             ),
                             title: Text(
-                              announcement['Name'] ??
-                                  'Announcement ${index + 1}',
+                              announcement['Name'] ?? 'Announcement ${index + 1}',
                               style: GoogleFonts.poppins(
                                 fontSize: isExpanded ? 18 : 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             subtitle: Text(
-                              announcement['Description'] ??
-                                  'No description available.',
+                              announcement['Description'] ?? 'No description available.',
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 color: iconColor.withOpacity(0.6),
                               ),
                             ),
                             trailing: Icon(
-                              isExpanded
-                                  ? Icons.expand_less
-                                  : Icons.chevron_right,
+                              isExpanded ? Icons.expand_less : Icons.chevron_right,
                               color: Colors.black54,
                             ),
                           ),
@@ -444,16 +430,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   Column(
                     children: List.generate(_events.length, (index) {
                       final event = _events[index];
-                      final isExpanded = expandedEventIndex ==
-                          index; // Correct comparison for null-safe value
+                      final isExpanded = expandedEventIndex == index; // Correct comparison for null-safe value
 
                       return AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                         margin: const EdgeInsets.only(bottom: 12),
-                        padding: isExpanded
-                            ? const EdgeInsets.all(16.0)
-                            : EdgeInsets.zero,
+                        padding: isExpanded ? const EdgeInsets.all(16.0) : EdgeInsets.zero,
                         decoration: BoxDecoration(
                           color: themeColor,
                           borderRadius: BorderRadius.circular(12),
@@ -469,9 +452,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () {
                             // Wrap the setState call to ensure safety during the rebuild
                             setState(() {
-                              expandedEventIndex = isExpanded
-                                  ? null
-                                  : index; // Toggle between expanded/collapsed
+                              expandedEventIndex = isExpanded ? null : index; // Toggle between expanded/collapsed
                             });
                           },
                           child: ListTile(
@@ -482,25 +463,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.orange.shade300,
                             ),
                             title: Text(
-                              event['Name'] ??
-                                  'Event ${index + 1}', // Safe fallback for event name
+                              event['Name'] ?? 'Event ${index + 1}', // Safe fallback for event name
                               style: GoogleFonts.kanit(
                                 fontSize: isExpanded ? 18 : 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             subtitle: Text(
-                              event['Description'] ??
-                                  'No description available.', // Safe fallback for description
+                              event['Description'] ?? 'No description available.', // Safe fallback for description
                               style: GoogleFonts.kanit(
                                 fontSize: 14,
                                 color: iconColor.withOpacity(0.6),
                               ),
                             ),
                             trailing: Icon(
-                              isExpanded
-                                  ? Icons.expand_less
-                                  : Icons.chevron_right,
+                              isExpanded ? Icons.expand_less : Icons.chevron_right,
                               color: Colors.black54,
                             ),
                           ),

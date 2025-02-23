@@ -27,16 +27,16 @@ class _NavigationScreenState extends State<NavigationScreen> {
   ];
 
   final List<String> institutions = [
-    'Engineering & Technology',//
-    'Management & Commerce',//
-    'Computer Science & Information Science',//
-    'Hotel Management & Tourism',//
-    'Physiotherapy',//
-    'Allied Health Sciences',//
-    'Social Sciences & Humanities',//
-    'Education',//
-    'Nursing Science',//
-    'Aviation Studies',//
+    'Engineering & Technology', //
+    'Management & Commerce', //
+    'Computer Science & Information Science', //
+    'Hotel Management & Tourism', //
+    'Physiotherapy', //
+    'Allied Health Sciences', //
+    'Social Sciences & Humanities', //
+    'Education', //
+    'Nursing Science', //
+    'Aviation Studies', //
   ];
 
   final List<String> institutionLogos = [
@@ -76,19 +76,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final Map<String, String> institutionUrls = {
     'Engineering & Technology': 'home.dart', // Link to home.dart for engineering
-    'Management & Commerce':
-        'https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce',
-    'Computer and Information science':
-        'https://srinivasuniversity.edu.in/College-BCA-MCA',
-    'Hotel Management':
-        'https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism',
-    'Physiotherapy':
-        'https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy',
-    'Allied Health Sciences':
-        'https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences',
+    'Management & Commerce': 'https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce',
+    'Computer and Information science': 'https://srinivasuniversity.edu.in/College-BCA-MCA',
+    'Hotel Management': 'https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism',
+    'Physiotherapy': 'https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy',
+    'Allied Health Sciences': 'https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences',
     'Education(IED)': 'https://srinivasuniversity.edu.in/College-Of-Education',
     'Nursing Science': 'https://srinivasuniversity.edu.in/College-Of-Nursing',
-    'Social Sciences & Humanities':'https://srinivasuniversity.edu.in/College-Of-SSH',
+    'Social Sciences & Humanities': 'https://srinivasuniversity.edu.in/College-Of-SSH',
     'Aviation Studies': 'https://srinivasuniversity.edu.in/College-Of-AM'
   };
 
@@ -102,10 +97,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   void _searchInstitutions(String query) {
     setState(() {
-      filteredInstitutions = institutions
-          .where((institution) =>
-              institution.toLowerCase().contains(query.toLowerCase()))
-          .toList();
+      filteredInstitutions = institutions.where((institution) => institution.toLowerCase().contains(query.toLowerCase())).toList();
     });
   }
 
@@ -130,8 +122,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 return Builder(
                   builder: (BuildContext context) {
                     return ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          15), // Clip the entire container
+                      borderRadius: BorderRadius.circular(15), // Clip the entire container
                       child: Stack(
                         children: [
                           Container(
@@ -196,8 +187,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   controller: _searchController,
                   onChanged: _searchInstitutions,
                   decoration: InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     hintText: 'Search institutions...',
                     border: InputBorder.none,
                     suffixIcon: IconButton(
@@ -223,7 +213,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
-                  childAspectRatio: 3 / 2,
+                  childAspectRatio: 3 / 2.25,
                 ),
                 itemCount: filteredInstitutions.length,
                 itemBuilder: (context, index) {
@@ -236,24 +226,27 @@ class _NavigationScreenState extends State<NavigationScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyHomePage(collegeName: institution,),
+                            builder: (context) => MyHomePage(
+                              collegeName: institution,
+                            ),
                           ),
                         );
                       } else {
-                        final url = institutionUrls[institution] ??
-                            'https://srinivasuniversity.edu.in';
+                        final url = institutionUrls[institution] ?? 'https://srinivasuniversity.edu.in';
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => WebViewPage(url: url,collegeName: institution,)),
+                              builder: (context) => WebViewPage(
+                                    url: url,
+                                    collegeName: institution,
+                                  )),
                         );
                       }
                     },
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 300),
                       decoration: BoxDecoration(
-                        color:
-                            institutionColors[index % institutionColors.length],
+                        color: institutionColors[index % institutionColors.length],
                         borderRadius: BorderRadius.circular(15),
                         boxShadow: [
                           BoxShadow(

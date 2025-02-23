@@ -32,6 +32,8 @@ dependencies:
   flutter_image_compress: ^2.4.0
   path_provider: ^2.1.5
   lottie: ^3.3.1
+  flutter_cache_manager: ^3.3.1
+  dio: ^5.8.0+1
 
 dev_dependencies:
   flutter_test:

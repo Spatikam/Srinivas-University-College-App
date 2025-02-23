@@ -22,7 +22,7 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
   int _currentIndex = 0;
   final _controller = PageController(initialPage: 0);
   bool change_page = true;
-  String? uuid;
+  String uuid="";
 
   Future<void> fetchUserId() async {
     try {
