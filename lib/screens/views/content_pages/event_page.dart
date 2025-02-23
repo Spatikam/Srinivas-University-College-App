@@ -92,9 +92,9 @@ class _EventsPageState extends State<EventsPage> with SingleTickerProviderStateM
               // Display event image.
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: event.imagePath.startsWith("http") 
-                  ? Image.network(event.imagePath, height: 200, width: double.infinity, fit: BoxFit.cover) 
-                  : Image.asset(event.imagePath, height: 200, fit: BoxFit.cover),
+                child: event.imagePath.startsWith("http")
+                    ? Image.network(event.imagePath, height: 200, width: double.infinity, fit: BoxFit.cover)
+                    : Image.asset(event.imagePath, height: 200, fit: BoxFit.cover),
               ),
               SizedBox(height: 20),
               Text(
@@ -188,7 +188,7 @@ class _EventsPageState extends State<EventsPage> with SingleTickerProviderStateM
                   // Featured Events Section
                   SectionTitle(
                     title: "Featured Events",
-                    onSeeAll: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewPage(url: "https://www.suiet.in/", appbar_display: true))),
+                    onSeeAll: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewPage(url: "https://www.suiet.in/event", appbar_display: true))),
                   ),
                   SizedBox(height: 10),
                   SizedBox(
