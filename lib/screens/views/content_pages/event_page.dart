@@ -192,7 +192,7 @@ class _EventsPageState extends State<EventsPage> with SingleTickerProviderStateM
                   ),
                   SizedBox(height: 10),
                   SizedBox(
-                    height: 200,
+                    height: 205,
                     child: _isLoading
                         ? Center(child: CircularProgressIndicator())
                         : ListView.builder(
@@ -204,26 +204,28 @@ class _EventsPageState extends State<EventsPage> with SingleTickerProviderStateM
                               final imageUrl = (event['Poster_path'] != null && event['Poster_path'].toString().isNotEmpty)
                                   ? _pythonAnywhereService.getImageUrl("suiet", event['Poster_path'])
                                   : "assets/images/default_event.jpg";
-                              return GestureDetector(
-                                onTap: () => _showEventDetails(
-                                    context,
-                                    EventCard(
+                              return Padding(
+                                  padding: EdgeInsets.only(top: 5, left: 5),
+                                  child: GestureDetector(
+                                    onTap: () => _showEventDetails(
+                                        context,
+                                        EventCard(
+                                          title: event['Name'] ?? "No Title",
+                                          date: event['Start_date'] != null ? event['Start_date'].split('T')[0] : "",
+                                          venue: event['Venue'] ?? "",
+                                          imagePath: imageUrl,
+                                          description: event['Description'] ?? "",
+                                          contact: event['Contact'].toString(),
+                                        )),
+                                    child: EventCard(
                                       title: event['Name'] ?? "No Title",
                                       date: event['Start_date'] != null ? event['Start_date'].split('T')[0] : "",
                                       venue: event['Venue'] ?? "",
                                       imagePath: imageUrl,
                                       description: event['Description'] ?? "",
                                       contact: event['Contact'].toString(),
-                                    )),
-                                child: EventCard(
-                                  title: event['Name'] ?? "No Title",
-                                  date: event['Start_date'] != null ? event['Start_date'].split('T')[0] : "",
-                                  venue: event['Venue'] ?? "",
-                                  imagePath: imageUrl,
-                                  description: event['Description'] ?? "",
-                                  contact: event['Contact'].toString(),
-                                ),
-                              );
+                                    ),
+                                  ));
                             },
                           ),
                   ),
@@ -284,14 +286,19 @@ class _EventsPageState extends State<EventsPage> with SingleTickerProviderStateM
     required String title,
     required String author,
   }) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    //final primaryColor = Color(0xFF658CC2);
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+    final themeColor = isDarkMode ? Colors.grey[900] : Colors.white;
+
     return Container(
       margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: themeColor, //Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: isDarkMode ? Colors.black : Colors.grey.withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 5,
             offset: Offset(0, 3),
@@ -467,10 +474,15 @@ class _AnimatedCategoryCardState extends State<AnimatedCategoryCard> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    //final primaryColor = Color(0xFF658CC2);
+    final iconColor = isDarkMode ? Colors.white : Colors.black;
+    final themeColor = isDarkMode ? Colors.grey[900] : Colors.white;
+
     return Expanded(
       child: Container(
         padding: EdgeInsets.all(15),
-        decoration: BoxDecoration(color: widget.color.withOpacity(0.2), borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(color: widget.color.withOpacity(0.4), borderRadius: BorderRadius.circular(10)),
         child: Column(
           children: [
             Text(widget.title, style: GoogleFonts.kanit(color: widget.color, fontWeight: FontWeight.bold)),
@@ -532,18 +544,18 @@ class EventCard extends StatelessWidget {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     //final primaryColor = Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
-    //final themeColor = isDarkMode ? Colors.black : Colors.white;
+    final themeColor = isDarkMode ? Colors.grey[900] : Colors.white;
 
     return Container(
       width: 200,
       margin: EdgeInsets.only(bottom: 10, right: 10),
       padding: EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: themeColor, //Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: isDarkMode ? Colors.black : Colors.grey.withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 5,
             offset: Offset(0, 3),
