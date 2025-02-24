@@ -66,9 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _isLoading = true;
     });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('UUID: ${widget.uuid}')),
-    );
     if (widget.uuid != "") {
       try {
         var response = await Supabase.instance.client.from('Events').select('*').eq('created_by', widget.uuid as Object).order('Start_date', ascending: true).limit(10);
@@ -176,6 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
             FadeInUp(
               duration: const Duration(milliseconds: 800),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildSectionTitle('Explore'),
                   const SizedBox(height: 15),
