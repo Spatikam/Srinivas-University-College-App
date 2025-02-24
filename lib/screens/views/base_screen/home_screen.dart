@@ -10,9 +10,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   final String collegeName;
-  final String uuid;
+  String uuid;
 
-  const HomeScreen({super.key, required this.collegeName, this.uuid = ""});
+  HomeScreen({super.key, required this.collegeName, this.uuid = ""});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -43,9 +43,25 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
   };
 
+  Future<void> fetchUserId() async {
+    try {
+      var response = await Supabase.instance.client.from('Users').select('uuid').eq('College', widget.collegeName).maybeSingle();
+      setState(() {
+        widget.uuid = response!['uuid'];
+      });
+      fetchAnnouncements();
+    } catch (e) {
+      print("Supabase error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching uuid: $e')),
+      );
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    fetchUserId();
     fetchAnnouncements();
     Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_pageController.hasClients) {
@@ -179,6 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 15),
                   _buildGridView(),
                   _buildSectionTitle('Announcements'),
+                  const SizedBox(height: 15),
                   _buildAnnouncements(),
                   const SizedBox(height: 56),
                 ],
@@ -354,7 +371,7 @@ class _HomeScreenState extends State<HomeScreen> {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     //final primaryColor = const Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
-    final themeColor = isDarkMode ? Colors.black : Colors.white;
+    final themeColor = isDarkMode ? Colors.grey[800] : Colors.white;
 
     int? expandedEventIndex;
     int? expandedAnnouncementIndex;
@@ -372,10 +389,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       final announcement = _announcements[index];
                       final isExpanded = expandedAnnouncementIndex == index;
                       return AnimatedContainer(
-                        duration: const Duration(milliseconds: 800),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                         margin: const EdgeInsets.only(bottom: 12),
-                        padding: isExpanded ? const EdgeInsets.all(16.0) : EdgeInsets.zero,
+                        padding: isExpanded ? const EdgeInsets.all(10.0) : EdgeInsets.zero,
                         decoration: BoxDecoration(
                           color: themeColor,
                           borderRadius: BorderRadius.circular(12),
@@ -394,7 +411,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             });
                           },
                           child: ListTile(
-                            contentPadding: const EdgeInsets.all(16),
+                            contentPadding: const EdgeInsets.only(left: 5),
                             leading: Icon(
                               Icons.announcement,
                               size: 32,
