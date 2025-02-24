@@ -4,6 +4,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:rip_college_app/main.dart';
 import 'package:rip_college_app/screens/views/content_pages/about_us.dart';
+import 'package:rip_college_app/screens/views/content_pages/help_page.dart';
 import 'package:rip_college_app/screens/views/login_screen/login_page.dart';
 import 'package:rip_college_app/screens/widget_common/web_view.dart';
 
@@ -90,22 +91,21 @@ class _CustomAppBar extends State<CustomAppBar> with TickerProviderStateMixin {
                         text: 'About Us',
                         onTap: () => Navigator.push(context, _createPageRoute(AboutUsPage())),
                       ),
-                      _buildDrawerItem(
-                        context,
-                        icon: PhosphorIcons.shieldCheck(),
-                        text: 'Privacy Policy',
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WebViewPage(url: 'https://docs.google.com/document/d/174u0HXLmt7wgeL9BlKGjDXEdiF2hLbC4FNq2Tmxj20c/edit?usp=sharing')
-                          ),
-                        )
-                      ),
+                      _buildDrawerItem(context,
+                          icon: PhosphorIcons.shieldCheck(),
+                          text: 'Privacy Policy',
+                          onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => WebViewPage(url: 'https://docs.google.com/document/d/174u0HXLmt7wgeL9BlKGjDXEdiF2hLbC4FNq2Tmxj20c/edit?usp=sharing')),
+                              )),
                       _buildDrawerItem(
                         context,
                         icon: PhosphorIcons.question(),
                         text: 'Help',
-                        onTap: () => print('Help tapped'),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HelpPage()),
+                        ),
                       ),
                     ],
                   ),

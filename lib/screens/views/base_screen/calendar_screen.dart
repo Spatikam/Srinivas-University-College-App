@@ -20,10 +20,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime focusedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   final List<Map<String, dynamic>> notif_events = [
-    {"title": "Science Fair", "date": DateTime(2025, 2, 24, 11, 15)}, // Feb 5, 9 AM
-    {"title": "Sports Day", "date": DateTime(2025, 2, 24, 11, 17)}, // Feb 10, 8:30 AM
-    {"title": "Founder's Day", "date": DateTime(2025, 2, 24, 11, 19)}, // Feb 10, 8:30 AM
-    {"title": "My Day", "date": DateTime(2025, 2, 24, 11, 21)} // Feb 20, 10 AM
+    {"title": "Science Fair", "date": DateTime(2025, 2, 24, 12, 40)}, // Feb 5, 9 AM
+    {"title": "Sports Day", "date": DateTime(2025, 2, 24, 12, 42)}, // Feb 10, 8:30 AM
+    {"title": "Founder's Day", "date": DateTime(2025, 2, 24, 12, 44)}, // Feb 10, 8:30 AM
+    {"title": "My Day", "date": DateTime(2025, 2, 24, 12, 46)} // Feb 20, 10 AM
   ];
 
   Map<DateTime, List<String>> predefinedEvents = {
@@ -261,6 +261,7 @@ class NotificationService {
       "Event Reminders",
       importance: Importance.max,
       priority: Priority.high,
+      ticker: 'ticker'
     );
 
     const NotificationDetails details = NotificationDetails(android: androidDetails);
