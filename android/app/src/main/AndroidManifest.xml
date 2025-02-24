@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <!--<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/> -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
 
 
@@ -85,17 +85,17 @@
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
             android:name="flutterEmbedding"
-            android:value="2" />
+            android:value="2" 
+        />
 
         <!-- Enable WebView Safe Browsing (Android 7+) -->
         <meta-data android:name="android.webkit.WebView.EnableSafeBrowsing" android:value="true"/>
 
-        <!--<service
+        <service
             android:name=".NotificationService"
             android:foregroundServiceType="mediaProjection"
             android:exported="false"
-        /> -->
-
+        /> 
 
     </application>
 

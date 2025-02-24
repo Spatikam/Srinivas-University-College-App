@@ -20,10 +20,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime focusedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   final List<Map<String, dynamic>> notif_events = [
-    {"title": "Science Fair", "date": DateTime(2025, 2, 2, 18, 15)}, // Feb 5, 9 AM
-    {"title": "Sports Day", "date": DateTime(2025, 2, 22, 10, 17)}, // Feb 10, 8:30 AM
-    {"title": "Founder's Day", "date": DateTime(2025, 2, 22, 10, 15)}, // Feb 10, 8:30 AM
-    //{"title": "Founder's Day", "date": DateTime(2025, 2, 14, 9, 0)} // Feb 20, 10 AM
+    {"title": "Science Fair", "date": DateTime(2025, 2, 24, 11, 15)}, // Feb 5, 9 AM
+    {"title": "Sports Day", "date": DateTime(2025, 2, 24, 11, 17)}, // Feb 10, 8:30 AM
+    {"title": "Founder's Day", "date": DateTime(2025, 2, 24, 11, 19)}, // Feb 10, 8:30 AM
+    {"title": "My Day", "date": DateTime(2025, 2, 24, 11, 21)} // Feb 20, 10 AM
   ];
 
   Map<DateTime, List<String>> predefinedEvents = {
