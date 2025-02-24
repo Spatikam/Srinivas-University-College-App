@@ -76,23 +76,25 @@ class PythonAnywhereService {
   }
 
   Future<bool> requestStoragePermission() async {
-    PermissionStatus status;
+    PermissionStatus status_storage;
+    PermissionStatus status_photos;
 
     if (await Permission.storage.isGranted || await Permission.photos.isGranted) {
       return true;
     }
 
-    status = await Permission.storage.request();
+    status_storage = await Permission.storage.request();
+    status_photos = await Permission.photos.request();
 
-    if (status.isDenied) {
+    if (status_storage.isDenied && status_photos.isDenied) {
       return false;
     }
 
-    if (status.isPermanentlyDenied) {
+    if (status_storage.isPermanentlyDenied || status_photos.isPermanentlyDenied) {
       openAppSettings();
       return false;
     }
 
-    return status.isGranted;
+    return status_storage.isGranted || status_photos.isGranted; 
   }
 }
