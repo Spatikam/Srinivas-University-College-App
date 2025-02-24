@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    super.initState();
+    super.initState(); // CHECK THIS!!!!
     fetchUserId();
     fetchAnnouncements();
     Timer.periodic(const Duration(seconds: 3), (timer) {
@@ -371,7 +371,7 @@ class _HomeScreenState extends State<HomeScreen> {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     //final primaryColor = const Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
-    final themeColor = isDarkMode ? Colors.grey[800] : Colors.white;
+    final themeColor = isDarkMode ? Colors.grey[850] : Colors.white;
 
     int? expandedEventIndex;
     int? expandedAnnouncementIndex;
@@ -426,6 +426,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             subtitle: Text(
                               announcement['Description'] ?? 'No description available.',
+                              overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
                               style: GoogleFonts.poppins(
                                 fontSize: 14,
                                 color: iconColor.withOpacity(0.6),
@@ -451,7 +452,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                         margin: const EdgeInsets.only(bottom: 12),
-                        padding: isExpanded ? const EdgeInsets.all(16.0) : EdgeInsets.zero,
+                        padding: isExpanded ? const EdgeInsets.all(10.0) : EdgeInsets.zero,
                         decoration: BoxDecoration(
                           color: themeColor,
                           borderRadius: BorderRadius.circular(12),
@@ -465,13 +466,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         child: GestureDetector(
                           onTap: () {
-                            // Wrap the setState call to ensure safety during the rebuild
                             setState(() {
                               expandedEventIndex = isExpanded ? null : index; // Toggle between expanded/collapsed
                             });
                           },
                           child: ListTile(
-                            contentPadding: const EdgeInsets.all(16),
+                            contentPadding: const EdgeInsets.only(left: 5),
                             leading: Icon(
                               Icons.message_rounded,
                               size: 32,
@@ -486,6 +486,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             subtitle: Text(
                               event['Description'] ?? 'No description available.', // Safe fallback for description
+                              overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
                               style: GoogleFonts.kanit(
                                 fontSize: 14,
                                 color: iconColor.withOpacity(0.6),
