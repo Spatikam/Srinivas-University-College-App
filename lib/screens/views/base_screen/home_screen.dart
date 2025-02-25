@@ -61,8 +61,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState(); // CHECK THIS!!!!
-    fetchUserId();
-    fetchAnnouncements();
+    if (widget.uuid == "") {
+      fetchUserId();
+    } else {
+      fetchAnnouncements();
+    }
+    
     Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_pageController.hasClients) {
         setState(() {

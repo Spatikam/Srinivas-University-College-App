@@ -100,6 +100,7 @@ class _EventsPageState extends State<EventsPage> with SingleTickerProviderStateM
               Text(
                 event.title,
                 style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold),
+                overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 10),
               Text(
@@ -235,7 +236,6 @@ class _EventsPageState extends State<EventsPage> with SingleTickerProviderStateM
                     title: "Popular Articles",
                     onSeeAll: () => Navigator.push(context, MaterialPageRoute(builder: (context) => WebViewPage(url: "https://www.suiet.in/", appbar_display: true))),
                   ),
-                  SizedBox(height: 10),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),

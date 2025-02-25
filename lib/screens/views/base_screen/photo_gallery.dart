@@ -10,8 +10,7 @@ class PhotoGallery extends StatefulWidget {
   final String? uuid;
   final String collegeName;
 
-  const PhotoGallery(
-      {super.key, required this.collegeName, required this.uuid});
+  const PhotoGallery({super.key, required this.collegeName, required this.uuid});
 
   @override
   State<PhotoGallery> createState() => _PhotoGalleryState();
@@ -30,10 +29,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
     });
     if (widget.uuid != null) {
       try {
-        final response = await Supabase.instance.client
-            .from('Gallery')
-            .select("*")
-            .eq('Created_by', widget.uuid as Object);
+        final response = await Supabase.instance.client.from('Gallery').select("*").eq('Created_by', widget.uuid as Object);
         imagepaths = List<Map<String, dynamic>>.from(response);
         print(imagepaths);
       } catch (e) {
@@ -65,10 +61,9 @@ class _PhotoGalleryState extends State<PhotoGallery> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Event Gallery',
+          'Gallery',
           style: GoogleFonts.kanit(
             fontSize: 20,
-            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
@@ -101,7 +96,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
             Text(
               'Memorable Moments',
               style: GoogleFonts.kanit(
-                fontSize: 24,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: iconColor,
               ),
@@ -154,8 +149,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16.0),
                             child: Image.network(
-                              _pythonAnywhereService.getImageUrl(
-                                  "gallery", imagepaths[index]['Filename']),
+                              _pythonAnywhereService.getImageUrl("gallery", imagepaths[index]['Filename']),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -206,8 +200,7 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                 },
                 itemBuilder: (context, index) {
                   return Image.network(
-                    _pythonAnywhereService.getImageUrl(
-                        "gallery", imagepaths[index]['Filename']),
+                    _pythonAnywhereService.getImageUrl("gallery", imagepaths[index]['Filename']),
                     fit: BoxFit.contain,
                   );
                 },

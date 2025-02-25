@@ -29,7 +29,7 @@ class _ExplorePageState extends State<ExplorePage> {
     'Engineering & Technology': [
       {
         'title': 'Courses',
-        'icon': Icons.school,
+        'icon': PhosphorIcons.bookOpen(),
         'gotoPage': WebViewPage(
           url: "https://www.suiet.in/courses",
           collegeName: widget.collegeName,
@@ -37,7 +37,7 @@ class _ExplorePageState extends State<ExplorePage> {
       },
       {
         'title': 'Events',
-        'icon': Icons.event,
+        'icon': PhosphorIcons.calendar(),
         'gotoPage': WebViewPage(
           url: "https://www.suiet.in/event",
           collegeName: widget.collegeName,
@@ -45,10 +45,9 @@ class _ExplorePageState extends State<ExplorePage> {
       },
       {
         'title': 'News',
-        'icon': Icons.newspaper,
+        'icon': PhosphorIcons.newspaper(),
         'gotoPage': WebViewPage(
-          url:
-              "https://youtube.com/@mediaandpresssrinivasunive4484?si=mJpfo3mlo4Kzo2xz",
+          url: "https://youtube.com/@mediaandpresssrinivasunive4484?si=mJpfo3mlo4Kzo2xz",
           collegeName: widget.collegeName,
         )
       },
@@ -70,7 +69,7 @@ class _ExplorePageState extends State<ExplorePage> {
       },
       {
         'title': 'Placements',
-        'icon': Icons.work,
+        'icon': PhosphorIcons.suitcase(),
         'gotoPage': WebViewPage(
           url: "https://www.suiet.in/",
           collegeName: widget.collegeName,
@@ -80,35 +79,32 @@ class _ExplorePageState extends State<ExplorePage> {
     ],
     'Hotel Management & Tourism': [
       {
-        'title': 'Courses',
+        'title': PhosphorIcons.bookOpen(),
         'icon': Icons.school,
         'gotoPage': WebViewPage(
-          url:
-              "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Courses",
+          url: "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Courses",
           collegeName: widget.collegeName,
         )
       },
       {
         'title': 'Student Life',
-        'icon': Icons.sports_soccer,
+        'icon': PhosphorIcons.basketball(),
         'gotoPage': WebViewPage(
-          url:
-              "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Student-Life-at-Campus",
+          url: "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Student-Life-at-Campus",
           collegeName: widget.collegeName,
         )
       },
       {
         'title': 'News',
-        'icon': Icons.newspaper,
+        'icon': PhosphorIcons.newspaper(),
         'gotoPage': WebViewPage(
-          url:
-              "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Blog-Category?newsEvents=1",
+          url: "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Blog-Category?newsEvents=1",
           collegeName: widget.collegeName,
         )
       },
       {
         'title': 'Alumnus',
-        'icon': Icons.event,
+        'icon': PhosphorIcons.users(),
         'gotoPage': WebViewPage(
           url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
           collegeName: widget.collegeName,
@@ -116,7 +112,7 @@ class _ExplorePageState extends State<ExplorePage> {
       },
       {
         'title': 'Library',
-        'icon': Icons.group,
+        'icon': PhosphorIcons.book(),
         'gotoPage': WebViewPage(
           url: "http://103.167.211.212/",
           collegeName: widget.collegeName,
@@ -124,10 +120,9 @@ class _ExplorePageState extends State<ExplorePage> {
       },
       {
         'title': 'Placements',
-        'icon': Icons.work,
+        'icon': PhosphorIcons.suitcase(),
         'gotoPage': WebViewPage(
-          url:
-              "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Placement-Info",
+          url: "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Placement-Info",
           collegeName: widget.collegeName,
           appbar_display: true,
         )
@@ -146,25 +141,21 @@ class _ExplorePageState extends State<ExplorePage> {
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url:
-            "https://www.suiet.in/about-us/Institute-Engineering%20&%20Technology",
+        url: "https://www.suiet.in/about-us/Institute-Engineering%20&%20Technology",
         collegeName: widget.collegeName,
       ),
     ],
     'Hotel Management & Tourism': [
       WebViewPage(
-        url:
-            "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Facilities",
+        url: "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Facilities",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url:
-            "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Calendar",
+        url: "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Calendar",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url:
-            "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/About-Us",
+        url: "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/About-Us",
         collegeName: widget.collegeName,
       ),
     ]
@@ -182,10 +173,7 @@ class _ExplorePageState extends State<ExplorePage> {
     });
     if (widget.uuid != null) {
       try {
-        final response = await Supabase.instance.client
-            .from('Placements')
-            .select("*")
-            .eq('Uploaded_by', widget.uuid as Object);
+        final response = await Supabase.instance.client.from('Placements').select("*").eq('Uploaded_by', widget.uuid as Object);
 
         _placements = List<Map<String, dynamic>>.from(response); // Direct cast
       } catch (e) {
@@ -214,7 +202,6 @@ class _ExplorePageState extends State<ExplorePage> {
             'Explore',
             style: GoogleFonts.kanit(fontWeight: FontWeight.bold),
           ),
-          backgroundColor: themeColor,
           elevation: 0,
         ),
         body: Container(
@@ -258,7 +245,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: NetworkImage(_pythonAnywhereService.getImageUrl("suiet",placed['Link'])), //Image.network(placed['Link'], fit: BoxFit.cover);,
+                    image: NetworkImage(_pythonAnywhereService.getImageUrl("suiet", placed['Link'])), //Image.network(placed['Link'], fit: BoxFit.cover);,
                     fit: BoxFit.cover,
                   ),
                   boxShadow: [
@@ -338,10 +325,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              exploreCategories[collegeName]![index]
-                                  ['gotoPage']),
+                      MaterialPageRoute(builder: (context) => exploreCategories[collegeName]![index]['gotoPage']),
                     );
                   },
                   child: Container(
@@ -403,40 +387,32 @@ class _ExplorePageState extends State<ExplorePage> {
             Column(
               children: [
                 ListTile(
-                  leading: Icon(FontAwesomeIcons.university,
-                      color: Colors.blueAccent),
+                  leading: Icon(FontAwesomeIcons.university, color: Colors.blueAccent),
                   title: Text('Campus', style: GoogleFonts.kanit(fontSize: 14)),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => explore_more[collegeName]![0]),
+                      MaterialPageRoute(builder: (context) => explore_more[collegeName]![0]),
                     );
                   },
                 ),
                 ListTile(
-                  leading: Icon(FontAwesomeIcons.calendarDays,
-                      color: Colors.blueAccent),
-                  title: Text('Academic Calendar',
-                      style: GoogleFonts.kanit(fontSize: 14)),
+                  leading: Icon(FontAwesomeIcons.calendarDays, color: Colors.blueAccent),
+                  title: Text('Academic Calendar', style: GoogleFonts.kanit(fontSize: 14)),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => explore_more[collegeName]![1]),
+                      MaterialPageRoute(builder: (context) => explore_more[collegeName]![1]),
                     );
                   },
                 ),
                 ListTile(
-                  leading: Icon(FontAwesomeIcons.infoCircle,
-                      color: Colors.blueAccent),
-                  title: Text('About College',
-                      style: GoogleFonts.kanit(fontSize: 14)),
+                  leading: Icon(FontAwesomeIcons.infoCircle, color: Colors.blueAccent),
+                  title: Text('About College', style: GoogleFonts.kanit(fontSize: 14)),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => explore_more[collegeName]![2]),
+                      MaterialPageRoute(builder: (context) => explore_more[collegeName]![2]),
                     );
                   },
                 ),
