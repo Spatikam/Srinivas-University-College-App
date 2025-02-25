@@ -122,7 +122,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
         automaticallyImplyLeading: false,
         title: Text(
           'Calendar with Events',
-          style: TextStyle(color: iconColor),
+          style: GoogleFonts.kanit(
+            fontSize: 20,
+            color: iconColor,
+          ),
         ),
       ),
       body: Column(

@@ -48,9 +48,9 @@ class _AboutUsPageState extends State<AboutUsPage> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final primaryColor = Color(0xFF658CC2);
+    //final primaryColor = Color(0xFF658CC2);
     final iconColor = isDarkMode ? Colors.white : Colors.black;
-    final themeColor = isDarkMode ? Colors.black : Colors.white;
+    final themeColor = isDarkMode ? Colors.grey[850] : Colors.white;
     return Scaffold(
       body: Stack(
         children: [
@@ -126,6 +126,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
                       SizedBox(height: 10),
                       Text(
                         "Our mission is to provide exceptional travel experiences that inspire and connect people with the world. We believe in creating memorable journeys that leave a lasting impact.",
+                        textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
@@ -136,7 +137,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
                       Container(
                         padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: themeColor,
                           borderRadius: BorderRadius.circular(15),
                           boxShadow: [
                             BoxShadow(
@@ -163,12 +164,12 @@ class _AboutUsPageState extends State<AboutUsPage> {
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
                               ),
                             ),
                             SizedBox(height: 10),
                             Text(
                               "The Chancellor is the head of the university, responsible for overseeing its academic and administrative functions. With a vision for excellence, the Chancellor ensures the institution remains a leader in education and innovation.",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey,
@@ -185,11 +186,11 @@ class _AboutUsPageState extends State<AboutUsPage> {
                             SizedBox(height: 10),
                             Text(
                               "As the Chancellor of Srinivas University and Group of Colleges, I take immense pride in fostering innovation and excellence among our students. Our institution has always been committed to providing a platform where young minds can explore, create, and excel. I am delighted to witness our students develop this remarkable Faculty Availability App, a project entirely conceptualized, designed, and built by them. This initiative showcases the technical expertise, dedication, and problem-solving skills nurtured within our university.",
+                              textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.grey,
                               ),
-                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),
@@ -201,7 +202,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
                         child: Container(
                           padding: EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: themeColor,
                             borderRadius: BorderRadius.circular(15),
                             boxShadow: [
                               BoxShadow(
@@ -216,7 +217,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(15),
                                 child: Image.asset(
-                                  'assets/images/webflow.webp', // Developer team image
+                                  'assets/images/spatikam.jpeg', // Developer team image
                                   fit: BoxFit.cover,
                                   width: double.infinity,
                                   height: 200,
@@ -224,20 +225,17 @@ class _AboutUsPageState extends State<AboutUsPage> {
                               ),
                               SizedBox(height: 20),
                               Text(
-                                "WEBFLOW",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                "SPATIKAM",
+                                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: iconColor),
                               ),
                               SizedBox(height: 10),
                               Text(
                                 "Our talented team of developers has worked tirelessly to bring this project to life. Click to learn more about them!,is a dynamic and innovative community club at Srinivas University, dedicated to fostering a collaborative environment for software engineering enthusiasts. The club brings together students with a passion for coding, technology, and real-world problem-solving. At Webflow, students are provided with the opportunity to work on cutting-edge, real-time projects that simulate industry experiences.The club offers extensive support and guidance from experienced faculty members who mentor students through every phase of project development. These teachers bring their expertise to the table, ensuring that each project is designed and executed according to professional standards. They encourage students to explore various technologies, tools, and frameworks,  .",
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.black,
+                                  color: Colors.grey,
                                 ),
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.justify,
                               ),
                             ],
                           ),
