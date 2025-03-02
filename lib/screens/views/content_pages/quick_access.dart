@@ -4,27 +4,6 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:lottie/lottie.dart';
 
-class QuickAccessApp extends StatelessWidget {
-  const QuickAccessApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.light,
-        primarySwatch: Colors.green, // Changed to green
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.lightGreen, // Changed to light green
-      ),
-      themeMode: ThemeMode.system, // Automatically adapt to system theme
-      home: const QuickAccessPage(),
-    );
-  }
-}
-
 class QuickAccessPage extends StatefulWidget {
   const QuickAccessPage({super.key});
 

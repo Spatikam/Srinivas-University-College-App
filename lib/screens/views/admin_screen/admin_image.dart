@@ -69,9 +69,8 @@ class _ImagePostPageState extends State<ImagePostPage> {
         imagepaths = List<Map<String, dynamic>>.from(response);
       });
     } catch (e) {
-      print("Supabase error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching Images: $e')),
+        SnackBar(content: Text('Error Fetching Images')),
       );
     } finally {
       setState(() {
@@ -115,7 +114,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error uploading image: ${e.toString()}')),
+        SnackBar(content: Text('Error Uploading Image')),
       );
     } finally {
       setState(() {
@@ -132,7 +131,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
 
       bool isDeleted = await _pythonAnywhereService.deleteImage("gallery", imagepaths[index]['Filen ame']);
 
-      if (isDeleted) {
+      /*if (isDeleted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Images deleted successfully!')),
         );
@@ -140,16 +139,16 @@ class _ImagePostPageState extends State<ImagePostPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to delete image')),
         );
-      }
+      }*/
       setState(() {
         imagepaths.removeWhere((imagePath) => imagePath['Filename'] == Filename);
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Images Detail deleted successfully!')),
+        const SnackBar(content: Text('Images Deleted Successfully!')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting Images Detail: $e')),
+        SnackBar(content: Text('Error Deleting Images')),
       );
     }
   }
@@ -262,7 +261,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
                                   deleteimage(imagePath['Filename']);
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Filename is missing. Cannot delete.')),
+                                    const SnackBar(content: Text('Filename is missing, cannot delete')),
                                   );
                                 }
                               },

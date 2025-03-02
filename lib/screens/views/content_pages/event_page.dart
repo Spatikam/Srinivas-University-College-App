@@ -62,7 +62,7 @@ class _EventsPageState extends State<EventsPage> with SingleTickerProviderStateM
         _events = List<Map<String, dynamic>>.from(data as List);
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error fetching events: $e')),
+          SnackBar(content: Text('Error Fetching Events')),
         );
       } finally {
         setState(() {
@@ -100,7 +100,6 @@ class _EventsPageState extends State<EventsPage> with SingleTickerProviderStateM
               Text(
                 event.title,
                 style: GoogleFonts.kanit(fontSize: 24, fontWeight: FontWeight.bold),
-                overflow: TextOverflow.ellipsis,
               ),
               SizedBox(height: 10),
               Text(
@@ -272,7 +271,7 @@ class _EventsPageState extends State<EventsPage> with SingleTickerProviderStateM
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching articles: $e')),
+        SnackBar(content: Text('Error Fetching Articles')),
       );
     } finally {
       setState(() {
@@ -474,10 +473,10 @@ class _AnimatedCategoryCardState extends State<AnimatedCategoryCard> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    //bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     //final primaryColor = Color(0xFF658CC2);
-    final iconColor = isDarkMode ? Colors.white : Colors.black;
-    final themeColor = isDarkMode ? Colors.grey[900] : Colors.white;
+    //final iconColor = isDarkMode ? Colors.white : Colors.black;
+    //final themeColor = isDarkMode ? Colors.grey[900] : Colors.white;
 
     return Expanded(
       child: Container(
@@ -574,9 +573,13 @@ class EventCard extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  Text(
-                    title,
-                    style: GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold),
+                  SizedBox(
+                    width: 170,
+                    child: Text(
+                      title,
+                      style: GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   SizedBox(height: 5),
                   Icon(

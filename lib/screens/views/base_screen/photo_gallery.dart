@@ -31,11 +31,9 @@ class _PhotoGalleryState extends State<PhotoGallery> {
       try {
         final response = await Supabase.instance.client.from('Gallery').select("*").eq('Created_by', widget.uuid as Object);
         imagepaths = List<Map<String, dynamic>>.from(response);
-        print(imagepaths);
       } catch (e) {
-        print("Supabase error: $e");
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error fetching Images: $e')),
+          SnackBar(content: Text('Error Fetching Images')),
         );
       } finally {
         setState(() {

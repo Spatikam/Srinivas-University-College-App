@@ -79,8 +79,8 @@ class _ExplorePageState extends State<ExplorePage> {
     ],
     'Hotel Management & Tourism': [
       {
-        'title': PhosphorIcons.bookOpen(),
-        'icon': Icons.school,
+        'title': 'Courses',
+        'icon': PhosphorIcons.bookOpen(),
         'gotoPage': WebViewPage(
           url: "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/Courses",
           collegeName: widget.collegeName,
@@ -114,7 +114,7 @@ class _ExplorePageState extends State<ExplorePage> {
         'title': 'Library',
         'icon': PhosphorIcons.book(),
         'gotoPage': WebViewPage(
-          url: "http://103.167.211.212/",
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/Library",
           collegeName: widget.collegeName,
         )
       },
@@ -179,7 +179,7 @@ class _ExplorePageState extends State<ExplorePage> {
       } catch (e) {
         print("Supabase error: $e");
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error fetching Placements: $e')),
+          SnackBar(content: Text('Error Fetching Placements')),
         );
       } finally {
         setState(() {

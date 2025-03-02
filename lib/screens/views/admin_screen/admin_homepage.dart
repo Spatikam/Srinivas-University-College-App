@@ -17,20 +17,33 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   String selectedOption = "Event";
-  
+
   late final Map<String, Widget> optionWidgets = {
-    "Event": ProfilePage(uuid: widget.uuid,),
-    "Article": ArticleUpload(uuid: widget.uuid,),
-    "Image": ImagePostPage(uuid: widget.uuid,),
-    "Placement": Placement_Update(uuid: widget.uuid,),
-    "Announcement": AddAnnouncementScreen(uuid: widget.uuid,),
+    "Event": ProfilePage(
+      uuid: widget.uuid,
+    ),
+    "Article": ArticleUpload(
+      uuid: widget.uuid,
+    ),
+    "Image": ImagePostPage(
+      uuid: widget.uuid,
+    ),
+    "Placement": Placement_Update(
+      uuid: widget.uuid,
+    ),
+    "Announcement": AddAnnouncementScreen(
+      uuid: widget.uuid,
+    ),
   };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
-      appBar: CustomAppBar(collegeName: "Engineering", slide_menu_access: false,),
+      appBar: CustomAppBar(
+        collegeName: "",
+        slide_menu_access: false,
+      ),
       body: Column(
         children: [
           Padding(
@@ -73,8 +86,7 @@ class _AdminPageState extends State<AdminPage> {
           Expanded(
             child: PageTransitionSwitcher(
               duration: Duration(milliseconds: 500),
-              transitionBuilder: (child, animation, secondaryAnimation) =>
-                  FadeThroughTransition(animation: animation, secondaryAnimation: secondaryAnimation, child: child),
+              transitionBuilder: (child, animation, secondaryAnimation) => FadeThroughTransition(animation: animation, secondaryAnimation: secondaryAnimation, child: child),
               child: optionWidgets[selectedOption],
             ),
           ),

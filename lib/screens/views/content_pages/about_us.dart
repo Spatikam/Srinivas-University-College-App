@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutUsPage extends StatefulWidget {
@@ -332,13 +333,13 @@ void _showAboutDevelopers(BuildContext context, String imagePath) {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildTeamMember("A K Kavan", "FrontEnd Expert,Backend Integration"),
-                  _buildTeamMember("Evan M Anto", "Project Manager"),
-                  _buildTeamMember("Harishankar P", "Backend Expert"),
+                  _buildTeamMember("A K Kavan", "FrontEnd Expert & Backend Integration"),
+                  _buildTeamMember("Evan M Anto", "Project Manager & Core Developer"),
+                  _buildTeamMember("Harishankar P", "Backend Designer & Developer"),
                   _buildTeamMember("Harshith", "Researcher"),
-                  _buildTeamMember("Shreya Rao", "Backend Expert"),
+                  _buildTeamMember("Shreya Rao", "Backend Designer & Developer"),
                   _buildTeamMember("Shivanandu", "Figma Designer"),
-                  _buildTeamMember("Sumant Bhat", "UI/UX, Frontend Expert"),
+                  _buildTeamMember("Sumant Bhat", "UI/UX, Frontend Expert & Marketing Manager"),
                 ],
               ),
               SizedBox(height: 20),
@@ -347,11 +348,11 @@ void _showAboutDevelopers(BuildContext context, String imagePath) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildSocialIcon(Icons.camera_alt, "https://instagram.com"),
+                  _buildSocialIcon(PhosphorIcons.instagramLogo(), "https://instagram.com"),
                   SizedBox(width: 20),
-                  _buildSocialIcon(Icons.play_arrow, "https://play.google.com"),
+                  _buildSocialIcon(PhosphorIcons.googlePlayLogo(), "https://play.google.com"),
                   SizedBox(width: 20),
-                  _buildSocialIcon(Icons.link, "https://linkedin.com"),
+                  _buildSocialIcon(PhosphorIcons.linkedinLogo(), "https://linkedin.com"),
                 ],
               ),
             ],

@@ -61,14 +61,14 @@ class _Placement_UpdateState extends State<Placement_Update> {
       int index = _placements
           .indexWhere((placement) => placement['Placement_Id'] == placementId);
 
-      bool isDeleted = await _pythonAnywhereService.deleteImage(
-          "suiet", _placements[index]['Link']);
+      bool isDeleted = await _pythonAnywhereService.deleteImage("suiet", _placements[index]['Link']);
 
-      if (isDeleted) {
+      /*if (isDeleted) {
         print("Image deleted successfully!");
       } else {
         print("Failed to delete image.");
-      }
+      }*/
+
       setState(() {
         _placements.removeWhere(
           (placement) => placement['Placement_Id'] == placementId
@@ -79,7 +79,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting Placement Detail: $e')),
+        SnackBar(content: Text('Error deleting Placement Detail')),
       );
     }
   }
@@ -97,7 +97,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching Placement: $e')),
+        SnackBar(content: Text('Error Fetching Placement')),
       );
     } finally {
       setState(() {
@@ -144,7 +144,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
         }
       }catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error adding Placement Details: $e')),
+        SnackBar(content: Text('Error Adding Placement Detail')),
       );
     }
   }
@@ -187,11 +187,11 @@ class _Placement_UpdateState extends State<Placement_Update> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text('image updated successfully! File: $pathUrl')),
+            content: Text('Image Updated Successfully!')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error uploading image: ${e.toString()}')),
+        SnackBar(content: Text('Error Uploading Image')),
       );
     } finally {
       setState(() {
@@ -326,7 +326,7 @@ class _Placement_UpdateState extends State<Placement_Update> {
                                     } else {
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
-                                          content: Text('Placement ID is missing. Cannot delete.')
+                                          content: Text('Placement ID is missing, cannot delete.')
                                         ),
                                       );
                                     }

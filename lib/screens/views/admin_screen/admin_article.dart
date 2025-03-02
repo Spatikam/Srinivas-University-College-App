@@ -56,7 +56,7 @@ class _ArticleUploadState extends State<ArticleUpload> {
       });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching articles: $e')),
+        SnackBar(content: Text('Error fetching Articles')),
       );
     } finally {
       setState(() {
@@ -98,7 +98,7 @@ class _ArticleUploadState extends State<ArticleUpload> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error adding article: $e')),
+        SnackBar(content: Text('Error adding Article')),
       );
     }
   }
@@ -119,11 +119,11 @@ class _ArticleUploadState extends State<ArticleUpload> {
         _articles.removeWhere((article) => article['Article_id'] == articleId);
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Article deleted successfully!')),
+        const SnackBar(content: Text('Article Deleted Successfully!')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting article: $e')),
+        SnackBar(content: Text('Error Deleting Article')),
       );
     }
   }
@@ -162,7 +162,7 @@ class _ArticleUploadState extends State<ArticleUpload> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error uploading image: ${e.toString()}')),
+        SnackBar(content: Text('Error Uploading Image')),
       );
       return null;
     } finally {
