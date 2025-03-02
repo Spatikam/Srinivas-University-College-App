@@ -71,7 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting event: $e')),
+        SnackBar(content: Text('Error Deleting Event')),
       );
     }
   }
@@ -88,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
         });
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error fetching events: $e')),
+          SnackBar(content: Text('Error Fetching Events')),
         );
       } finally {
         setState(() {
@@ -149,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
       _attachmentController.clear();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error adding event: $e')),
+        SnackBar(content: Text('Error Adding Event')),
       );
     } finally {
       setState(() {
@@ -176,11 +176,11 @@ class _ProfilePageState extends State<ProfilePage> {
       _compressedImage = await _pythonAnywhereService.compressImage(_imageFile!);
       pathUrl = await _pythonAnywhereService.uploadImage(_compressedImage!, 'suiet');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Image updated successfully! File: {$pathUrl}')),
+        SnackBar(content: Text('Image Uploaded Successfully!')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error uploading image: ${e.toString()}')),
+        SnackBar(content: Text('Error Uploading Image')),
       );
     } finally {
       setState(() {
@@ -510,7 +510,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         deleteEvent(event['Event_Id']);
                                       } else {
                                         ScaffoldMessenger.of(context).showSnackBar(
-                                          const SnackBar(content: Text('Event ID is missing. Cannot delete.')),
+                                          const SnackBar(content: Text('Event ID is missing, cannot delete.')),
                                         );
                                       }
                                     },

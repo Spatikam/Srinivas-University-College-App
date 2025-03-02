@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -51,10 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
       fetchAnnouncements();
     } catch (e) {
-      print("Supabase error: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching uuid: $e')),
-      );
+      log("Supabase error: $e");
     }
   }
 
@@ -97,9 +96,8 @@ class _HomeScreenState extends State<HomeScreen> {
           _announcements = List<Map<String, dynamic>>.from(response);
         });
       } catch (e) {
-        print("Supabase error: $e");
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error fetching events: $e')),
+          SnackBar(content: Text('Error Fetching Events')),
         );
       } finally {
         setState(() {
@@ -247,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "https://apply.suiet.in/",
           appbar_display: true,
         ),
-        QuickAccessApp()
+        QuickAccessPage()
       ],
       'Hotel Management & Tourism': [
         EventsPage(
@@ -263,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "https://srinivasuniversity.edu.in/SrinivasUniversity/Admission-Enquiry",
           appbar_display: true,
         ),
-        QuickAccessApp()
+        QuickAccessPage()
       ]
     };
     final List exploreSection = [

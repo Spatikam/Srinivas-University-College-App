@@ -46,7 +46,7 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error deleting: $e')),
+        SnackBar(content: Text('Network Error')),
       );
     } 
   }
@@ -67,7 +67,7 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
       
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error fetching announcements: $e')),
+        SnackBar(content: Text('Error fetching Announcements')),
       );
     } finally {
       setState(() {
@@ -104,7 +104,7 @@ class _AddAnnouncementScreenState extends State<AddAnnouncementScreen> {
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error adding announcement: $e')),
+        SnackBar(content: Text('Error adding Announcement')),
       );
     }
   }

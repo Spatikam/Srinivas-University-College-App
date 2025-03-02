@@ -43,13 +43,12 @@ class _LoginPageState extends State<LoginPage>
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Login failed. Please check your credentials.')),
+          const SnackBar(content: Text('Login failed. Please check your credentials.')),
         );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
+        SnackBar(content: Text('Network Error')),
       );
     }
   }
@@ -74,11 +73,11 @@ class _LoginPageState extends State<LoginPage>
         _isLoggedIn = false; // Reset login state
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Logged out successfully!')),
+        const SnackBar(content: Text('Logged Out Successfully!')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error logging out: $e')),
+        SnackBar(content: Text('Error Logging Out')),
       );
     }
   }
