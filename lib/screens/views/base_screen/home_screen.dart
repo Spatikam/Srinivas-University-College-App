@@ -43,6 +43,30 @@ class _HomeScreenState extends State<HomeScreen> {
       'assets/images/ihmt/image3.jpg',
       'assets/images/ihmt/image4.png',
     ],
+    'Management & Commerce': [
+
+    ],
+    'Computer and Information science': [
+      
+    ],
+    'Physiotherapy': [
+      
+    ],
+    'Allied Health Sciences': [
+      
+    ],
+    'Education(IED)': [
+      
+    ],
+    'Nursing Science': [
+      
+    ],
+    'Social Sciences & Humanities': [
+      
+    ],
+    'Aviation Studies': [
+      
+    ]
   };
 
   Future<void> fetchUserId() async {
@@ -245,7 +269,7 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "https://apply.suiet.in/",
           appbar_display: true,
         ),
-        QuickAccessPage()
+        QuickAccessPage(collegeName: widget.collegeName,)
       ],
       'Hotel Management & Tourism': [
         EventsPage(
@@ -261,7 +285,135 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "https://srinivasuniversity.edu.in/SrinivasUniversity/Admission-Enquiry",
           appbar_display: true,
         ),
-        QuickAccessPage()
+        QuickAccessPage(collegeName: widget.collegeName,)
+      ],
+      'Management & Commerce': [
+        EventsPage(
+          uuid: widget.uuid,
+        ),
+        WebViewPage(
+          url: "",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        ),
+        WebViewPage(
+          collegeName: widget.collegeName,
+          url: "",
+          appbar_display: true,
+        ),
+        QuickAccessPage(collegeName: widget.collegeName,)
+      ],
+      'Computer and Information science': [
+        EventsPage(
+          uuid: widget.uuid,
+        ),
+        WebViewPage(
+          url: "",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        ),
+        WebViewPage(
+          collegeName: widget.collegeName,
+          url: "",
+          appbar_display: true,
+        ),
+        QuickAccessPage(collegeName: widget.collegeName,)
+      ],
+      'Physiotherapy': [
+        EventsPage(
+          uuid: widget.uuid,
+        ),
+        WebViewPage(
+          url: "",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        ),
+        WebViewPage(
+          collegeName: widget.collegeName,
+          url: "",
+          appbar_display: true,
+        ),
+        QuickAccessPage(collegeName: widget.collegeName,)
+      ],
+      'Allied Health Sciences': [
+        EventsPage(
+          uuid: widget.uuid,
+        ),
+        WebViewPage(
+          url: "",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        ),
+        WebViewPage(
+          collegeName: widget.collegeName,
+          url: "",
+          appbar_display: true,
+        ),
+        QuickAccessPage(collegeName: widget.collegeName,)
+      ],
+      'Education(IED)': [
+        EventsPage(
+          uuid: widget.uuid,
+        ),
+        WebViewPage(
+          url: "",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        ),
+        WebViewPage(
+          collegeName: widget.collegeName,
+          url: "",
+          appbar_display: true,
+        ),
+        QuickAccessPage(collegeName: widget.collegeName,)
+      ],
+      'Nursing Science': [
+        EventsPage(
+          uuid: widget.uuid,
+        ),
+        WebViewPage(
+          url: "",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        ),
+        WebViewPage(
+          collegeName: widget.collegeName,
+          url: "",
+          appbar_display: true,
+        ),
+        QuickAccessPage(collegeName: widget.collegeName,)
+      ],
+      'Social Sciences & Humanities': [
+        EventsPage(
+          uuid: widget.uuid,
+        ),
+        WebViewPage(
+          url: "",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        ),
+        WebViewPage(
+          collegeName: widget.collegeName,
+          url: "",
+          appbar_display: true,
+        ),
+        QuickAccessPage(collegeName: widget.collegeName,)
+      ],
+      'Aviation Studies': [
+        EventsPage(
+          uuid: widget.uuid,
+        ),
+        WebViewPage(
+          url: "",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        ),
+        WebViewPage(
+          collegeName: widget.collegeName,
+          url: "",
+          appbar_display: true,
+        ),
+        QuickAccessPage(collegeName: widget.collegeName,)
       ]
     };
     final List exploreSection = [

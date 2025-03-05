@@ -127,7 +127,15 @@ class _ExplorePageState extends State<ExplorePage> {
           appbar_display: true,
         )
       },
-    ]
+    ],
+    'Management & Commerce': [],
+    'Computer and Information science': [],
+    'Hotel Management': [],
+    'Physiotherapy': [],
+    'Allied Health Sciences': [],
+    'Education(IED)': [],
+    'Nursing Science': [],
+    'Social Sciences & Humanities': []
   };
 
   late Map<String, List> explore_more = {
@@ -156,6 +164,118 @@ class _ExplorePageState extends State<ExplorePage> {
       ),
       WebViewPage(
         url: "https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism/About-Us",
+        collegeName: widget.collegeName,
+      ),
+    ],
+    'Management & Commerce': [
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+    ],
+    'Computer Science & Information Science': [
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+    ],
+    'Physiotherapy': [
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+    ],
+    'Allied Health Sciences': [
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+    ],
+    'Social Sciences & Humanities': [
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+    ],
+    'Education(IED)': [
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+    ],
+    'Nursing Science': [
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+    ],
+    'Aviation Studies': [
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
         collegeName: widget.collegeName,
       ),
     ]

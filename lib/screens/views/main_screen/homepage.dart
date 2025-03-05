@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
-import 'package:rip_college_app/screens/widget_common/web_view.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -29,12 +28,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final List<String> institutions = [
     'Engineering & Technology', //
     'Management & Commerce', //
-    'Computer Science & Information Science', //
+    'Computer and Information science', //
     'Hotel Management & Tourism', //
     'Physiotherapy', //
     'Allied Health Sciences', //
     'Social Sciences & Humanities', //
-    'Education', //
+    'Education(IED)', //
     'Nursing Science', //
     'Aviation Studies', //
   ];
@@ -221,7 +220,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
                   return GestureDetector(
                     onTap: () {
-                      if (institution == 'Engineering & Technology' || institution == "Hotel Management & Tourism") {
                         // Navigate directly to HomeScreen when "Engineering" is clicked
                         Navigator.push(
                           context,
@@ -231,17 +229,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             ),
                           ),
                         );
-                      } else {
-                        final url = institutionUrls[institution] ?? 'https://srinivasuniversity.edu.in';
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WebViewPage(
-                                    url: url,
-                                    collegeName: institution,
-                                  )),
-                        );
-                      }
                     },
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 300),

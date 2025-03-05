@@ -5,16 +5,32 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:lottie/lottie.dart';
 
 class QuickAccessPage extends StatefulWidget {
-  const QuickAccessPage({super.key});
+  final String collegeName;
+
+
+  const QuickAccessPage({super.key, required this.collegeName});
 
   @override
   _QuickAccessPageState createState() => _QuickAccessPageState();
 }
 
-class _QuickAccessPageState extends State<QuickAccessPage>
-    with SingleTickerProviderStateMixin {
+class _QuickAccessPageState extends State<QuickAccessPage> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  final String webflow_no = '+91 9876543210';
+
+  final Map<String, List> access_values = {
+    'Engineering & Technology': [
+      '+91 1234567890', // call support
+      '+91 9876543210', // Emergency
+      '+91 5555555555', // Help Desk
+      '+91 6366410493', // Office
+      '0824 2412382', // Admissions
+      'https://t.me/+VcEa0Iz-mICpQZ_T', // Telegram
+      'https://www.instagram.com/suiet_mukka?igsh=MTVrcTJpNW5uZnBxNA==', // Insta
+      'https://www.linkedin.com/company/srinivasuniversity/?originalSubdomain=in' // LindkedIn
+    ]
+  };
 
   @override
   void initState() {
@@ -47,6 +63,7 @@ class _QuickAccessPageState extends State<QuickAccessPage>
       throw 'Could not launch $phoneUri';
     }
   }
+
 // Function to open social media links
   void _launchSocialMedia(String url) async {
     final Uri socialUri = Uri.parse(url);
@@ -73,12 +90,8 @@ class _QuickAccessPageState extends State<QuickAccessPage>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Colors.green.shade700
-                          : Colors.lightGreen,
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Colors.green.shade900
-                          : Colors.green,
+                      Theme.of(context).brightness == Brightness.dark ? Colors.green.shade700 : Colors.lightGreen,
+                      Theme.of(context).brightness == Brightness.dark ? Colors.green.shade900 : Colors.green,
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -87,8 +100,7 @@ class _QuickAccessPageState extends State<QuickAccessPage>
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -96,8 +108,7 @@ class _QuickAccessPageState extends State<QuickAccessPage>
                   Center(
                     child: Text(
                       "Quick Access",
-                      style: GoogleFonts.kanit(
-                          fontSize: 22, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.kanit(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -109,19 +120,19 @@ class _QuickAccessPageState extends State<QuickAccessPage>
                         context,
                         icon: PhosphorIcons.phoneCall(),
                         label: "Call Support",
-                        phoneNumber: "+91 1234567890",
+                        phoneNumber: access_values[widget.collegeName]![0],
                       ),
                       _buildQuickAccessCard(
                         context,
                         icon: PhosphorIcons.warningCircle(),
                         label: "Emergency",
-                        phoneNumber: "+91 9876543210",
+                        phoneNumber: access_values[widget.collegeName]![1],
                       ),
                       _buildQuickAccessCard(
                         context,
                         icon: PhosphorIcons.lifebuoy(),
                         label: "Help Desk",
-                        phoneNumber: "+91 5555555555",
+                        phoneNumber: access_values[widget.collegeName]![2],
                       ),
                     ],
                   ),
@@ -129,36 +140,34 @@ class _QuickAccessPageState extends State<QuickAccessPage>
                   // College Contacts Section
                   Text(
                     "College Contacts",
-                    style: GoogleFonts.kanit(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
                   _buildCollegeContactCard(
                     context,
                     icon: PhosphorIcons.buildingOffice(),
                     label: "Office",
-                    phoneNumber: "+91 6366410493",
+                    phoneNumber: access_values[widget.collegeName]![3],
                   ),
                   const SizedBox(height: 10),
                   _buildCollegeContactCard(
                     context,
                     icon: PhosphorIcons.laptop(),
                     label: "Admissions",
-                    phoneNumber: "0824 2412382",
+                    phoneNumber: access_values[widget.collegeName]![4],
                   ),
                   const SizedBox(height: 10),
                   _buildCollegeContactCard(
                     context,
                     icon: PhosphorIcons.graduationCap(),
                     label: "Webflow",
-                    phoneNumber: "+91 9876543210",
+                    phoneNumber: webflow_no,
                   ),
                   const SizedBox(height: 30),
                   // Social Media Card
                   Text(
                     "Connect with Us",
-                    style: GoogleFonts.kanit(
-                        fontSize: 18, fontWeight: FontWeight.bold, color: iconColor),
+                    style: GoogleFonts.kanit(fontSize: 18, fontWeight: FontWeight.bold, color: iconColor),
                   ),
                   const SizedBox(height: 10),
                   _buildSocialMediaCard(context),
@@ -206,8 +215,7 @@ class _QuickAccessPageState extends State<QuickAccessPage>
             const SizedBox(height: 10),
             Text(
               label,
-              style:
-                  GoogleFonts.kanit(fontSize: 12, fontWeight: FontWeight.bold, color: iconColor),
+              style: GoogleFonts.kanit(fontSize: 12, fontWeight: FontWeight.bold, color: iconColor),
               textAlign: TextAlign.center,
             ),
           ],
@@ -250,8 +258,7 @@ class _QuickAccessPageState extends State<QuickAccessPage>
             const SizedBox(width: 10),
             Text(
               label,
-              style:
-                  GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold, color: iconColor),
+              style: GoogleFonts.kanit(fontSize: 16, fontWeight: FontWeight.bold, color: iconColor),
             ),
             const Spacer(),
             Text(
@@ -289,17 +296,17 @@ class _QuickAccessPageState extends State<QuickAccessPage>
               _buildSocialMediaIcon(
                 context,
                 lottieAsset: "assets/icons/telegram.json",
-                onTap: () => _launchSocialMedia("https://t.me/+VcEa0Iz-mICpQZ_T"),
+                onTap: () => _launchSocialMedia(access_values[widget.collegeName]![5]),
               ),
               _buildSocialMediaIcon(
                 context,
                 lottieAsset: "assets/icons/insta.json",
-                onTap: () => _launchSocialMedia("https://www.instagram.com/suiet_mukka?igsh=MTVrcTJpNW5uZnBxNA=="),
+                onTap: () => _launchSocialMedia(access_values[widget.collegeName]![6]),
               ),
               _buildSocialMediaIcon(
                 context,
                 lottieAsset: "assets/icons/linkedin.json",
-                onTap: (() => _launchSocialMedia('https://www.linkedin.com/company/srinivasuniversity/?originalSubdomain=in')),
+                onTap: (() => _launchSocialMedia(access_values[widget.collegeName]![7])),
               )
             ],
           ),
@@ -332,8 +339,7 @@ class CurvedClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final path = Path();
     path.lineTo(0, size.height - 100);
-    path.quadraticBezierTo(
-        size.width / 2, size.height, size.width, size.height - 100);
+    path.quadraticBezierTo(size.width / 2, size.height, size.width, size.height - 100);
     path.lineTo(size.width, 0);
     path.close();
     return path;
