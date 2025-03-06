@@ -8,7 +8,8 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class CalendarScreen extends StatefulWidget {
-  const CalendarScreen({super.key});
+  final String collegeName;
+  const CalendarScreen({super.key, required this.collegeName});
 
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
@@ -26,25 +27,48 @@ class _CalendarScreenState extends State<CalendarScreen> {
     {"title": "My Day", "date": DateTime(2025, 2, 24, 12, 46)} // Feb 20, 10 AM
   ];
 
-  Map<DateTime, List<String>> predefinedEvents = {
-    DateTime.utc(2025, 1, 1): ['New Year'],
-    DateTime.utc(2025, 2, 14): ['Founder\'s day of Srinivas University'],
-    DateTime.utc(2025, 1, 26): ['Republic day, January 26, happy holiday!'],
-    DateTime.utc(2025, 2, 16): ['Cultural Day'],
-    DateTime.utc(2024, 12, 9): ['Commencement of Classes'],
-    DateTime.utc(2025, 1, 16): ['1st Phase Assesment Day 1'],
-    DateTime.utc(2025, 1, 16): ['1st Phase Assesment Day 2'],
-    DateTime.utc(2025, 1, 16): ['1st Phase Assesment Day 3'],
-    DateTime.utc(2025, 3, 10): ['2nd Phase Assesment Day 1'],
-    DateTime.utc(2025, 3, 11): ['2nd Phase Assesment Day 2'],
-    DateTime.utc(2025, 3, 12): ['2nd Phase Assesment Day 3'],
-    DateTime.utc(2025, 3, 22): ['Last Working Day'],
-    DateTime.utc(2025, 3, 27): ['Practical Exams Begin'],
-    DateTime.utc(2025, 4, 7): ['Theory Exams Begin'],
-    DateTime.utc(2025, 6, 10): ['Commencement of Odd Semester'],
-    DateTime.utc(2025, 2, 25): ['Srinivas Premier League Day 1'],
-    DateTime.utc(2025, 2, 26): ['Srinivas Premier League Day 2'],
-    DateTime.utc(2025, 2, 27): ['Srinivas Premier League Day 3'],
+  Map<String, Map<DateTime, List<String>>> predefinedEvents = {
+    'Engineering & Technology': {
+      DateTime.utc(2025, 1, 1): ['New Year'],
+      DateTime.utc(2025, 2, 14): ['Founder\'s day of Srinivas University'],
+      DateTime.utc(2025, 1, 26): ['Republic day, January 26, happy holiday!'],
+      DateTime.utc(2025, 2, 16): ['Cultural Day'],
+      DateTime.utc(2024, 12, 9): ['Commencement of Classes'],
+      DateTime.utc(2025, 1, 16): ['1st Phase Assesment'],
+      DateTime.utc(2025, 3, 10): ['2nd Phase Assesment'],
+      DateTime.utc(2025, 3, 22): ['Last Working Day'],
+      DateTime.utc(2025, 3, 27): ['Practical Exams Begin'],
+      DateTime.utc(2025, 4, 7): ['Theory Exams Begin'],
+      DateTime.utc(2025, 6, 10): ['Commencement of Odd Semester'],
+      DateTime.utc(2025, 2, 25): ['Srinivas Premier League Day 1'],
+    },
+    'Hotel Management & Tourism':{
+
+    },
+    'Management & Commerce':{
+      
+    },
+    'Computer and Information science':{
+      
+    },
+    'Physiotherapy':{
+      
+    },
+    'Allied Health Sciences':{
+      
+    },
+    'Social Sciences & Humanities':{
+      
+    },
+    'Education(IED)':{
+      
+    },
+    'Nursing Science':{
+      
+    },
+    'Aviation Studies':{
+      
+    }
   };
 
   @override
@@ -52,7 +76,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     super.initState();
     selectedDay = DateTime.now();
     focusedDay = selectedDay;
-    events = {...predefinedEvents};
+    events = {...predefinedEvents[widget.collegeName]!};
     _scheduleEventNotifications();
   }
 
@@ -259,13 +283,7 @@ class NotificationService {
       return; // Prevent scheduling past events
     }
 
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      "event_channel",
-      "Event Reminders",
-      importance: Importance.max,
-      priority: Priority.high,
-      ticker: 'ticker'
-    );
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails("event_channel", "Event Reminders", importance: Importance.max, priority: Priority.high, ticker: 'ticker');
 
     const NotificationDetails details = NotificationDetails(android: androidDetails);
 

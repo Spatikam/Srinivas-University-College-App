@@ -98,7 +98,9 @@ class _MyHomePageState extends State<MyHomePage> with ChangeNotifier {
                 collegeName: widget.collegeName,
                 uuid: uuid,
               ),
-              CalendarScreen(),
+              CalendarScreen(
+                collegeName: widget.collegeName,
+              ),
             ],
           ),
         ),
