@@ -36,6 +36,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     'Education(IED)', //
     'Nursing Science', //
     'Aviation Studies', //
+    'Port Shipping and Logistics' //
   ];
 
   final List<String> institutionLogos = [
@@ -83,7 +84,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
     'Education(IED)': 'https://srinivasuniversity.edu.in/College-Of-Education',
     'Nursing Science': 'https://srinivasuniversity.edu.in/College-Of-Nursing',
     'Social Sciences & Humanities': 'https://srinivasuniversity.edu.in/College-Of-SSH',
-    'Aviation Studies': 'https://srinivasuniversity.edu.in/College-Of-AM'
+    'Aviation Studies': 'https://srinivasuniversity.edu.in/College-Of-AM',
+    'Port Shipping and Logistics': 'https://www.ipssm.in/',
   };
 
   final TextEditingController _searchController = TextEditingController();

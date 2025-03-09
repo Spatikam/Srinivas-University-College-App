@@ -66,6 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
     'Aviation Studies': [
       
+    ],
+    'Port Shipping and Logistics': [
+
     ]
   };
 
@@ -414,7 +417,23 @@ class _HomeScreenState extends State<HomeScreen> {
           appbar_display: true,
         ),
         QuickAccessPage(collegeName: widget.collegeName,)
-      ]
+      ],
+      'Port Shipping and Logistics': [
+        EventsPage(
+          uuid: widget.uuid,
+        ),
+        WebViewPage(
+          url: "",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        ),
+        WebViewPage(
+          collegeName: widget.collegeName,
+          url: "",
+          appbar_display: true,
+        ),
+        QuickAccessPage(collegeName: widget.collegeName,)
+      ],
     };
     final List exploreSection = [
       {
