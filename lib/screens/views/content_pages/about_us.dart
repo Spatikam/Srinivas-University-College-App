@@ -219,7 +219,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
                                 borderRadius: BorderRadius.circular(15),
                                 child: Image.asset(
                                   'assets/images/spatikam.jpeg', // Developer team image
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.fill,
                                   width: double.infinity,
                                   height: 200,
                                 ),
@@ -231,7 +231,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
                               ),
                               SizedBox(height: 10),
                               Text(
-                                "Our talented team of developers has worked tirelessly to bring this project to life. Click to learn more about them!,is a dynamic and innovative community club at Srinivas University, dedicated to fostering a collaborative environment for software engineering enthusiasts. The club brings together students with a passion for coding, technology, and real-world problem-solving. At Webflow, students are provided with the opportunity to work on cutting-edge, real-time projects that simulate industry experiences.The club offers extensive support and guidance from experienced faculty members who mentor students through every phase of project development. These teachers bring their expertise to the table, ensuring that each project is designed and executed according to professional standards. They encourage students to explore various technologies, tools, and frameworks,  .",
+                                'Our talented team of developers has worked tirelessly to bring this project to life. Spatikam, is a dynamic and innovative team at Srinivas University, dedicated to fostering a collaborative environment for software engineering enthusiasts. The team brings together students with a passion for coding, technology, and real-world problem-solving. They encourage students to explore various technologies, tools, and frameworks. Click to see who\'s in the team.',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.grey,
@@ -283,17 +283,22 @@ class _AboutUsPageState extends State<AboutUsPage> {
 }
 
 void _showAboutDevelopers(BuildContext context, String imagePath) {
+  bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+  //final primaryColor = Color(0xFF658CC2);
+  final iconColor = isDarkMode ? Colors.white : Colors.black;
+  final themeColor = isDarkMode ? Colors.black : Colors.white;
+
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     builder: (context) {
       return Center(
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.75,
+          height: MediaQuery.of(context).size.height * 0.80,
           width: MediaQuery.of(context).size.width * 0.9,
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: themeColor,
             borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
@@ -325,6 +330,7 @@ void _showAboutDevelopers(BuildContext context, String imagePath) {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  color: iconColor,
                 ),
               ),
               SizedBox(height: 10),
@@ -333,13 +339,13 @@ void _showAboutDevelopers(BuildContext context, String imagePath) {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildTeamMember("A K Kavan", "FrontEnd Expert & Backend Integration"),
-                  _buildTeamMember("Evan M Anto", "Project Manager & Core Developer"),
-                  _buildTeamMember("Harishankar P", "Backend Designer & Developer"),
-                  _buildTeamMember("Harshith", "Researcher"),
-                  _buildTeamMember("Shreya Rao", "Backend Designer & Developer"),
-                  _buildTeamMember("Shivanandu", "Figma Designer"),
-                  _buildTeamMember("Sumant Bhat", "UI/UX, Frontend Expert & Marketing Manager"),
+                  _buildTeamMember("A K Kavan", "FrontEnd Expert & Backend Integration", isDarkMode),
+                  _buildTeamMember("Evan M Anto", "Project Manager & Core Developer", isDarkMode),
+                  _buildTeamMember("Harishankar P", "Backend Designer & Developer", isDarkMode),
+                  _buildTeamMember("Harshith", "Researcher", isDarkMode),
+                  _buildTeamMember("Shreya Rao", "Backend Designer & Developer", isDarkMode),
+                  _buildTeamMember("Shivanandu", "Figma Designer", isDarkMode),
+                  _buildTeamMember("Sumant Bhat", "UI/UX, Frontend Expert & Marketing Manager", isDarkMode),
                 ],
               ),
               SizedBox(height: 20),
@@ -348,11 +354,11 @@ void _showAboutDevelopers(BuildContext context, String imagePath) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildSocialIcon(PhosphorIcons.instagramLogo(), "https://instagram.com"),
+                  _buildSocialIcon(PhosphorIcons.instagramLogo(), "https://www.instagram.com/teamspatikam/"),
                   SizedBox(width: 20),
                   _buildSocialIcon(PhosphorIcons.googlePlayLogo(), "https://play.google.com"),
                   SizedBox(width: 20),
-                  _buildSocialIcon(PhosphorIcons.linkedinLogo(), "https://linkedin.com"),
+                  _buildSocialIcon(PhosphorIcons.linkedinLogo(), "https://www.linkedin.com/company/spatikam/"),
                 ],
               ),
             ],
@@ -364,14 +370,26 @@ void _showAboutDevelopers(BuildContext context, String imagePath) {
 }
 
 // Helper function for team members
-Widget _buildTeamMember(String name, String role) {
+Widget _buildTeamMember(String name, String role, bool isDarkMode) {
+  //final primaryColor = Color(0xFF658CC2);
+  final iconColor = isDarkMode ? Colors.white : Colors.black;
+  //final themeColor = isDarkMode ? Colors.black : Colors.white;
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 4),
-    child: Text(
-      "$name - $role",
-      style: TextStyle(fontSize: 16, color: Colors.black87),
-    ),
-  );
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: SizedBox(
+          child: Row(children: [
+        Text(
+          "$name - ",
+          style: TextStyle(fontSize: 16, color: iconColor),
+        ),
+        Expanded(
+          child: Text(
+            role,
+            style: TextStyle(fontSize: 16, color: iconColor),
+            softWrap: true,
+          ),
+        )
+      ])));
 }
 
 // Helper function for social media icons
