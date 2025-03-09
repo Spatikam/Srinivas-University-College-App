@@ -68,6 +68,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
     },
     'Aviation Studies':{
       
+    },
+    'Port Shipping and Logistics':{
+      
     }
   };
 

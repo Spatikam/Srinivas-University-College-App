@@ -29,7 +29,107 @@ class _QuickAccessPageState extends State<QuickAccessPage> with SingleTickerProv
       'https://t.me/+VcEa0Iz-mICpQZ_T', // Telegram
       'https://www.instagram.com/suiet_mukka?igsh=MTVrcTJpNW5uZnBxNA==', // Insta
       'https://www.linkedin.com/company/srinivasuniversity/?originalSubdomain=in' // LindkedIn
-    ]
+    ],
+    'Management & Commerce': [
+      '+91 ', // call support
+      '+91 ', // Emergency
+      '+91 ', // Help Desk
+      '+91 ', // Office
+      ' ', // Admissions
+      '', // Telegram
+      '', // Insta
+      '' // LindkedIn
+    ],
+    'Computer and Information science': [
+      '+91 ', // call support
+      '+91 ', // Emergency
+      '+91 ', // Help Desk
+      '+91 ', // Office
+      ' ', // Admissions
+      '', // Telegram
+      '', // Insta
+      '' // LindkedIn
+    ],
+    'Hotel Management & Tourism': [
+      '+91 ', // call support
+      '+91 ', // Emergency
+      '+91 ', // Help Desk
+      '+91 ', // Office
+      ' ', // Admissions
+      '', // Telegram
+      '', // Insta
+      '' // LindkedIn
+    ],
+    'Physiotherapy': [
+      '+91 ', // call support
+      '+91 ', // Emergency
+      '+91 ', // Help Desk
+      '+91 ', // Office
+      ' ', // Admissions
+      '', // Telegram
+      '', // Insta
+      '' // LindkedIn
+    ],
+    'Allied Health Sciences': [
+      '+91 ', // call support
+      '+91 ', // Emergency
+      '+91 ', // Help Desk
+      '+91 ', // Office
+      ' ', // Admissions
+      '', // Telegram
+      '', // Insta
+      '' // LindkedIn
+    ],
+    'Social Sciences & Humanities': [
+      '+91 ', // call support
+      '+91 ', // Emergency
+      '+91 ', // Help Desk
+      '+91 ', // Office
+      ' ', // Admissions
+      '', // Telegram
+      '', // Insta
+      '' // LindkedIn
+    ],
+    'Education(IED)': [
+      '+91 ', // call support
+      '+91 ', // Emergency
+      '+91 ', // Help Desk
+      '+91 ', // Office
+      ' ', // Admissions
+      '', // Telegram
+      '', // Insta
+      '' // LindkedIn
+    ],
+    'Nursing Science': [
+      '+91 ', // call support
+      '+91 ', // Emergency
+      '+91 ', // Help Desk
+      '+91 ', // Office
+      ' ', // Admissions
+      '', // Telegram
+      '', // Insta
+      '' // LindkedIn
+    ],
+    'Aviation Studies': [
+      '+91 ', // call support
+      '+91 ', // Emergency
+      '+91 ', // Help Desk
+      '+91 ', // Office
+      ' ', // Admissions
+      '', // Telegram
+      '', // Insta
+      '' // LindkedIn
+    ],
+    'Port Shipping and Logistics': [
+      '+91 ', // call support
+      '+91 ', // Emergency
+      '+91 ', // Help Desk
+      '+91 ', // Office
+      ' ', // Admissions
+      '', // Telegram
+      '', // Insta
+      '' // LindkedIn
+    ],
   };
 
   @override

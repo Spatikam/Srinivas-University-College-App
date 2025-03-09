@@ -135,7 +135,8 @@ class _ExplorePageState extends State<ExplorePage> {
     'Allied Health Sciences': [],
     'Education(IED)': [],
     'Nursing Science': [],
-    'Social Sciences & Humanities': []
+    'Social Sciences & Humanities': [],
+    'Port Shipping and Logistics': []
   };
 
   late Map<String, List> explore_more = {
@@ -266,6 +267,20 @@ class _ExplorePageState extends State<ExplorePage> {
       ),
     ],
     'Aviation Studies': [
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "",
+        collegeName: widget.collegeName,
+      ),
+    ],
+    'Port Shipping and Logistics': [
       WebViewPage(
         url: "",
         collegeName: widget.collegeName,
