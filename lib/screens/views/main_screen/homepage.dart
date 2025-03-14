@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/src/scheduler/binding.dart';
 import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
+import 'package:rip_college_app/screens/views/content_pages/techyuva_popup.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -28,12 +30,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final List<String> institutions = [
     'Engineering & Technology', //
     'Management & Commerce', //
-    'Computer and Information science', //
+    'Computer Science & Information Science', //
     'Hotel Management & Tourism', //
     'Physiotherapy', //
     'Allied Health Sciences', //
     'Social Sciences & Humanities', //
-    'Education(IED)', //
+    'Education', //
     'Nursing Science', //
     'Aviation Studies', //
     'Port Shipping and Logistics' //
@@ -77,11 +79,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final Map<String, String> institutionUrls = {
     'Engineering & Technology': 'home.dart', // Link to home.dart for engineering
     'Management & Commerce': 'https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce',
-    'Computer and Information science': 'https://srinivasuniversity.edu.in/College-BCA-MCA',
+    'Computer Science & Information Science': 'https://srinivasuniversity.edu.in/College-BCA-MCA',
     'Hotel Management': 'https://srinivasuniversity.edu.in/College-Of-Hotel-Management-And-Tourism',
     'Physiotherapy': 'https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy',
     'Allied Health Sciences': 'https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences',
-    'Education(IED)': 'https://srinivasuniversity.edu.in/College-Of-Education',
+    'Education': 'https://srinivasuniversity.edu.in/College-Of-Education',
     'Nursing Science': 'https://srinivasuniversity.edu.in/College-Of-Nursing',
     'Social Sciences & Humanities': 'https://srinivasuniversity.edu.in/College-Of-SSH',
     'Aviation Studies': 'https://srinivasuniversity.edu.in/College-Of-AM',
@@ -89,11 +91,45 @@ class _NavigationScreenState extends State<NavigationScreen> {
   };
 
   final TextEditingController _searchController = TextEditingController();
+  
+  final bool _isPopupShown = false; // Flag to track if the popup is shown
+
+  
+ /* void _showPopup(String title, String description) {
+    if (!_isPopupShown) {
+      setState(() {
+        _isPopupShown = true;
+      });
+
+      showDialog(
+        context: context,
+        barrierDismissible: false, // Prevents closing by tapping outside
+        builder: (BuildContext context) {
+          return TechYuvaPopup(
+            title: title,
+            description: description,
+            onClose: () {
+              setState(() {
+                _isPopupShown = false;
+              });
+              Navigator.of(context).pop();
+            },
+          );
+        },
+      );
+    }
+  }*/
 
   @override
   void initState() {
     super.initState();
     filteredInstitutions = institutions;
+    /*WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_isPopupShown) {
+        _showPopup('TechYuva 2025', 'Join the National-Level Tech & Cultural Fest!');
+      }
+    });*/
+
   }
 
   void _searchInstitutions(String query) {
@@ -222,15 +258,15 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
                   return GestureDetector(
                     onTap: () {
-                        // Navigate directly to HomeScreen when "Engineering" is clicked
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MyHomePage(
-                              collegeName: institution,
-                            ),
+                      // Navigate directly to HomeScreen when "Engineering" is clicked
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyHomePage(
+                            collegeName: institution,
                           ),
-                        );
+                        ),
+                      );
                     },
                     child: AnimatedContainer(
                       duration: Duration(milliseconds: 300),

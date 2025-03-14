@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -38,37 +37,58 @@ class _HomeScreenState extends State<HomeScreen> {
       'assets/images/suiet/image4.jpg',
     ],
     'Hotel Management & Tourism': [
-      'assets/images/ihmt/image1.png',
-      'assets/images/ihmt/image2.png',
-      'assets/images/ihmt/image3.jpg',
-      'assets/images/ihmt/image4.png',
+      'assets/images/ihmt/1.jpg',
+      'assets/images/ihmt/2.jpg',
+      'assets/images/ihmt/3.jpg',
+      'assets/images/ihmt/4.jpg',
     ],
     'Management & Commerce': [
-
+      'assets/images/imc/1.jpg',
+      'assets/images/imc/2.jpg',
+      'assets/images/imc/3.jpg',
+      'assets/images/imc/4.jpg',
     ],
-    'Computer and Information science': [
-      
+    'Computer Science & Information Science': [
+      'assets/images/icis/1.jpg',
+      'assets/images/icis/2.jpg',
+      'assets/images/icis/3.jpg',
+      'assets/images/icis/4.jpg',
     ],
     'Physiotherapy': [
-      
+      'assets/images/ip/1.jpg',
+      'assets/images/ip/2.jpg',
+      'assets/images/ip/3.jpg',
     ],
     'Allied Health Sciences': [
-      
+      'assets/images/iahs/1.jpg',
+      'assets/images/iahs/2.jpg',
+      'assets/images/iahs/3.jpg',
     ],
-    'Education(IED)': [
-      
+    'Education': [
+      'assets/images/ied/1.jpg',
+      'assets/images/ied/2.jpg',
     ],
     'Nursing Science': [
-      
+      'assets/images/ins/1.jpg',
+      'assets/images/ins/2.jpg',
+      'assets/images/ins/3.jpg',
+      'assets/images/ins/4.jpg',
     ],
     'Social Sciences & Humanities': [
-      
+      'assets/images/issh/1.jpg',
+      'assets/images/issh/2.jpg',
+      'assets/images/issh/3.jpg',
     ],
     'Aviation Studies': [
-      
+      'assets/images/ias/1.jpg',
+      'assets/images/ias/2.png',
+      'assets/images/ias/3.png',
+      'assets/images/ias/4.png',
     ],
     'Port Shipping and Logistics': [
-
+      'assets/images/ipsl/1.jpg',
+      'assets/images/ipsl/2.jpg',
+      'assets/images/ipsl/3.jpg',
     ]
   };
 
@@ -306,7 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         QuickAccessPage(collegeName: widget.collegeName,)
       ],
-      'Computer and Information science': [
+      'Computer Science & Information Science': [
         EventsPage(
           uuid: widget.uuid,
         ),
@@ -354,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         QuickAccessPage(collegeName: widget.collegeName,)
       ],
-      'Education(IED)': [
+      'Education': [
         EventsPage(
           uuid: widget.uuid,
         ),

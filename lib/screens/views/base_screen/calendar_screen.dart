@@ -48,7 +48,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     'Management & Commerce':{
       
     },
-    'Computer and Information science':{
+    'Computer Science & Information Science':{
       
     },
     'Physiotherapy':{
@@ -60,7 +60,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     'Social Sciences & Humanities':{
       
     },
-    'Education(IED)':{
+    'Education':{
       
     },
     'Nursing Science':{

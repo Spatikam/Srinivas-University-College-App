@@ -1,7 +1,7 @@
 name: rip_college_app
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+7
+version: 1.0.0+10
 
 environment:
   sdk: ^3.6.0
@@ -50,6 +50,15 @@ flutter:
     - assets/images/
     - assets/images/suiet/
     - assets/images/ihmt/
+    - assets/images/iahs/
+    - assets/images/ias/
+    - assets/images/icis/
+    - assets/images/ied/
+    - assets/images/imc/
+    - assets/images/ins/
+    - assets/images/ip/
+    - assets/images/ipsl/
+    - assets/images/issh/
 
 flutter_icons:
   android: true
