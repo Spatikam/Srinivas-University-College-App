@@ -129,11 +129,11 @@ class _ExplorePageState extends State<ExplorePage> {
       },
     ],
     'Management & Commerce': [],
-    'Computer and Information science': [],
-    'Hotel Management': [],
+    'Computer Science & Information Science': [],
+    'Aviation Studies': [],
     'Physiotherapy': [],
     'Allied Health Sciences': [],
-    'Education(IED)': [],
+    'Education': [],
     'Nursing Science': [],
     'Social Sciences & Humanities': [],
     'Port Shipping and Logistics': []
@@ -238,7 +238,7 @@ class _ExplorePageState extends State<ExplorePage> {
         collegeName: widget.collegeName,
       ),
     ],
-    'Education(IED)': [
+    'Education': [
       WebViewPage(
         url: "",
         collegeName: widget.collegeName,
@@ -268,15 +268,15 @@ class _ExplorePageState extends State<ExplorePage> {
     ],
     'Aviation Studies': [
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-AM/More/Students-Life",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-AM/More/Calendar",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-AM/About-Us",
         collegeName: widget.collegeName,
       ),
     ],
@@ -329,7 +329,7 @@ class _ExplorePageState extends State<ExplorePage> {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     //final primaryColor = Color(0xFF658CC2);
     //final iconColor = isDarkMode ? Colors.white : Colors.black;
-    final themeColor = isDarkMode ? Colors.black : Colors.white;
+    //final themeColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,

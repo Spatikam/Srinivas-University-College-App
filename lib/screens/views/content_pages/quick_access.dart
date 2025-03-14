@@ -90,7 +90,7 @@ class _QuickAccessPageState extends State<QuickAccessPage> with SingleTickerProv
       '', // Insta
       '' // LindkedIn
     ],
-    'Education(IED)': [
+    'Education': [
       '+91 ', // call support
       '+91 ', // Emergency
       '+91 ', // Help Desk
@@ -117,7 +117,7 @@ class _QuickAccessPageState extends State<QuickAccessPage> with SingleTickerProv
       '+91 ', // Office
       ' ', // Admissions
       '', // Telegram
-      '', // Insta
+      'https://www.instagram.com/srinivas_university_aviation', // Insta
       '' // LindkedIn
     ],
     'Port Shipping and Logistics': [
