@@ -31,14 +31,14 @@ class _QuickAccessPageState extends State<QuickAccessPage> with SingleTickerProv
       'https://www.linkedin.com/company/srinivasuniversity/?originalSubdomain=in' // LindkedIn
     ],
     'Management & Commerce': [
-      '+91 ', // call support
+      '+91 9731162400', // call support
       '+91 ', // Emergency
       '+91 ', // Help Desk
-      '+91 ', // Office
-      ' ', // Admissions
+      '0824 2422851', // Office
+      '+91 9449430680', // Admissions
       '', // Telegram
-      '', // Insta
-      '' // LindkedIn
+      'https://www.instagram.com/srinivas_university_imc', // Insta
+      'http://linkedin.com/in/srinivas-university-institute-of-management-and-commerce-244066303' // LindkedIn
     ],
     'Computer and Information science': [
       '+91 ', // call support
@@ -74,7 +74,7 @@ class _QuickAccessPageState extends State<QuickAccessPage> with SingleTickerProv
       '+91 ', // call support
       '+91 ', // Emergency
       '+91 ', // Help Desk
-      '+91 ', // Office
+      '+91 8242425966', // Office
       ' ', // Admissions
       '', // Telegram
       '', // Insta
