@@ -4,6 +4,7 @@ import 'package:flutter/src/scheduler/binding.dart';
 import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
 import 'package:rip_college_app/screens/views/content_pages/techyuva_popup.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
+import 'package:rip_college_app/screens/widget_common/web_view.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -91,45 +92,72 @@ class _NavigationScreenState extends State<NavigationScreen> {
   };
 
   final TextEditingController _searchController = TextEditingController();
-  
+
   final bool _isPopupShown = false; // Flag to track if the popup is shown
 
-  
- /* void _showPopup(String title, String description) {
-    if (!_isPopupShown) {
-      setState(() {
-        _isPopupShown = true;
-      });
-
-      showDialog(
-        context: context,
-        barrierDismissible: false, // Prevents closing by tapping outside
-        builder: (BuildContext context) {
-          return TechYuvaPopup(
-            title: title,
-            description: description,
-            onClose: () {
-              setState(() {
-                _isPopupShown = false;
-              });
-              Navigator.of(context).pop();
-            },
-          );
-        },
-      );
-    }
-  }*/
+  void _showEventPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+          contentPadding: EdgeInsets.all(10.0),
+          content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/images/popup.jpg',
+                  fit: BoxFit.cover,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0,0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'MOCK CET',
+                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Srinivas University Institute of Engineering and Technology is conducting an online MOCK CET from 7 April to 10 April, 2025. All the Engineering and Medical seat aspirants please take the benefit of this by visiting our website and register. This test is online and available at your convenience.\nFor details visit www.suiet.in.\n\nFor registration:',
+                        textAlign: TextAlign.justify,  
+                      ),
+                      SelectableText(
+                        'https://www.sitmng.ac.in/SIT/About/Mock-Cet2025',
+                        style: TextStyle(color: Colors.blue),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => WebViewPage(url: "https://www.sitmng.ac.in/SIT/About/Mock-Cet2025")),
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text('Close'),
+                  ),
+                ),
+              ],
+          )
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
     super.initState();
     filteredInstitutions = institutions;
-    /*WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!_isPopupShown) {
-        _showPopup('TechYuva 2025', 'Join the National-Level Tech & Cultural Fest!');
-      }
-    });*/
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showEventPopup(context);
+    });
   }
 
   void _searchInstitutions(String query) {
