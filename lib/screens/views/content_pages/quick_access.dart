@@ -31,7 +31,7 @@ class _QuickAccessPageState extends State<QuickAccessPage> with SingleTickerProv
       'https://www.linkedin.com/company/srinivasuniversity/?originalSubdomain=in' // LindkedIn
     ],
     'Management & Commerce': [
-      '+91 9731162400', // call support
+      '+91 ', // call support
       '+91 ', // Emergency
       '+91 ', // Help Desk
       '0824 2422851', // Office
