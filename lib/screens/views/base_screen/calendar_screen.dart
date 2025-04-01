@@ -42,36 +42,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
       DateTime.utc(2025, 6, 10): ['Commencement of Odd Semester'],
       DateTime.utc(2025, 2, 25): ['Srinivas Premier League Day 1'],
     },
-    'Hotel Management & Tourism':{
-
-    },
-    'Management & Commerce':{
-      
-    },
-    'Computer Science & Information Science':{
-      
-    },
-    'Physiotherapy':{
-      
-    },
-    'Allied Health Sciences':{
-      
-    },
-    'Social Sciences & Humanities':{
-      
-    },
-    'Education':{
-      
-    },
-    'Nursing Science':{
-      
-    },
-    'Aviation Studies':{
-      
-    },
-    'Port Shipping and Logistics':{
-      
-    }
+    'Hotel Management & Tourism': {},
+    'Management & Commerce': {},
+    'Computer Science & Information Science': {},
+    'Physiotherapy': {},
+    'Allied Health Sciences': {},
+    'Social Sciences & Humanities': {},
+    'Education': {},
+    'Nursing Science': {},
+    'Aviation Studies': {},
+    'Port Shipping and Logistics': {}
   };
 
   @override

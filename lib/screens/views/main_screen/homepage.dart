@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/src/scheduler/binding.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
-import 'package:rip_college_app/screens/views/content_pages/techyuva_popup.dart';
+import 'package:rip_college_app/screens/views/base_screen/calendar_screen.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
 import 'package:rip_college_app/screens/widget_common/web_view.dart';
 
@@ -93,6 +93,23 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final TextEditingController _searchController = TextEditingController();
 
+  final NotificationService _notificationService = NotificationService();
+
+  void _showNotificationIfNeeded(DateTime notificationEndDate) async {
+    if (DateTime.now().isBefore(notificationEndDate)) {
+      final FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
+      const AndroidNotificationDetails androidDetails = AndroidNotificationDetails("event_channel", "Event Reminders", importance: Importance.max, priority: Priority.high, ticker: 'ticker');
+
+      const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidDetails);
+      await notificationsPlugin.show(
+        0,
+        'MOCK CET!',
+        'Get ready for the Mock CET and boost your exam preparation',
+        platformChannelSpecifics,
+      );
+    }
+  }
+
   final bool _isPopupShown = false; // Flag to track if the popup is shown
 
   void _showEventPopup(BuildContext context) {
@@ -101,9 +118,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-          contentPadding: EdgeInsets.all(10.0),
-          content: Column(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+            contentPadding: EdgeInsets.all(10.0),
+            content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
@@ -111,7 +128,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   fit: BoxFit.cover,
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0,0),
+                  padding: const EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -122,7 +139,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                       SizedBox(height: 8),
                       Text(
                         'Srinivas University Institute of Engineering and Technology is conducting an online MOCK CET from 7 April to 10 April, 2025. All the Engineering and Medical seat aspirants please take the benefit of this by visiting our website and register. This test is online and available at your convenience.\nFor details visit www.suiet.in.\n\nFor registration:',
-                        textAlign: TextAlign.justify,  
+                        textAlign: TextAlign.justify,
                       ),
                       SelectableText(
                         'https://www.sitmng.ac.in/SIT/About/Mock-Cet2025',
@@ -145,8 +162,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   ),
                 ),
               ],
-          )
-        );
+            ));
       },
     );
   }
@@ -157,6 +173,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     filteredInstitutions = institutions;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showEventPopup(context);
+      _showNotificationIfNeeded(DateTime(2025, 4, 6));
     });
   }
 
