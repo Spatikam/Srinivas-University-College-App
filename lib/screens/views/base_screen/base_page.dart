@@ -2,13 +2,11 @@ import 'dart:developer';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/scheduler/binding.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:rip_college_app/screens/views/base_screen/calendar_screen.dart';
 import 'package:rip_college_app/screens/views/base_screen/explore_page.dart';
 import 'package:rip_college_app/screens/views/base_screen/home_screen.dart';
 import 'package:rip_college_app/screens/views/base_screen/photo_gallery.dart';
-import 'package:rip_college_app/screens/views/content_pages/techyuva_popup.dart';
 //import 'package:rip_college_app/screens/views/base_screen/photo_gallery.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
