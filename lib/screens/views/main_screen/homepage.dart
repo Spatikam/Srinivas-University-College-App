@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rip_college_app/screens/views/base_screen/base_page.dart';
-import 'package:rip_college_app/screens/views/base_screen/calendar_screen.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
+
+/* FOR POPUP WINDOW AND IT'S NOTIFICATION
 import 'package:rip_college_app/screens/widget_common/web_view.dart';
+import 'package:rip_college_app/screens/views/base_screen/calendar_screen.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+*/
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -93,8 +96,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final TextEditingController _searchController = TextEditingController();
 
-  final NotificationService _notificationService = NotificationService();
+  
+  /*   IF NOTIFICATION IS REQUIRED FOR POPUP USE THIS
 
+  final NotificationService _notificationService = NotificationService();
+  
   void _showNotificationIfNeeded(DateTime notificationEndDate) async {
     if (DateTime.now().isBefore(notificationEndDate)) {
       final FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -108,9 +114,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
         platformChannelSpecifics,
       );
     }
-  }
+  }*/
 
-  final bool _isPopupShown = false; // Flag to track if the popup is shown
+  /*IF ANY POPUP IS REQUIRED ON THE HOME PAGE USE THIS TEMPLATE
+  
+  final bool _isPopupShown = true; // Flag to track if the popup is shown
 
   void _showEventPopup(BuildContext context) {
     showDialog(
@@ -165,16 +173,16 @@ class _NavigationScreenState extends State<NavigationScreen> {
             ));
       },
     );
-  }
+  }*/
 
   @override
   void initState() {
     super.initState();
     filteredInstitutions = institutions;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    /*WidgetsBinding.instance.addPostFrameCallback((_) {
       _showEventPopup(context);
       _showNotificationIfNeeded(DateTime(2025, 4, 6));
-    });
+    });*/
   }
 
   void _searchInstitutions(String query) {
