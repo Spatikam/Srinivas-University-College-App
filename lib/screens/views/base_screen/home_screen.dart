@@ -29,6 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Map<String, dynamic>> _events = [];
   List<Map<String, dynamic>> _announcements = [];
 
+  int? expandedEventIndex;
+  int? expandedAnnouncementIndex;
+
   final Map<String, List<String>> images = {
     'Engineering & Technology': [
       'assets/images/suiet/image1.jpg',
@@ -112,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       fetchAnnouncements();
     }
-    
+
     Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_pageController.hasClients) {
         setState(() {
@@ -292,7 +295,9 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "https://apply.suiet.in/",
           appbar_display: true,
         ),
-        QuickAccessPage(collegeName: widget.collegeName,)
+        QuickAccessPage(
+          collegeName: widget.collegeName,
+        )
       ],
       'Hotel Management & Tourism': [
         EventsPage(
@@ -308,7 +313,9 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "https://srinivasuniversity.edu.in/SrinivasUniversity/Admission-Enquiry",
           appbar_display: true,
         ),
-        QuickAccessPage(collegeName: widget.collegeName,)
+        QuickAccessPage(
+          collegeName: widget.collegeName,
+        )
       ],
       'Management & Commerce': [
         EventsPage(
@@ -324,7 +331,9 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "",
           appbar_display: true,
         ),
-        QuickAccessPage(collegeName: widget.collegeName,)
+        QuickAccessPage(
+          collegeName: widget.collegeName,
+        )
       ],
       'Computer Science & Information Science': [
         EventsPage(
@@ -340,7 +349,9 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "",
           appbar_display: true,
         ),
-        QuickAccessPage(collegeName: widget.collegeName,)
+        QuickAccessPage(
+          collegeName: widget.collegeName,
+        )
       ],
       'Physiotherapy': [
         EventsPage(
@@ -356,7 +367,9 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "",
           appbar_display: true,
         ),
-        QuickAccessPage(collegeName: widget.collegeName,)
+        QuickAccessPage(
+          collegeName: widget.collegeName,
+        )
       ],
       'Allied Health Sciences': [
         EventsPage(
@@ -372,7 +385,9 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "",
           appbar_display: true,
         ),
-        QuickAccessPage(collegeName: widget.collegeName,)
+        QuickAccessPage(
+          collegeName: widget.collegeName,
+        )
       ],
       'Education': [
         EventsPage(
@@ -388,7 +403,9 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "",
           appbar_display: true,
         ),
-        QuickAccessPage(collegeName: widget.collegeName,)
+        QuickAccessPage(
+          collegeName: widget.collegeName,
+        )
       ],
       'Nursing Science': [
         EventsPage(
@@ -404,7 +421,9 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "",
           appbar_display: true,
         ),
-        QuickAccessPage(collegeName: widget.collegeName,)
+        QuickAccessPage(
+          collegeName: widget.collegeName,
+        )
       ],
       'Social Sciences & Humanities': [
         EventsPage(
@@ -420,7 +439,9 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "",
           appbar_display: true,
         ),
-        QuickAccessPage(collegeName: widget.collegeName,)
+        QuickAccessPage(
+          collegeName: widget.collegeName,
+        )
       ],
       'Aviation Studies': [
         EventsPage(
@@ -436,7 +457,9 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "",
           appbar_display: true,
         ),
-        QuickAccessPage(collegeName: widget.collegeName,)
+        QuickAccessPage(
+          collegeName: widget.collegeName,
+        )
       ],
       'Port Shipping and Logistics': [
         EventsPage(
@@ -452,7 +475,9 @@ class _HomeScreenState extends State<HomeScreen> {
           url: "",
           appbar_display: true,
         ),
-        QuickAccessPage(collegeName: widget.collegeName,)
+        QuickAccessPage(
+          collegeName: widget.collegeName,
+        )
       ],
     };
     final List exploreSection = [
@@ -566,9 +591,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final iconColor = isDarkMode ? Colors.white : Colors.black;
     final themeColor = isDarkMode ? Colors.grey[850] : Colors.white;
 
-    int? expandedEventIndex;
-    int? expandedAnnouncementIndex;
-
     return StatefulBuilder(
       builder: (context, setState) {
         return Padding(
@@ -581,11 +603,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: List.generate(_announcements.length, (index) {
                       final announcement = _announcements[index];
                       final isExpanded = expandedAnnouncementIndex == index;
+                      log('Main: Expanded Announcement Index: $expandedAnnouncementIndex\nisExpanded: $isExpanded\nindex: $index');
                       return AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                         margin: const EdgeInsets.only(bottom: 12),
-                        padding: isExpanded ? const EdgeInsets.all(10.0) : EdgeInsets.zero,
+                        padding: isExpanded ? const EdgeInsets.all(2.0) : EdgeInsets.zero,
                         decoration: BoxDecoration(
                           color: themeColor,
                           borderRadius: BorderRadius.circular(12),
@@ -602,12 +625,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             setState(() {
                               expandedAnnouncementIndex = isExpanded ? null : index;
                             });
+                            log('Expanded Announcement Index: $expandedAnnouncementIndex\nisExpanded: $isExpanded\nindex: $index');
                           },
                           child: ListTile(
                             contentPadding: const EdgeInsets.only(left: 5),
                             leading: Icon(
                               Icons.announcement,
-                              size: 32,
+                              size: isExpanded ? 28 : 32,
                               color: Colors.orange.shade300,
                             ),
                             title: Text(
@@ -616,6 +640,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: isExpanded ? 18 : 16,
                                 fontWeight: FontWeight.bold,
                               ),
+                              textAlign: TextAlign.justify,
                             ),
                             subtitle: Text(
                               announcement['Description'] ?? 'No description available.',
@@ -624,6 +649,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 14,
                                 color: iconColor.withOpacity(0.6),
                               ),
+                              textAlign: TextAlign.justify,
                             ),
                             trailing: Icon(
                               isExpanded ? Icons.expand_less : Icons.chevron_right,
@@ -642,10 +668,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       final isExpanded = expandedEventIndex == index; // Correct comparison for null-safe value
 
                       return AnimatedContainer(
-                        duration: const Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut,
                         margin: const EdgeInsets.only(bottom: 12),
-                        padding: isExpanded ? const EdgeInsets.all(10.0) : EdgeInsets.zero,
+                        padding: isExpanded ? const EdgeInsets.all(2.0) : EdgeInsets.zero,
                         decoration: BoxDecoration(
                           color: themeColor,
                           borderRadius: BorderRadius.circular(12),
@@ -667,7 +693,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             contentPadding: const EdgeInsets.only(left: 5),
                             leading: Icon(
                               Icons.message_rounded,
-                              size: 32,
+                              size: isExpanded ? 28 : 32,
                               color: Colors.orange.shade300,
                             ),
                             title: Text(
