@@ -128,15 +128,441 @@ class _ExplorePageState extends State<ExplorePage> {
         )
       },
     ],
-    'Management & Commerce': [],
-    'Computer Science & Information Science': [],
-    'Aviation Studies': [],
-    'Physiotherapy': [],
-    'Allied Health Sciences': [],
-    'Education': [],
-    'Nursing Science': [],
-    'Social Sciences & Humanities': [],
-    'Port Shipping and Logistics': []
+    'Management & Commerce': [
+      {
+        'title': 'Courses',
+        'icon': PhosphorIcons.bookOpen(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce/Courses",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'News & Events',
+        'icon': PhosphorIcons.newspaper(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce/Blog-Category?newsEvents=1",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Alumnus',
+        'icon': PhosphorIcons.users(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Library',
+        'icon': PhosphorIcons.book(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce/More/Library",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Placements',
+        'icon': PhosphorIcons.suitcase(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce/Placements",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        )
+      },
+      {
+        'title': 'Student Life',
+        'icon': PhosphorIcons.basketball(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce/More/Student-Life-at-Campus",
+          collegeName: widget.collegeName,
+        )
+      },
+    ],
+    'Computer Science & Information Science': [
+      {
+        'title': 'Courses',
+        'icon': PhosphorIcons.bookOpen(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-BCA-MCA/Courses",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'News & Events',
+        'icon': PhosphorIcons.newspaper(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-BCA-MCA/Blog-Category?newsEvents=1",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Alumnus',
+        'icon': PhosphorIcons.users(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Library',
+        'icon': PhosphorIcons.book(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-BCA-MCA/Library",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Placements',
+        'icon': PhosphorIcons.suitcase(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-BCA-MCA/Placement",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        )
+      },
+      {
+        'title': 'Student Life',
+        'icon': PhosphorIcons.basketball(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-BCA-MCA/Students-Life",
+          collegeName: widget.collegeName,
+        )
+      },
+    ],
+    'Aviation Studies': [
+      {
+        'title': 'Courses',
+        'icon': PhosphorIcons.bookOpen(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-AM/Courses",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'News & Events',
+        'icon': PhosphorIcons.newspaper(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-AM/Blog-Category?newsEvents=1",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Alumnus',
+        'icon': PhosphorIcons.users(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Library',
+        'icon': PhosphorIcons.book(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-AM/More/Library",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Placements',
+        'icon': PhosphorIcons.suitcase(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-AM/Placement",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        )
+      },
+      {
+        'title': 'Student Life',
+        'icon': PhosphorIcons.basketball(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-AM/More/Students-Life",
+          collegeName: widget.collegeName,
+        )
+      },
+    ],
+    'Physiotherapy': [
+      {
+        'title': 'Courses',
+        'icon': PhosphorIcons.bookOpen(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy/Courses",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'News & Events',
+        'icon': PhosphorIcons.newspaper(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy/Blog-Category?newsEvents=1",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Alumnus',
+        'icon': PhosphorIcons.users(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Research',
+        'icon': PhosphorIcons.pen(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy/Researchp",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Placements',
+        'icon': PhosphorIcons.suitcase(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy/Placement",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        )
+      },
+      {
+        'title': 'Student Life',
+        'icon': PhosphorIcons.basketball(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy/Students-Life",
+          collegeName: widget.collegeName,
+        )
+      },
+    ],
+    'Allied Health Sciences': [
+      {
+        'title': 'Courses',
+        'icon': PhosphorIcons.bookOpen(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences/Courses",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Publications',
+        'icon': PhosphorIcons.newspaper(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences/Publications",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Alumnus',
+        'icon': PhosphorIcons.users(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Research',
+        'icon': PhosphorIcons.pen(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences/Research",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Placements',
+        'icon': PhosphorIcons.suitcase(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences/Placement",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        )
+      },
+    ],
+    'Education': [
+      {
+        'title': 'Courses',
+        'icon': PhosphorIcons.bookOpen(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Education/Courses",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'News & Events',
+        'icon': PhosphorIcons.newspaper(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Education/Blog-Category?newsEvents=1",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Alumnus',
+        'icon': PhosphorIcons.users(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Library',
+        'icon': PhosphorIcons.book(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Education/Library",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Placements',
+        'icon': PhosphorIcons.suitcase(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Education/Placement",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        )
+      },
+      {
+        'title': 'Student Life',
+        'icon': PhosphorIcons.basketball(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Education/Video",
+          collegeName: widget.collegeName,
+        )
+      },
+    ],
+    'Nursing Science': [
+      {
+        'title': 'Courses',
+        'icon': PhosphorIcons.bookOpen(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Nursing/Courses",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'News & Events',
+        'icon': PhosphorIcons.newspaper(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Nursing/Blog-Category?newsEvents=1",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Alumnus',
+        'icon': PhosphorIcons.users(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Library',
+        'icon': PhosphorIcons.book(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Nursing/More/Library",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Placements',
+        'icon': PhosphorIcons.suitcase(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Nursing/Placement",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        )
+      },
+      {
+        'title': 'Student Life',
+        'icon': PhosphorIcons.basketball(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-Nursing/More/Students-Life",
+          collegeName: widget.collegeName,
+        )
+      },
+    ],
+    'Social Sciences & Humanities': [
+      {
+        'title': 'Courses',
+        'icon': PhosphorIcons.bookOpen(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-SSH/Courses",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'News & Events',
+        'icon': PhosphorIcons.newspaper(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-SSH/Blog-Category?newsEvents=1",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Alumnus',
+        'icon': PhosphorIcons.users(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Library',
+        'icon': PhosphorIcons.book(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-SSH/Library",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Placements',
+        'icon': PhosphorIcons.suitcase(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-SSH/Placements",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        )
+      },
+      {
+        'title': 'Student Life',
+        'icon': PhosphorIcons.basketball(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/College-Of-SSH/Campus",
+          collegeName: widget.collegeName,
+        )
+      },
+    ],
+    'Port Shipping and Logistics': [
+      {
+        'title': 'Courses',
+        'icon': PhosphorIcons.bookOpen(),
+        'gotoPage': WebViewPage(
+          url: "https://ipslm.srinivasuniversity.edu.in/program/bba-e-commerce-retail-management-and-logistics/#",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Alumnus',
+        'icon': PhosphorIcons.users(),
+        'gotoPage': WebViewPage(
+          url: "https://srinivasuniversity.edu.in/SrinivasUniversity/ALUMNI",
+          collegeName: widget.collegeName,
+        )
+      },
+      {
+        'title': 'Placements',
+        'icon': PhosphorIcons.suitcase(),
+        'gotoPage': WebViewPage(
+          url: "https://ipslm.srinivasuniversity.edu.in/placements/",
+          collegeName: widget.collegeName,
+          appbar_display: true,
+        )
+      },
+      {
+        'title': 'Student Life',
+        'icon': PhosphorIcons.basketball(),
+        'gotoPage': WebViewPage(
+          url: "https://ipslm.srinivasuniversity.edu.in/campus-life/",
+          collegeName: widget.collegeName,
+        )
+      },
+    ]
   };
 
   late Map<String, List> explore_more = {
@@ -170,99 +596,85 @@ class _ExplorePageState extends State<ExplorePage> {
     ],
     'Management & Commerce': [
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce/More/Student-Life-at-Campus",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce/More/Calendar",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-Management-And-Commerce/About-Us",
         collegeName: widget.collegeName,
       ),
     ],
     'Computer Science & Information Science': [
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-BCA-MCA/Students-Life",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-BCA-MCA/Calendar",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-BCA-MCA/About-Us",
         collegeName: widget.collegeName,
       ),
     ],
     'Physiotherapy': [
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy/Students-Life",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/Institute-Of-Physiotherapy/About-Us",
         collegeName: widget.collegeName,
       ),
     ],
     'Allied Health Sciences': [
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences/More/Calendar",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
-        collegeName: widget.collegeName,
-      ),
-    ],
-    'Social Sciences & Humanities': [
-      WebViewPage(
-        url: "",
-        collegeName: widget.collegeName,
-      ),
-      WebViewPage(
-        url: "",
-        collegeName: widget.collegeName,
-      ),
-      WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-Allied-Health-Sciences/About-Us",
         collegeName: widget.collegeName,
       ),
     ],
     'Education': [
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-Education/Video",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniverstrg.blob.core.windows.net/srinivas-university/CALENDAR%20OF%20EVENTS%20OF%20B.ED.-2023-24.pdf",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-Education/About-Us",
         collegeName: widget.collegeName,
       ),
     ],
     'Nursing Science': [
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-Nursing/More/Students-Life",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-Nursing/About-Us",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://srinivasuniversity.edu.in/College-Of-Nursing/About-Us",
         collegeName: widget.collegeName,
       ),
     ],
@@ -280,17 +692,31 @@ class _ExplorePageState extends State<ExplorePage> {
         collegeName: widget.collegeName,
       ),
     ],
+    'Social Sciences & Humanities': [
+      WebViewPage(
+        url: "https://srinivasuniversity.edu.in/College-Of-SSH/Campus",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "https://srinivasuniversity.edu.in/College-Of-SSH/Calendar",
+        collegeName: widget.collegeName,
+      ),
+      WebViewPage(
+        url: "https://srinivasuniversity.edu.in/College-Of-SSH/About-Us",
+        collegeName: widget.collegeName,
+      ),
+    ],
     'Port Shipping and Logistics': [
       WebViewPage(
-        url: "",
+        url: "https://ipslm.srinivasuniversity.edu.in/campus-life/",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://ipslm.srinivasuniversity.edu.in/",
         collegeName: widget.collegeName,
       ),
       WebViewPage(
-        url: "",
+        url: "https://ipslm.srinivasuniversity.edu.in/",
         collegeName: widget.collegeName,
       ),
     ]
