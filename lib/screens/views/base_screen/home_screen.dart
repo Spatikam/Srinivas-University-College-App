@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'assets/images/suiet/image2.jpg',
       'assets/images/suiet/image3.jpg',
       'assets/images/suiet/image4.jpg',
+      'assets/images/suiet/image5.jpg',
     ],
     'Hotel Management & Tourism': [
       'assets/images/ihmt/1.jpg',
@@ -119,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Timer.periodic(const Duration(seconds: 3), (timer) {
       if (_pageController.hasClients) {
         setState(() {
-          _currentPage = (_currentPage + 1) % 3;
+          _currentPage = (_currentPage + 1) % images[widget.collegeName]!.length;
         });
         _pageController.animateToPage(
           _currentPage,
