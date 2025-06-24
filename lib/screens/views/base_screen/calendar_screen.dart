@@ -21,26 +21,98 @@ class _CalendarScreenState extends State<CalendarScreen> {
   late DateTime focusedDay;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   final List<Map<String, dynamic>> notif_events = [
-    {"title": "Science Fair", "date": DateTime(2025, 2, 24, 12, 40)}, // Feb 5, 9 AM
-    {"title": "Sports Day", "date": DateTime(2025, 2, 24, 12, 42)}, // Feb 10, 8:30 AM
-    {"title": "Founder's Day", "date": DateTime(2025, 2, 24, 12, 44)}, // Feb 10, 8:30 AM
-    {"title": "My Day", "date": DateTime(2025, 2, 24, 12, 46)} // Feb 20, 10 AM
+    //{"title": "Science Fair", "date": DateTime(2025, 2, 24, 12, 40)}, // Feb 5, 9 AM
+    //Odd Sem
+    {"title": "Commencement of Classes for 3rd, 5th & 7th Sem", "date": DateTime(2025, 7, 7, 8, 0)},
+    {"title": "Internal Assesment-1 for 3rd, 5th & 7th Sem", "date": DateTime(2025, 8, 18, 8, 0)},
+    {"title": "Internal Assesment-2 for 3rd, 5th & 7th Sem", "date": DateTime(2025, 10, 6, 8, 0)},
+    {"title": "Internal Assesment-3 for 3rd, 5th & 7th Sem", "date": DateTime(2025, 10, 13, 8, 0)},
+    {"title": "Practical Exam begins for 3rd, 5th & 7th Sem", "date": DateTime(2025, 11, 3, 8, 0)},
+    {"title": "Sem-end Exam begins for 3rd, 5th & 7th Sem", "date": DateTime(2025, 11, 17, 8, 0)},
+    {"title": "Results Announcement for 3rd, 5th & 7th Sem", "date": DateTime(2025, 12, 1, 8, 0)},
+    
+    {"title": "Commencement of Classes for 1st Sem", "date": DateTime(2025, 8, 18, 8, 0)},
+    {"title": "Internal Assesment-1 for 1st Sem", "date": DateTime(2025, 10, 6, 8, 0)},
+    {"title": "Internal Assesment-2 for 1st Sem", "date": DateTime(2025, 11, 17, 8, 0)},
+    {"title": "Internal Assesment-3 for 1st Sem", "date": DateTime(2025, 11, 25, 8, 0)},
+    {"title": "Practical Exam begins for 1st Sem", "date": DateTime(2025, 12, 10, 8, 0)},
+    {"title": "Sem-end Exam begins for 1st Sem", "date": DateTime(2025, 12, 22, 8, 0)},
+    {"title": "Results Announcement for 1st Sem", "date": DateTime(2026, 1, 5, 8, 0)},
+
+    //Even Sem
+    {"title": "Commencement of Classes for 4th, 6th & 8th Sem", "date": DateTime(2025, 12, 8, 8, 0)},
+    {"title": "Internal Assesment-1 for 4th, 6th & 8th Sem", "date": DateTime(2026, 1, 12, 8, 0)},
+    {"title": "Internal Assesment-2 for 4th, 6th & 8th Sem", "date": DateTime(2026, 2, 23, 8, 0)},
+    {"title": "Internal Assesment-3 for 4th, 6th & 8th Sem", "date": DateTime(2026, 3, 2, 8, 0)},
+    {"title": "Practical Exam begins for 4th, 6th & 8th Sem", "date": DateTime(2026, 4, 1, 8, 0)},
+    {"title": "Sem-end Exam begins for 4th, 6th & 8th Sem", "date": DateTime(2026, 4, 13, 8, 0)},
+    {"title": "Results Announcement for 4th, 6th & 8th Sem", "date": DateTime(2026, 5, 10, 8, 0)},
+    
+    {"title": "Commencement of Classes for 2nd Sem", "date": DateTime(2026, 1, 10, 8, 0)},
+    {"title": "Internal Assesment-1 for 2nd Sem", "date": DateTime(2026, 2, 19, 8, 0)},
+    {"title": "Internal Assesment-2 for 2nd Sem", "date": DateTime(2026, 3, 23, 8, 0)},
+    {"title": "Internal Assesment-3 for 2nd Sem", "date": DateTime(2026, 4, 1, 8, 0)},
+    {"title": "Practical Exam begins for 2nd Sem", "date": DateTime(2026, 4, 21, 8, 0)},
+    {"title": "Sem-end Exam begins for 2nd Sem", "date": DateTime(2026, 5, 5, 8, 0)},
+    {"title": "Results Announcement for 2nd Sem", "date": DateTime(2026, 5, 25, 8, 0)},
+    //{"title": "", "date": DateTime(2025, 7, 7, 8, 0)}
   ];
 
   Map<String, Map<DateTime, List<String>>> predefinedEvents = {
     'Engineering & Technology': {
-      DateTime.utc(2025, 1, 1): ['New Year'],
-      DateTime.utc(2025, 2, 14): ['Founder\'s day of Srinivas University'],
-      DateTime.utc(2025, 1, 26): ['Republic day, January 26, happy holiday!'],
-      DateTime.utc(2025, 2, 16): ['Cultural Day'],
-      DateTime.utc(2024, 12, 9): ['Commencement of Classes'],
-      DateTime.utc(2025, 1, 16): ['1st Phase Assesment'],
-      DateTime.utc(2025, 3, 10): ['2nd Phase Assesment'],
-      DateTime.utc(2025, 3, 22): ['Last Working Day'],
-      DateTime.utc(2025, 3, 27): ['Practical Exams Begin'],
-      DateTime.utc(2025, 4, 7): ['Theory Exams Begin'],
-      DateTime.utc(2025, 6, 10): ['Commencement of Odd Semester'],
-      DateTime.utc(2025, 2, 25): ['Srinivas Premier League Day 1'],
+      //DateTime.utc(2025, 2, 14): ['Founder\'s day of Srinivas University'],
+      //Odd Sem
+      DateTime.utc(2025, 7, 7): ['Commencement of Classes for 3rd, 5th & 7th Sem'],
+      DateTime.utc(2025, 8, 18): ['Internal Assesment-1 for 3rd, 5th & 7th Sem'],
+      DateTime.utc(2025, 10, 6): ['Internal Assesment-2 for 3rd, 5th & 7th Sem'],
+      DateTime.utc(2025, 10, 13): ['Internal Assesment-3 for 3rd, 5th & 7th Sem'],
+      DateTime.utc(2025, 10, 21): ['Sem-end Exam Announcement for 3rd, 5th & 7th Sem'],
+      DateTime.utc(2025, 10, 30): ['Last Working Day for 3rd, 5th & 7th Sem'],
+      DateTime.utc(2025, 11, 3): ['Practical Exam begins for 3rd, 5th & 7th Sem'],
+      DateTime.utc(2025, 11, 10): ['Practical Exam ends for 3rd, 5th & 7th Sem'],
+      DateTime.utc(2025, 11, 17): ['Sem-end Exam begins for 3rd, 5th & 7th Sem'],
+      DateTime.utc(2025, 11, 25): ['Sem-end Exam ends for 3rd, 5th & 7th Sem'],
+      DateTime.utc(2025, 12, 1): ['Results Announcement for 3rd, 5th & 7th Sem'],
+
+      DateTime.utc(2025, 8, 18): ['Commencement of Classes for 1st Sem'],
+      DateTime.utc(2025, 8, 30): ['Last Date for Admission without Penalty'],
+      DateTime.utc(2025, 9, 30): ['Last Date for Admission with Penalty'],
+      DateTime.utc(2025, 10, 6): ['Internal Assesment-1 for 1st Sem'],
+      DateTime.utc(2025, 11, 17): ['Internal Assesment-2 for 1st Sem'],
+      DateTime.utc(2025, 11, 25): ['Internal Assesment-3 for 1st Sem'],
+      DateTime.utc(2025, 11, 30): ['Sem-end Exam Announcement for 1st Sem'],
+      DateTime.utc(2025, 12, 6): ['Last Working Day for 1st Sem'],
+      DateTime.utc(2025, 12, 10): ['Practical Exam begins for 1st Sem'],
+      DateTime.utc(2025, 12, 20): ['Practical Exam ends for 1st Sem'],
+      DateTime.utc(2025, 12, 22): ['Sem-end Exam begins for 1st Sem'],
+      DateTime.utc(2025, 12, 30): ['Sem-end Exam ends for 1st Sem'],
+      DateTime.utc(2026, 1, 5): ['Results Announcement for 1st Sem'],
+      // Even Sem
+      DateTime.utc(2025, 12, 8): ['Commencement of Classes for 4th, 6th & 8th Sem'],
+      DateTime.utc(2026, 1, 12): ['Internal Assesment-1 for 4th, 6th & 8th Sem'],
+      DateTime.utc(2026, 2, 23): ['Internal Assesment-2 for 4th, 6th & 8th Sem'],
+      DateTime.utc(2026, 3, 2): ['Internal Assesment-3 for 4th, 6th & 8th Sem'],
+      DateTime.utc(2026, 3, 23): ['Sem-end Exam Announcement for 4th, 6th & 8th Sem'],
+      DateTime.utc(2026, 3, 30): ['Last Working Day for 4th, 6th & 8th Sem'],
+      DateTime.utc(2026, 4, 1): ['Practical Exam begins for 4th, 6th & 8th Sem'],
+      DateTime.utc(2026, 4, 10): ['Practical Exam ends for 4th, 6th & 8th Sem'],
+      DateTime.utc(2026, 4, 13): ['Sem-end Exam begins for 4th, 6th & 8th Sem'],
+      DateTime.utc(2026, 4, 25): ['Sem-end Exam ends for 4th, 6th & 8th Sem'],
+      DateTime.utc(2026, 5, 10): ['Results Announcement for 4th, 6th & 8th Sem'],
+
+      DateTime.utc(2026, 1, 10): ['Commencement of Classes for 2nd Sem'],
+      DateTime.utc(2026, 2, 19): ['Internal Assesment-1 for 2nd Sem'],
+      DateTime.utc(2026, 3, 23): ['Internal Assesment-2 for 2nd Sem'],
+      DateTime.utc(2026, 4, 1): ['Internal Assesment-3 for 2nd Sem'],
+      DateTime.utc(2026, 4, 6): ['Sem-end Exam Announcement for 2nd Sem'],
+      DateTime.utc(2026, 4, 19): ['Last Working Day for 2nd Sem'],
+      DateTime.utc(2026, 4, 21): ['Practical Exam begins for 2nd Sem'],
+      DateTime.utc(2026, 4, 30): ['Practical Exam ends for 2nd Sem'],
+      DateTime.utc(2026, 5, 5): ['Sem-end Exam begins for 2nd Sem'],
+      DateTime.utc(2026, 5, 17): ['Sem-end Exam ends for 2nd Sem'],
+      DateTime.utc(2026, 5, 25): ['Results Announcement for 2nd Sem'],
+
+      //DateTime.utc(2025, , ): [''],
     },
     'Hotel Management & Tourism': {},
     'Management & Commerce': {},
