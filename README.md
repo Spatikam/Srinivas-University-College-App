@@ -1,4 +1,4 @@
-# rip_college_app
+# Srinivas University College App
 
 A new Flutter project.
 
