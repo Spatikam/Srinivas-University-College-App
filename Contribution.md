@@ -25,7 +25,7 @@ Please use a formal and good branch name.
 git commit -s -m "feat: add login component"
 ```
 Please do describe the feature or the bug in the commit message clearly, and do include the  `-s` in the command for DCO Signature.
-Unsigned commit message for example : ```git commit -m "Without ``` will fail the automated DCO check.
+Unsigned commit message for example : ```git commit -m "Without" ``` will fail the automated DCO check.
 
 
 
