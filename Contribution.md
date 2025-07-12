@@ -28,5 +28,19 @@ Please do describe the feature or the bug in the commit message clearly, and do 
 Unsigned commit message for example : ```git commit -m "Without" ``` will fail the automated DCO check.
 
 
+### 5.PR AND Merging Details.
+
+Your PR will only be merged if and only if it is approved by 2 or more reviewers.
+Contributors must provide a clear and detailed description of the changes introduced in the PR, including:
+
+1.The problem or issue being addressed.
+
+2.The solution or implementation approach.
+
+3.Any relevant context or edge cases considered.
+
+4.PRs with insufficient detail or lacking justification may be delayed or closed.
+
+### Please ensure that all commits in the PR are signed using the -s flag in accordance with our DCO policy.
 
 
