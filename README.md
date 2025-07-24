@@ -56,6 +56,27 @@ Admins can:
 
 ## ⚙️ Tech Stack
 
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://img.icons8.com/color/96/flutter.png" width="48" height="48" alt="Flutter"/><br/>Flutter
+    </td>
+    <td align="center">
+      <img src="https://img.icons8.com/color/96/dart.png" width="48" height="48" alt="Dart"/><br/>Dart
+    </td>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/82957092?s=200&v=4" width="48" height="48" alt="Supabase"/><br/>Supabase
+    </td>
+    <td align="center">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" width="48" height="48" alt="Flask"/><br/>Flask
+    </td>
+    <td align="center">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="48" height="48" alt="Python"/><br/>Python
+    </td>
+  </tr>
+</table>
+
 ### Frontend
 - **Flutter**  
 - **Dart**
