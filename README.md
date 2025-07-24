@@ -135,7 +135,7 @@ Refer to the [CONTRIBUTING.md](https://github.com/Spatikam/Srinivas-University-C
 ---
 
 ## 🪤 Gotchas
-"None yet... but don't jinx it." 😅
+"None yet... but don't jinx it." 😅  
 (This section is reserved for bugs, workarounds, and things future devs should know!)
 
 ---
