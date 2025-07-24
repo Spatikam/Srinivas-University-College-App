@@ -68,7 +68,7 @@ Admins can:
     <td align="center">
       <img src="https://avatars.githubusercontent.com/u/82957092?s=200&v=4" width="48" height="48" alt="Supabase"/><br/>Supabase
     </td>
-    <td align="center">
+    <td align="center" bg-color="white">
       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" width="48" height="48" alt="Flask"/><br/>Flask
     </td>
     <td align="center">
