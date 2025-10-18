@@ -56,7 +56,6 @@ Admins can:
 
 ## ⚙️ Tech Stack
 
-
 <table>
   <tr>
     <td align="center">

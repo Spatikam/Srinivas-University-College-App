@@ -148,7 +148,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error Deleting Images: '+e.toString())),
+        SnackBar(content: Text('Error Deleting Images: $e')),
       );
     }
   }

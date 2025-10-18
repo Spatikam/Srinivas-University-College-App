@@ -7,7 +7,7 @@ class HelpPage extends StatelessWidget {
 
   const HelpPage({super.key});
 
-  launchMailto() async {
+  Future<void> launchMailto() async {
     final mailtoLink = Mailto(
       to: ['teamspatikam@gmail.com'],
       cc: ['ripskillan312004@gmail.com', 'kavankulal2254@gmail.com'],
