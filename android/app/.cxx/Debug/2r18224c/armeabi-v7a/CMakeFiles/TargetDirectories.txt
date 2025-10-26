@@ -1,0 +1,2 @@
+C:/Users/kavan/OneDrive/Documents/rip_college_app/android/app/.cxx/Debug/2r18224c/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/kavan/OneDrive/Documents/rip_college_app/android/app/.cxx/Debug/2r18224c/armeabi-v7a/CMakeFiles/rebuild_cache.dir
