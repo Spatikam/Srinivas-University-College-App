@@ -5,6 +5,7 @@ import 'package:rip_college_app/screens/views/admin_screen/admin_article.dart';
 import 'package:rip_college_app/screens/views/admin_screen/admin_image.dart';
 import 'package:rip_college_app/screens/views/admin_screen/admin_placement.dart';
 import 'package:rip_college_app/screens/views/admin_screen/admin_events.dart';
+import 'package:rip_college_app/screens/views/admin_screen/admin_popup.dart';
 import 'package:rip_college_app/screens/widget_common/appbar.dart';
 
 class AdminPage extends StatefulWidget {
@@ -22,7 +23,7 @@ class _AdminPageState extends State<AdminPage> {
     "Event": ProfilePage(
       uuid: widget.uuid,
     ),
-    "Article": ArticleUpload(
+    "Article": ArticleUpload( 
       uuid: widget.uuid,
     ),
     "Image": ImagePostPage(
@@ -34,6 +35,9 @@ class _AdminPageState extends State<AdminPage> {
     "Announcement": AddAnnouncementScreen(
       uuid: widget.uuid,
     ),
+    "Popup": PopupPage(
+      uuid: widget.uuid,
+    )
   };
 
   @override
