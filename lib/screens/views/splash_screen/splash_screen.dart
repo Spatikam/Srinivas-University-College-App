@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rip_college_app/screens/popup_screen/popup_screen.dart';
 import 'package:rip_college_app/screens/views/main_screen/homepage.dart';
 import 'package:shimmer/shimmer.dart';// Make sure the navigation screen is imported correctly
 import 'dart:ui';
@@ -30,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => NavigationScreen(),
-        ),
+        ), // Make sure NavigationPage exists
       );
     });
   }

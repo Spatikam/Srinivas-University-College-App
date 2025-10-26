@@ -342,7 +342,7 @@ class NotificationService {
       body,
       scheduledDate,
       details,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      //uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle, // ✅ Fixed
     );
   }

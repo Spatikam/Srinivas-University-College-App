@@ -129,7 +129,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
 
       int index = imagepaths.indexWhere((imagePath) => imagePath['Filename'] == Filename);
 
-      bool isDeleted = await _pythonAnywhereService.deleteImage("gallery", imagepaths[index]['Filen ame']);
+      bool isDeleted = await _pythonAnywhereService.deleteImage("gallery", imagepaths[index]['Filename']);
 
       /*if (isDeleted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -148,7 +148,7 @@ class _ImagePostPageState extends State<ImagePostPage> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error Deleting Images')),
+        SnackBar(content: Text('Error Deleting Images: $e')),
       );
     }
   }

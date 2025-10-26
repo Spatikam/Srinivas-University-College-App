@@ -6,20 +6,32 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PythonAnywhereService {
   final String baseUrl = "http://webflowserver.pythonanywhere.com"; // Change this!
 
-  // ✅ Upload Image to PythonAnywhere
+  Future<String?> get_Api() async {
+    try {
+      var ID = await Supabase.instance.client.from('APIKEY').select('key').single();
+      return ID['key'];
+    } catch (e) {
+      log("Supabase error: $e");
+    }
+    return null;
+  }
+
+  // Γ£à Upload Image to PythonAnywhere
   Future<String?> uploadImage(File imageFile, String institute) async {
     final Uri uri = Uri.parse("$baseUrl/upload/$institute");
 
     // Compress Image Before Uploading
     File compressedImage = await compressImage(imageFile);
+    String? APIKEY = await get_Api();
 
     var request = http.MultipartRequest('POST', uri);
     request.files.add(await http.MultipartFile.fromPath('file', compressedImage.path));
-    request.headers.addAll({"X-API-KEY": "887a88ba-1a25-4e2d-bf4a-748e4a835694"});
+    request.headers.addAll({"X-API-KEY": APIKEY!});
 
     var response = await request.send();
     if (response.statusCode == 201) {
@@ -32,18 +44,19 @@ class PythonAnywhereService {
     }
   }
 
-  // ✅ Fetch Image URL from PythonAnywhere
+  // Fetch Image URL from PythonAnywhere
   String getImageUrl(String institute, String filename) {
     return "$baseUrl/fetch/$institute/$filename";
   }
 
-  // ✅ Delete Image from PythonAnywhere
+  // Delete Image from PythonAnywhere
   Future<bool> deleteImage(String institute, String filename) async {
     log("$baseUrl/delete/$institute/$filename");
     final Uri uri = Uri.parse("$baseUrl/delete/$institute/$filename");
     var request = http.Request('DELETE', uri);
+    String? APIKEY = await get_Api();
 
-    request.headers.addAll({"X-API-KEY": "887a88ba-1a25-4e2d-bf4a-748e4a835694"});
+    request.headers.addAll({"X-API-KEY": APIKEY!});
 
     var response = await request.send();
 
@@ -51,15 +64,15 @@ class PythonAnywhereService {
     log(responseData);
 
     if (response.statusCode == 200) {
-      print("✅ Image deleted successfully.");
+      print("Γ£à Image deleted successfully.");
       return true;
     } else {
-      print("❌ Failed to delete image.");
+      print("Γ¥î Failed to delete image.");
       return false;
     }
   }
 
-  // ✅ Compress Image Before Uploading
+  // Compress Image Before Uploading
 
   Future<File> compressImage(File file) async {
     final directory = await getTemporaryDirectory();
@@ -95,6 +108,6 @@ class PythonAnywhereService {
       return false;
     }
 
-    return statusStorage.isGranted || statusPhotos.isGranted; 
+    return statusStorage.isGranted || statusPhotos.isGranted;
   }
 }
