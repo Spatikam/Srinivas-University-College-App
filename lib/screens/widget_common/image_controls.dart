@@ -21,7 +21,7 @@ class PythonAnywhereService {
     return null;
   }
 
-  // Γ£à Upload Image to PythonAnywhere
+  // Upload Image to PythonAnywhere
   Future<String?> uploadImage(File imageFile, String institute) async {
     final Uri uri = Uri.parse("$baseUrl/upload/$institute");
 
