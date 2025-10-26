@@ -78,7 +78,7 @@ class _PopupPageState extends State<PopupPage> {
       _isLoading = true;
     });
     if (widget.uuid != "") {
-      try {
+      try { 
         final data = await Supabase.instance.client.from('Popups').select('*').order('start_timestamp', ascending: true);
         setState(() {
           _events = List<Map<String, dynamic>>.from(data);

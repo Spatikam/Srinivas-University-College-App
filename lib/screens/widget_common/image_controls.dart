@@ -73,7 +73,6 @@ class PythonAnywhereService {
   }
 
   // Compress Image Before Uploading
-
   Future<File> compressImage(File file) async {
     final directory = await getTemporaryDirectory();
     final fileName = DateTime.now().millisecondsSinceEpoch.toString();
