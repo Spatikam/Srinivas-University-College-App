@@ -213,12 +213,10 @@ class _ProfilePageState extends State<ProfilePage> {
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
     );
-    if (picked != null) {
-      setState(() {
-        _startDateController.text = DateFormat('yyyy-MM-dd').format(picked);
-      });
+    setState(() {
+      _startDateController.text = DateFormat('yyyy-MM-dd').format(picked!);
+    });
     }
-  }
 
   // Time picker for Start Time.
   Future<void> _selectStartTime() async {
@@ -243,12 +241,10 @@ class _ProfilePageState extends State<ProfilePage> {
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
     );
-    if (picked != null) {
-      setState(() {
-        _endDateController.text = DateFormat('yyyy-MM-dd').format(picked);
-      });
+    setState(() {
+      _endDateController.text = DateFormat('yyyy-MM-dd').format(picked!);
+    });
     }
-  }
 
   // Time picker for End Time.
   Future<void> _selectEndTime() async {
